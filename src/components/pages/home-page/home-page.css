@@ -1,0 +1,44 @@
+.start-page {
+    background: var(--color-light-blue);
+    height: 100vh;
+    display: grid;
+    align-items: center;
+}
+
+.start-page-main {
+    text-align: center;
+}
+
+.start-page-title {
+    font-size: 70px;
+    color: var(--color-white);
+    margin: 0 0 20px;
+}
+
+.start-page-title,
+.start-page-link {
+    line-height: 1;
+}
+
+.start-page-links {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    grid-column-gap: 20px;
+    justify-content: center;
+}
+
+.start-page-link {
+    font-size: 25px;
+    color: var(--color-white);
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-block;
+    border: 2px solid var(--color-white);
+    padding: 10px 20px;
+    transition: all .25s ease;
+}
+
+.start-page-link:hover {
+    background: var(--color-white);
+    color: var(--color-light-blue);
+}

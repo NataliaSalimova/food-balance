@@ -1,0 +1,11 @@
+.meals-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-row-gap: 25px;
+}
+
+.hidden {
+    display: none;
+}

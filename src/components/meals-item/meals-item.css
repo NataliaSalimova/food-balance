@@ -1,0 +1,22 @@
+.meals-item {
+    display: grid;
+    grid-template-columns: 1fr 30px;
+    align-items: center;
+}
+
+.meals-title {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.meals-button {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--color-black);
+    text-decoration: none;
+    text-align: center;
+    background: transparent;
+    border: 1px solid var(--color-black);
+}

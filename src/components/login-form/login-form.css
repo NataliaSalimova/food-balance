@@ -1,0 +1,88 @@
+.login-page {
+    line-height: 1.15;
+    color: #000;
+    max-width: 500px;
+    padding: 20px 10px;
+    margin: 0 auto;
+}
+
+.login-page-link {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    text-decoration: none;
+    display: inline-block;
+    transition: all .25s ease;
+    margin: 0 0 20px;
+}
+
+.login-page-link:hover {
+    color: #87cefa;
+}
+
+.login-page-title {
+    font-size: 20px;
+    margin: 0 0 20px;
+}
+
+.login-page-field {
+    position: relative;
+    margin: 0 0 15px;
+}
+
+.login-page-label {
+    font-size: 14px;
+    font-weight: 500;
+    display: block;
+    margin: 0 0 10px;
+}
+
+.login-page-input {
+    padding: 10px;
+    border: 1px solid #000;
+    width: calc(100% - 22px);
+}
+
+.login-page-password-button {
+    position: absolute;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    top: 30px;
+    right: 5px;
+}
+
+.login-page-password-button.show {
+    opacity: .5;
+}
+
+.login-page-password-button.show::before {
+    content: '';
+    background: #000;
+    width: 28px;
+    height: 2px;
+    display: block;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 13px;
+}
+
+.login-page-button {
+    font-size: 16px;
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    background: #87cefa;
+    border: 1px solid #87cefa;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+
+.login-page-button:hover {
+    color: #87cefa;
+    background: transparent;
+}
+
+.error.error_bottom {
+    margin: 10px 0;
+}

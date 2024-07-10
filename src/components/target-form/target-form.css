@@ -1,0 +1,46 @@
+.calorie-calculation-field {
+    position: relative;
+    margin: 0 0 15px;
+}
+
+.calorie-calculation-label {
+    font-size: 14px;
+    font-weight: 500;
+    display: block;
+}
+
+.calorie-calculation-input:not([type=radio]) {
+    padding: 10px;
+    border: 1px solid #000;
+    width: calc(100% - 22px);
+    margin: 10px 0 0;
+}
+
+select.calorie-calculation-input._select {
+    width: 100%;
+}
+
+.calorie-calculation-input[type=radio] {
+    margin: 0 10px 0 0;
+}
+
+.calorie-calculation-input[type=radio] + .calorie-calculation-target-label {
+    display: inline-block;
+    margin: 0;
+}
+
+.calorie-calculation-button {
+    font-size: 16px;
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    background: #87cefa;
+    border: 1px solid #87cefa;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+
+.calorie-calculation-button:hover {
+    color: #87cefa;
+    background: transparent;
+}
