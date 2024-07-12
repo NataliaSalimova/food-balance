@@ -5,7 +5,7 @@ const STORE = {
             name: 'Зеленый смузи',
             calories: 300,
             type: 'breakfast',
-            proteins: 10,
+            proteins: 100,
             fats: 10,
             carbohydrates: 15,
         },

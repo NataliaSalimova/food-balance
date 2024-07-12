@@ -66,6 +66,7 @@ const LoginForm = ()=> {
             body: JSON.stringify(data),
         }).then((response)=> {
             if (response.status === 200) navigate('/calorie-calculation');
+            if (response.status === 401 || response.status === 400) setFoundUser(false);
         }).catch(()=> {
             alert('Что-то пошло не так')
         })
