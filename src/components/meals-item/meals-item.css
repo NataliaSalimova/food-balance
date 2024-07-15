@@ -1,13 +1,20 @@
 .meals-item {
     display: grid;
-    grid-template-columns: 1fr 30px;
+    grid-template-columns: 1fr 25px;
     align-items: center;
+    grid-column-gap: 10px;
 }
 
 .meals-title {
     font-size: 16px;
     font-weight: 700;
     line-height: 1.5;
+    margin: 0 0 7px;
+}
+
+.meals-text {
+    font-size: 14px;
+    line-height: 1.15;
     margin: 0;
 }
 

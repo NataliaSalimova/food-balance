@@ -11,7 +11,6 @@ const DishesItem = ({ onClick, item }) => {
 
     const handleClick = (event) => {
         saveProduct(event);
-        addUserData();
     }
 
     // Сохранить блюдо в базу
@@ -56,27 +55,6 @@ const DishesItem = ({ onClick, item }) => {
     }
 
     // Сохранить данные пользователю
-
-    const addUserData = async ()=> {
-        const data = userData.res;
-
-        const dataUser = {
-            ...data,
-            caloriesConsumed: data.caloriesConsumed + item.calories,
-            caloriesRemaining: data.calories - item.calories,
-            carbohydratesConsumed: data.carbohydratesConsumed + item.carbohydrates,
-            proteinsConsumed: data.proteinsConsumed + item.proteins,
-            fatsConsumed: data.fatsConsumed + item.fats
-        };
-
-        await fetch(setUserDataUrl, {
-            method: 'PUT',
-            headers: {
-                'authKey': localStorage.getItem('authKey')
-            },
-            body: JSON.stringify(dataUser)
-        })
-    }
 
     useEffect(()=> {
        getUserData();

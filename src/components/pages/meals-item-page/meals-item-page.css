@@ -11,3 +11,28 @@
     display: grid;
     grid-row-gap: 20px;
 }
+
+.dishes-list-consumed {
+    list-style: none;
+    display: grid;
+    grid-row-gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+.dishes-list-consumed-item {
+    display: grid;
+    grid-template-columns: 1fr 25px;
+    align-items: center;
+    grid-column-gap: 10px;
+}
+
+.dishes-list-consumed-item:last-child {
+    border-bottom: 1px solid;
+    padding: 0 0 20px;
+    margin: 0 0 20px;
+}
+
+.dishes-list-consumed-item-title {
+    margin: 0;
+}

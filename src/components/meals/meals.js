@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import './meals.css';
 
@@ -6,13 +6,17 @@ import MealsItem from '../meals-item';
 
 import STORE from '../../store';
 
-const Meals = ()=> {
+const Meals = ({ dishesConsumed })=> {
     return (
         <div className="meals">
             <ul className="meals-list">
                 {
                     STORE.MEALS.map((item, index)=> {
-                        return <MealsItem key={index} meal={item}/>
+                        return (
+                            <div key={index}>
+                                <MealsItem meal={item} dishes={dishesConsumed}/>
+                            </div>
+                        )
                     })
                 }
             </ul>

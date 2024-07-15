@@ -19,9 +19,10 @@ function DiaryPage() {
         caloriesRemaining: 0,
         carbohydratesTotal: '',
         proteinsTotal: '',
-        fatsTotal: '',
-        dishes: []
+        fatsTotal: ''
     });
+
+    const [ dishesConsumed, setDishesConsumed ] = useState();
 
     const getUser = async ()=> {
         const response = await fetch(fetchURLUser, {
@@ -59,6 +60,7 @@ function DiaryPage() {
         let carbohydratesConsumed = 0;
         let proteinsConsumed = 0;
         let fatsConsumed = 0;
+        let dishes = [];
 
         res.map((item, index)=> {
             STORE.DISHES.find((dish)=> {
@@ -67,6 +69,7 @@ function DiaryPage() {
                     carbohydratesConsumed += dish.carbohydrates;
                     proteinsConsumed += dish.proteins;
                     fatsConsumed += dish.fats;
+                    dishes.push(item);
                 }
             });
 
@@ -77,6 +80,8 @@ function DiaryPage() {
                 proteinsConsumed: proteinsConsumed,
                 fatsConsumed: fatsConsumed,
             }));
+
+            setDishesConsumed(dishes);
         })
     }
 
@@ -106,7 +111,7 @@ function DiaryPage() {
                 carbohydratesConsumed={user.carbohydratesConsumed}
                 proteinsConsumed={user.proteinsConsumed}
                 fatsConsumed={user.fatsConsumed} />
-            <Meals/>
+            <Meals dishesConsumed={dishesConsumed}/>
         </div>
     );
 }
