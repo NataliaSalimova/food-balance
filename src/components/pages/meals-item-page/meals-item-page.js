@@ -41,27 +41,6 @@ const MealsItemPage = () => {
         }
     }
 
-    const addUserData = async (item)=> {
-        const data = userData.res;
-
-        const dataUser = {
-            ...data,
-            caloriesConsumed: data.caloriesConsumed - item.calories,
-            caloriesRemaining: data.calories + item.calories,
-            carbohydratesConsumed: data.carbohydratesConsumed - item.carbohydrates,
-            proteinsConsumed: data.proteinsConsumed - item.proteins,
-            fatsConsumed: data.fatsConsumed - item.fats
-        };
-
-        await fetch('http://pet.foodtracker.ru/setUserData', {
-            method: 'PUT',
-            headers: {
-                'authKey': localStorage.getItem('authKey')
-            },
-            body: JSON.stringify(dataUser)
-        })
-    }
-
     const currentMeal = STORE.MEALS.find((item)=> item.type === mealsId);
 
     const addProduct = (productStoreId, currentDishId)=> {
@@ -111,8 +90,6 @@ const MealsItemPage = () => {
         const array = dishesConsumed.filter(elem => Number(elem.ID) !== currentProduct.dishId);
 
         setDishesConsumed(array);
-
-        addUserData(currentProduct);
     }
 
     useEffect(()=> {
