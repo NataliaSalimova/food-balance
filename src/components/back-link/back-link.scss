@@ -1,0 +1,13 @@
+.back-link-container {
+    font-size: 14px;
+    line-height: 1.5;
+    display: grid;
+    grid-template-columns: 25px 1fr;
+    align-items: center;
+    grid-column-gap: 10px;
+}
+
+.back-link {
+    display: inline-grid;
+    transform: rotate(-180deg);
+}

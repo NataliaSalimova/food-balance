@@ -1,19 +1,23 @@
-import './home-page.css';
+import './home-page.scss';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 function HomePage() {
     return (
-        <div className="start-page">
-            <div className="start-page-main">
-                <h1 className="start-page-title">
+        <div className="home-page">
+            <div className="home-page__main page-container">
+                <h1 className="home-page__title">
                     Добро пожаловать в<br/> <i>FoodBalance</i>
                 </h1>
-                <div className="start-page-links">
-                    <Link className="start-page-link" to="/login">Войти</Link>
-                    <Link className="start-page-link" to="/registration">Зарегистрироваться</Link>
-                </div>
+                <ul className="home-page__links">
+                    <li className="home-page__links-item">
+                        <Link className="home-page__link" to="/login">Войти</Link>
+                    </li>
+                    <li className="home-page__links-item">
+                        <Link className="home-page__link" to="/registration">Зарегистрироваться</Link>
+                    </li>
+                </ul>
             </div>
         </div>
     );

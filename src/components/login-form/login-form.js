@@ -1,26 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import { useNavigate } from 'react-router-dom';
 
-import './login-form.css';
+import './login-form.scss';
 
 const LoginForm = ()=> {
     const [formData, setFormData] = useState({
         login: '',
         password: '',
-        passwordType: 'password'
+        type: 'password'
     });
-
-    const [ show, setShow ] = useState(false);
     const [ error, setError ] = useState(false);
     const [ user, setFoundUser ] = useState(true);
     const navigate = useNavigate();
 
     const fetchURL = 'http://pet.foodtracker.ru/signIn';
 
-    const handleChange = (event)=> {
-        const target = event.target;
+    const showPassword = (event)=> {
+        event.preventDefault();
 
-        const { name, value } = target;
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            type: prevFormData.type === 'password' ? 'text' : 'password'
+        }));
+    };
+
+    const handleChange = (event)=> {
+        const { name, value } = event.target;
 
         setFormData(prevFormData => ({
             ...prevFormData,
@@ -28,34 +35,18 @@ const LoginForm = ()=> {
         }));
     };
 
-    const showPassword = (event)=> {
-        event.preventDefault();
-
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            passwordType: prevFormData.passwordType === 'password' ? 'text' : 'password'
-        }));
-
-        setShow(!show);
-    };
-
     const handleSubmit = (event)=> {
         event.preventDefault();
 
-        validateForm();
-
-        findUser();
-    }
-
-    const validateForm = ()=> {
-        if (formData.login === '' || formData.password === '') {
-            setError(true);
+        if (formData.login === '' || formData.password=== '') {
+            setError(true)
         } else {
             setError(false);
+            getUser();
         }
-    };
+    }
 
-    const findUser = async () => {
+    const getUser = async () => {
         const data = {
             login: formData.login,
             password: formData.password
@@ -73,14 +64,14 @@ const LoginForm = ()=> {
     };
 
     return (
-        <form className="login-page-form">
-            <div className="login-page-field">
+        <form className="login-form">
+            <div className="login-form__field">
                 <label
-                    className="login-page-label">
+                    className="login-form__label">
                     Логин
                 </label>
                 <input
-                    className="login-page-input"
+                    className="login-form__input"
                     name="login"
                     placeholder="Логин"
                     id="login"
@@ -88,30 +79,36 @@ const LoginForm = ()=> {
                     onChange={handleChange}/>
                 {error && !formData.login && <span className="error">*Пожалуйста, введите ваш логин</span>}
             </div>
-            <div className="login-page-field">
+            <div className="login-form__field">
                 <label
-                    className="login-page-label">
+                    className="login-form__label">
                     Пароль
                 </label>
                 <input
-                    className="login-page-input"
+                    className="login-form__input"
                     name="password"
-                    type={formData.passwordType}
+                    type={formData.type}
                     placeholder="Пароль"
                     id="password"
                     value={formData.password}
                     onChange={handleChange}/>
+
                 {error && !formData.password && <span className="error">*Пожалуйста, введите ваш пароль</span>}
-                <button className={`login-page-password-button ${show ? 'show' : ''}`} onClick={showPassword}>
+
+                <button className={`login-form__password-button ${formData.type === 'text' ? 'show' : ''}`} onClick={showPassword}>
                     <img src="/images/show-password.png" width="25" height="25" alt="Show password" />
                 </button>
             </div>
-            {!user && <span className="error error_bottom">*Incorrect login or password entered</span>}
+
+            {!user && <span className="error error_bottom">*Неверный логин или пароль</span>}
+
             <button
-                className="login-page-button"
+                className="login-form__button"
                 onClick={handleSubmit}>
                 Войти
             </button>
+
+            <Link to="/registration" className="login-form__button">Зарегистрироваться</Link>
         </form>
     )
 }
