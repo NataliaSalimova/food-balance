@@ -1,44 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const ShowPasswordButton = ({isPasswordShow, buttonType})=> {
-    const [formData, setFormData] = useState({
-        passwordType: 'password',
-        confirmPasswordType: 'password'
-    });
+const ShowPasswordButton = ({ onHandleClick })=> {
+    const [ type, setType ] = useState('password');
 
-    const [ buttonPassword, setShowPassword ] = useState(false);
-    const [ buttonConfirmPassword, setShowConfirmPassword ] = useState(false);
-    const changeTypeFieldPassword = ()=> {
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            passwordType: prevFormData.passwordType === 'password' ? 'text' : 'password'
-        }));
-    }
-
-    const changeTypeFieldConfirmPassword = ()=> {
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            confirmPasswordType: prevFormData.confirmPasswordType === 'password' ? 'text' : 'password'
-        }));
-    }
-
-    const showPassword = (event)=> {
+    const changeTypePassword = (event) => {
         event.preventDefault();
 
-        const buttonType = event.currentTarget.dataset.buttonType;
-
-        if (buttonType === 'buttonPassword') {
-            changeTypeFieldPassword();
-            setShowPassword(!buttonPassword);
-        } else {
-            changeTypeFieldConfirmPassword();
-            setShowConfirmPassword(!buttonConfirmPassword);
-        }
+        type === 'password' ? setType('text') : setType('password');
     }
 
+    useEffect(()=> {
+        onHandleClick(type);
+    }, [type])
+
     return (
-        <button className={`authorization-page-password-button ${isPasswordShow ? 'show' : ''}`}
-            data-button-type={buttonType} onClick={showPassword}>
+        <button className={`login-form__password-button ${type === 'text' ? 'show' : ''}`} onClick={changeTypePassword}>
             <img src="/images/show-password.png" width="25" height="25" alt="Show password" />
         </button>
     )

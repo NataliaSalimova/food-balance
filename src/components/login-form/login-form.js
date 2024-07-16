@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { useNavigate } from 'react-router-dom';
+import ShowPasswordButton from '../show-password-button';
 
 import './login-form.scss';
 
@@ -12,17 +12,15 @@ const LoginForm = ()=> {
         type: 'password'
     });
     const [ error, setError ] = useState(false);
-    const [ user, setFoundUser ] = useState(true);
+    const [ user, setUser ] = useState(true);
     const navigate = useNavigate();
 
     const fetchURL = 'http://pet.foodtracker.ru/signIn';
 
-    const showPassword = (event)=> {
-        event.preventDefault();
-
+    const changeTypePassword = (type)=> {
         setFormData(prevFormData => ({
             ...prevFormData,
-            type: prevFormData.type === 'password' ? 'text' : 'password'
+            type: type
         }));
     };
 
@@ -56,11 +54,16 @@ const LoginForm = ()=> {
             method: 'POST',
             body: JSON.stringify(data),
         }).then((response)=> {
-            if (response.status === 200) navigate('/calorie-calculation');
-            if (response.status === 401 || response.status === 400) setFoundUser(false);
-        }).catch(()=> {
-            alert('Что-то пошло не так')
-        })
+            // eslint-disable-next-line default-case
+            switch (response.status) {
+                case 200:
+                    navigate('/calorie-calculation')
+                    break;
+                case 400 || 401:
+                    setUser(false)
+                    break;
+            }
+        }).catch((error) => console.log(error));
     };
 
     return (
@@ -93,14 +96,12 @@ const LoginForm = ()=> {
                     value={formData.password}
                     onChange={handleChange}/>
 
-                {error && !formData.password && <span className="error">*Пожалуйста, введите ваш пароль</span>}
+                { error && !formData.password && <span className="error">*Пожалуйста, введите ваш пароль</span> }
 
-                <button className={`login-form__password-button ${formData.type === 'text' ? 'show' : ''}`} onClick={showPassword}>
-                    <img src="/images/show-password.png" width="25" height="25" alt="Show password" />
-                </button>
+                <ShowPasswordButton onHandleClick={changeTypePassword}/>
             </div>
 
-            {!user && <span className="error error_bottom">*Неверный логин или пароль</span>}
+            { !user && <span className="error error_bottom">*Неверный логин или пароль</span> }
 
             <button
                 className="login-form__button"
