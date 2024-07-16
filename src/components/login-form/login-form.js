@@ -65,14 +65,14 @@ const LoginForm = ()=> {
     };
 
     return (
-        <form className="authorization-form">
-            <div className="authorization-form__field">
+        <form className="form">
+            <div className="form__field">
                 <label
-                    className="authorization-form__label">
+                    className="form__label">
                     Логин
                 </label>
                 <input
-                    className="authorization-form__input"
+                    className="form__input"
                     name="login"
                     placeholder="Логин"
                     id="login"
@@ -80,13 +80,13 @@ const LoginForm = ()=> {
                     onChange={handleChange}/>
                 {error && !formData.login && <span className="error">*Пожалуйста, введите ваш логин</span>}
             </div>
-            <div className="authorization-form__field">
+            <div className="form__field">
                 <label
-                    className="authorization-form__label">
+                    className="form__label">
                     Пароль
                 </label>
                 <input
-                    className="authorization-form__input"
+                    className="form__input"
                     name="password"
                     type={formData.type}
                     placeholder="Пароль"
@@ -102,12 +102,12 @@ const LoginForm = ()=> {
             { !user && <span className="error error_bottom">*Неверный логин или пароль</span> }
 
             <button
-                className="authorization-form__button"
+                className="form__button"
                 onClick={handleSubmit}>
                 Войти
             </button>
 
-            <Link to="/registration" className="authorization-form__button ta-center">Зарегистрироваться</Link>
+            <Link to="/registration" className="form__button ta-center">Зарегистрироваться</Link>
         </form>
     )
 }

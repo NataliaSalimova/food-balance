@@ -2,17 +2,13 @@ import React from 'react';
 
 import './login-page.scss';
 
-import BackLink from '../../back-link';
-import Title from '../../title';
 import LoginForm from '../../login-form';
+import Title from '../../title';
 
 function LoginPage() {
     return (
         <div className="login-page page-container">
-            <div className="login-page__header">
-                <BackLink href={"/"} />
-                <Title title={"Войти"} className={"login-page__title"}/>
-            </div>
+            <Title title={"Войти"} className={"login-page__title"}/>
             <div className="login-page__main">
                 <LoginForm />
             </div>

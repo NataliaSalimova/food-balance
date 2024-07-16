@@ -1,20 +1,15 @@
-import './calorie-calculation.css';
+import './calorie-calculation.scss';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-import CalorieCalculationForm from '../../target-form';
+import CalorieCalculationForm from '../../calorie-calculation-form';
+import Title from '../../title';
 
 function calorieCalculationPage () {
     return (
-        <div className="calorie-calculation-page">
-            <Link to='/' className="calorie-calculation-page-link">
-                Вернуться на главную
-            </Link>
-            <div className="calorie-calculation-target">
-                <h1 className="calorie-calculation-target-title">
-                    Рассчитай свою норму калорий
-                </h1>
+        <div className="calorie-calculation-page page-container">
+            <Title title={"Расчет калорий"} className={"calorie-calculation-page__title"}/>
+            <div className="calorie-calculation__main">
                 <CalorieCalculationForm/>
             </div>
         </div>

@@ -100,11 +100,11 @@ const RegistrationForm = ()=> {
     }
 
     return (
-        <form className="authorization-form">
-            <div className="authorization-form__field">
-                <label className="authorization-form__label">Имя</label>
+        <form className="form">
+            <div className="form__field">
+                <label className="form__label">Имя</label>
                 <input
-                    className="authorization-form__input"
+                    className="form__input"
                     name="name"
                     placeholder="Имя"
                     type="text"
@@ -112,10 +112,10 @@ const RegistrationForm = ()=> {
                     onChange={handleChange}/>
                 {error && !formData.name && <span className="error">*Пожалуйста, введите ваше имя</span>}
             </div>
-            <div className="authorization-form__field">
-                <label className="authorization-form__label">Логин</label>
+            <div className="form__field">
+                <label className="form__label">Логин</label>
                 <input
-                    className="authorization-form__input"
+                    className="form__input"
                     name="login"
                     placeholder="Логин"
                     type="text"
@@ -123,10 +123,10 @@ const RegistrationForm = ()=> {
                     onChange={handleChange}/>
                 {error && !formData.login && <span className="error">*Пожалуйста, введите ваш логин</span>}
             </div>
-            <div className="authorization-form__field">
-                <label className="authorization-form__label">Email</label>
+            <div className="form__field">
+                <label className="form__label">Email</label>
                 <input
-                    className="authorization-form__input"
+                    className="form__input"
                     name="email"
                     type="email"
                     placeholder="Email"
@@ -134,10 +134,10 @@ const RegistrationForm = ()=> {
                     onChange={handleChange}/>
                 {error && !formData.email && <span className="error">*Пожалуйста, введите ваш email</span>}
             </div>
-            <div className="authorization-form__field">
-                <label className="authorization-form__label">Пароль</label>
+            <div className="form__field">
+                <label className="form__label">Пароль</label>
                 <input
-                    className="authorization-form__input"
+                    className="form__input"
                     type={formData.passwordType}
                     name="password"
                     placeholder="Пароль"
@@ -146,10 +146,10 @@ const RegistrationForm = ()=> {
                 <ShowPasswordButton onHandleClick={changeTypePassword}/>
                 {error && !formData.password && <span className="error">*Пожалуйста, введите пароль</span>}
             </div>
-            <div className="authorization-form__field">
-                <label className="authorization-form__label">Подтверждение пароля</label>
+            <div className="form__field">
+                <label className="form__label">Подтверждение пароля</label>
                 <input
-                    className="authorization-form__input"
+                    className="form__input"
                     type={formData.confirmPasswordType}
                     name="confirmPassword"
                     placeholder="Подтверждение пароля"
@@ -163,8 +163,8 @@ const RegistrationForm = ()=> {
             {user && <span className="error">
                 *Пользователь с таким логином уже зарегистирован. Используйте другой логин или перейдите на <Link to="/login">страницу входа</Link>
             </span>}
-            <button className="authorization-form__button" type="button" onClick={handleSubmit}>Зарегистрироваться</button>
-            <Link to="/login" className="authorization-form__button ta-center">Войти</Link>
+            <button className="form__button" type="button" onClick={handleSubmit}>Зарегистрироваться</button>
+            <Link to="/login" className="form__button ta-center">Войти</Link>
         </form>
     );
 }

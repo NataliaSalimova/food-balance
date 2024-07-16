@@ -1,7 +1,7 @@
 import './app.css';
 import '../common/common.scss';
 
-import React from 'react';
+import { React, StrictMode } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import HomePage from '../pages/home-page';
