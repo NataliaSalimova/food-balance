@@ -1,18 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
+import './registration.scss';
 
 import RegistrationForm from '../../registration-form';
+import BackLink from '../../back-link';
+import Title from '../../title';
 
 function RegistrationPage() {
     return (
-        <div className="authorization-page">
-            <Link to='/' className="page-link">
-                Вернуться на главную
-            </Link>
-            <div className="authorization-page-main">
-                <h1 className="authorization-page-title">
-                    Зарегистрироваться
-                </h1>
+        <div className="registration-page page-container">
+            <div className="registration-page__header">
+                <BackLink href={"/"} />
+                <Title title={"Зарегистрироваться"} className={"registration-page__title"}/>
+            </div>
+            <div className="registration-page__main">
                 <RegistrationForm/>
             </div>
         </div>

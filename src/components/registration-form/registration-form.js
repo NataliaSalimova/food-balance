@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import ShowPasswordButton from "../show-password-button";
 
 const RegistrationForm = ()=> {
     const [formData, setFormData] = useState({
@@ -15,11 +16,9 @@ const RegistrationForm = ()=> {
 
     const [ error, setError ] = useState(false);
     const [ passwordMatch, setPasswordMatch ] = useState(true);
-    const [ buttonPassword, setShowPassword ] = useState(false);
-    const [ buttonConfirmPassword, setShowConfirmPassword ] = useState(false);
     const [ user, setUser ] = useState(false);
 
-    const fetchURL = 'http://pet.foodtracker.ru/signUp';
+    const signUp = 'http://pet.foodtracker.ru/signUp';
 
     const handleChange = (event)=> {
         const { name, value } = event.target;
@@ -58,7 +57,7 @@ const RegistrationForm = ()=> {
             email: formData.email
         };
 
-        const response = await fetch(fetchURL, {
+        const response = await fetch(signUp, {
             method: 'POST',
             body: JSON.stringify(data),
         });
@@ -86,40 +85,26 @@ const RegistrationForm = ()=> {
         saveUser();
     }
 
-    const changeTypeFieldPassword = ()=> {
+    const changeTypePassword = ()=> {
         setFormData(prevFormData => ({
             ...prevFormData,
             passwordType: prevFormData.passwordType === 'password' ? 'text' : 'password'
         }));
     }
 
-    const changeTypeFieldConfirmPassword = ()=> {
+    const changeTypeConfirmPassword = ()=> {
         setFormData(prevFormData => ({
             ...prevFormData,
             confirmPasswordType: prevFormData.confirmPasswordType === 'password' ? 'text' : 'password'
         }));
     }
 
-    const showPassword = (event)=> {
-        event.preventDefault();
-
-        const buttonType = event.currentTarget.dataset.buttonType;
-
-        if (buttonType === 'buttonPassword') {
-            changeTypeFieldPassword();
-            setShowPassword(!buttonPassword);
-        } else {
-            changeTypeFieldConfirmPassword();
-            setShowConfirmPassword(!buttonConfirmPassword);
-        }
-    }
-
     return (
-        <form className="authorization-page-form">
-            <div className="authorization-page-field">
-                <label className="authorization-page-label">Имя</label>
+        <form className="authorization-form">
+            <div className="authorization-form__field">
+                <label className="authorization-form__label">Имя</label>
                 <input
-                    className="authorization-page-input"
+                    className="authorization-form__input"
                     name="name"
                     placeholder="Имя"
                     type="text"
@@ -127,10 +112,10 @@ const RegistrationForm = ()=> {
                     onChange={handleChange}/>
                 {error && !formData.name && <span className="error">*Пожалуйста, введите ваше имя</span>}
             </div>
-            <div className="authorization-page-field">
-                <label className="authorization-page-label">Логин</label>
+            <div className="authorization-form__field">
+                <label className="authorization-form__label">Логин</label>
                 <input
-                    className="authorization-page-input"
+                    className="authorization-form__input"
                     name="login"
                     placeholder="Логин"
                     type="text"
@@ -138,10 +123,10 @@ const RegistrationForm = ()=> {
                     onChange={handleChange}/>
                 {error && !formData.login && <span className="error">*Пожалуйста, введите ваш логин</span>}
             </div>
-            <div className="authorization-page-field">
-                <label className="authorization-page-label">Email</label>
+            <div className="authorization-form__field">
+                <label className="authorization-form__label">Email</label>
                 <input
-                    className="authorization-page-input"
+                    className="authorization-form__input"
                     name="email"
                     type="email"
                     placeholder="Email"
@@ -149,40 +134,37 @@ const RegistrationForm = ()=> {
                     onChange={handleChange}/>
                 {error && !formData.email && <span className="error">*Пожалуйста, введите ваш email</span>}
             </div>
-            <div className="authorization-page-field">
-                <label className="authorization-page-label">Пароль</label>
+            <div className="authorization-form__field">
+                <label className="authorization-form__label">Пароль</label>
                 <input
-                    className="authorization-page-input"
+                    className="authorization-form__input"
                     type={formData.passwordType}
                     name="password"
                     placeholder="Пароль"
                     value={formData.password}
                     onChange={handleChange}/>
-                <button className={`authorization-page-password-button ${buttonPassword ? 'show' : ''}`}
-                    data-button-type="buttonPassword" onClick={showPassword}>
-                    <img src="/images/show-password.png" width="25" height="25" alt="Show password" />
-                </button>
-                {error && !formData.value && <span className="error">*Пожалуйста, введите пароль</span>}
-                {!passwordMatch && <span className="error">Пароли не совпадают!</span>}
+                <ShowPasswordButton onHandleClick={changeTypePassword}/>
+                {error && !formData.password && <span className="error">*Пожалуйста, введите пароль</span>}
             </div>
-            <div className="authorization-page-field">
-                <label className="authorization-page-label">Подтверждение пароля</label>
+            <div className="authorization-form__field">
+                <label className="authorization-form__label">Подтверждение пароля</label>
                 <input
-                    className="authorization-page-input"
+                    className="authorization-form__input"
                     type={formData.confirmPasswordType}
                     name="confirmPassword"
                     placeholder="Подтверждение пароля"
                     value={formData.confirmPassword}
                     onChange={handleChange}/>
-                <button className={`authorization-page-password-button ${buttonConfirmPassword ? 'show' : ''}`} data-button-type="buttonConfirmPassword" onClick={showPassword}>
-                    <img src="/images/show-password.png" width="25" height="25" alt="Show password" />
-                </button>
+                <ShowPasswordButton onHandleClick={changeTypeConfirmPassword}/>
                 {error && !formData.confirmPassword && <span className="error">*Подтвердите пароль</span>}
             </div>
+            {!passwordMatch && <span className="error">Пароли не совпадают!</span>}
+
             {user && <span className="error">
                 *Пользователь с таким логином уже зарегистирован. Используйте другой логин или перейдите на <Link to="/login">страницу входа</Link>
             </span>}
-            <button className="authorization-page-button" type="button" onClick={handleSubmit}>Зарегистрироваться</button>
+            <button className="authorization-form__button" type="button" onClick={handleSubmit}>Зарегистрироваться</button>
+            <Link to="/login" className="authorization-form__button ta-center">Войти</Link>
         </form>
     );
 }

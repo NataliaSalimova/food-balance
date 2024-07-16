@@ -1,0 +1,54 @@
+.authorization-form {
+    &__field {
+        position: relative;
+        margin: 0 0 15px;
+    }
+
+    &__label {
+        font-size: 14px;
+        display: block;
+        margin: 0 0 10px;
+    }
+
+    &__input {
+        padding: 10px;
+        border: 1px solid var(--color-black);
+        width: calc(100% - 22px);
+    }
+
+    &__button {
+        font-size: 16px;
+        color: var(--color-white);
+        text-decoration: none;
+        width: 100%;
+        padding: 10px;
+        background: var(--color-light-blue);
+        border: 1px solid var(--color-light-blue);
+        display: block;
+        margin: 0 0 20px;
+        transition: all .25s ease;
+    }
+
+    a.authorization-form__button {
+        width: calc(100% - 22px);
+    }
+}
+
+.medium-bold {
+    font-weight: 500;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.ta-center {
+    text-align: center;
+}
+
+.error {
+    font-size: 14px;
+    color: var(--color-red);
+    display: block;
+    margin: 10px 0;
+}

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import './show-password-button.scss';
+
 const ShowPasswordButton = ({ onHandleClick })=> {
     const [ type, setType ] = useState('password');
 
@@ -14,7 +16,7 @@ const ShowPasswordButton = ({ onHandleClick })=> {
     }, [type])
 
     return (
-        <button className={`login-form__password-button ${type === 'text' ? 'show' : ''}`} onClick={changeTypePassword}>
+        <button className={`password-button ${type === 'text' ? 'show' : ''}`} onClick={changeTypePassword}>
             <img src="/images/show-password.png" width="25" height="25" alt="Show password" />
         </button>
     )

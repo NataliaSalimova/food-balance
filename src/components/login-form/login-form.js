@@ -3,8 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import ShowPasswordButton from '../show-password-button';
 
-import './login-form.scss';
-
 const LoginForm = ()=> {
     const [formData, setFormData] = useState({
         login: '',
@@ -15,7 +13,7 @@ const LoginForm = ()=> {
     const [ user, setUser ] = useState(true);
     const navigate = useNavigate();
 
-    const fetchURL = 'http://pet.foodtracker.ru/signIn';
+    const signInURL = 'http://pet.foodtracker.ru/signIn';
 
     const changeTypePassword = (type)=> {
         setFormData(prevFormData => ({
@@ -50,7 +48,7 @@ const LoginForm = ()=> {
             password: formData.password
         };
 
-        await fetch(fetchURL, {
+        await fetch(signInURL, {
             method: 'POST',
             body: JSON.stringify(data),
         }).then((response)=> {
@@ -63,18 +61,18 @@ const LoginForm = ()=> {
                     setUser(false)
                     break;
             }
-        }).catch((error) => console.log(error));
+        }).catch(()=> alert('Извините, что-то пошло не так. Попробуйте позже'));
     };
 
     return (
-        <form className="login-form">
-            <div className="login-form__field">
+        <form className="authorization-form">
+            <div className="authorization-form__field">
                 <label
-                    className="login-form__label">
+                    className="authorization-form__label">
                     Логин
                 </label>
                 <input
-                    className="login-form__input"
+                    className="authorization-form__input"
                     name="login"
                     placeholder="Логин"
                     id="login"
@@ -82,13 +80,13 @@ const LoginForm = ()=> {
                     onChange={handleChange}/>
                 {error && !formData.login && <span className="error">*Пожалуйста, введите ваш логин</span>}
             </div>
-            <div className="login-form__field">
+            <div className="authorization-form__field">
                 <label
-                    className="login-form__label">
+                    className="authorization-form__label">
                     Пароль
                 </label>
                 <input
-                    className="login-form__input"
+                    className="authorization-form__input"
                     name="password"
                     type={formData.type}
                     placeholder="Пароль"
@@ -104,12 +102,12 @@ const LoginForm = ()=> {
             { !user && <span className="error error_bottom">*Неверный логин или пароль</span> }
 
             <button
-                className="login-form__button"
+                className="authorization-form__button"
                 onClick={handleSubmit}>
                 Войти
             </button>
 
-            <Link to="/registration" className="login-form__button">Зарегистрироваться</Link>
+            <Link to="/registration" className="authorization-form__button ta-center">Зарегистрироваться</Link>
         </form>
     )
 }
