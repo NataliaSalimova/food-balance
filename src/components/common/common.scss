@@ -15,23 +15,6 @@
         border: 1px solid var(--color-black);
         width: calc(100% - 22px);
     }
-
-    &__button {
-        font-size: 16px;
-        color: var(--color-white);
-        text-decoration: none;
-        width: 100%;
-        padding: 10px;
-        background: var(--color-light-blue);
-        border: 1px solid var(--color-light-blue);
-        display: block;
-        margin: 0 0 20px;
-        transition: all .25s ease;
-    }
-
-    a.form__button {
-        width: calc(100% - 22px);
-    }
 }
 
 .medium-bold {

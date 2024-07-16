@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import ShowPasswordButton from '../show-password-button';
+import Button from '../button'
 
 const LoginForm = ()=> {
     const [formData, setFormData] = useState({
@@ -101,13 +102,9 @@ const LoginForm = ()=> {
 
             { !user && <span className="error error_bottom">*Неверный логин или пароль</span> }
 
-            <button
-                className="form__button"
-                onClick={handleSubmit}>
-                Войти
-            </button>
+            <Button handleSubmit={handleSubmit} text={"Войти"}/>
 
-            <Link to="/registration" className="form__button ta-center">Зарегистрироваться</Link>
+            <Link to="/registration" className="button ta-center">Зарегистрироваться</Link>
         </form>
     )
 }

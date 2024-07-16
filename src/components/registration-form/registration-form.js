@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import ShowPasswordButton from "../show-password-button";
+
+import ShowPasswordButton from '../show-password-button';
+import Button from '../button';
 
 const RegistrationForm = ()=> {
     const [formData, setFormData] = useState({
@@ -163,8 +165,8 @@ const RegistrationForm = ()=> {
             {user && <span className="error">
                 *Пользователь с таким логином уже зарегистирован. Используйте другой логин или перейдите на <Link to="/login">страницу входа</Link>
             </span>}
-            <button className="form__button" type="button" onClick={handleSubmit}>Зарегистрироваться</button>
-            <Link to="/login" className="form__button ta-center">Войти</Link>
+            <Button handleSubmit={handleSubmit} text={"Зарегистрироваться"} />
+            <Link to="/login" className="button ta-center">Войти</Link>
         </form>
     );
 }

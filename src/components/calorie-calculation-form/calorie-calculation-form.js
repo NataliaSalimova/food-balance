@@ -3,6 +3,8 @@ import './calorie-calculation-form.scss';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import Button from '../button';
+
 const CalorieCalculationForm = ()=> {
     const getUserURL = 'http://pet.foodtracker.ru/getUser';
     const navigate = useNavigate();
@@ -224,7 +226,7 @@ const CalorieCalculationForm = ()=> {
                 </select>
                 {error && !formData.activityLevel && <span className="error">*Пожалуйста, выберите уровень активности</span>}
             </div>
-            <button className="form__button" onClick={handleSubmit}>Рассчитать</button>
+            <Button handleSubmit={handleSubmit} text={"Рассчитать"} />
         </form>
     );
 }

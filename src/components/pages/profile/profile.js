@@ -1,7 +1,10 @@
-import './profile.css';
+import './profile.scss';
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+
+import Title from '../../title';
+import BackLink from '../../back-link';
 
 const ProfilePage = ()=> {
     const fetchURLUser = 'http://pet.foodtracker.ru/getUser';
@@ -47,28 +50,26 @@ const ProfilePage = ()=> {
     }, []);
 
     return (
-        <div className="profile-page">
-            <div className="profile-page-container page-container">
-                <h1 className="profile-page-title">
-                    Профиль
-                </h1>
-                <p className="profile-page-user-name">
-                    { user.name }
-                </p>
-                <p className="profile-page-user-age">
-                    Возраст: { user.age }
-                </p>
-                <div className="profile-user-data">
-                    <ul className="profile-user-data-list">
-                        <li className="profile-user-data-item">
-                            Текущий вес <strong className="profile-user-data-item-value">{ user.weight }</strong>
-                        </li>
-                        <li className="profile-user-data-item">
-                            Цель <strong className="profile-user-data-item-value">{ targetText[user.target] }</strong>
-                        </li>
-                    </ul>
-                </div>
+        <div className="profile-page page-container">
+            <BackLink href={'diary'}/>
+            <Title title={"Профиль"} className={"profile-page__title ta-center"}/>
+            <p className="profile-page__name">
+                { user.name }
+            </p>
+            <p className="profile-page__age">
+                Возраст: { user.age }
+            </p>
+            <div className="profile-page-data">
+                <ul className="profile-page-data__list">
+                    <li className="profile-page-data__item">
+                        Текущий вес <strong className="profile-page-data__item-value">{ user.weight }</strong>
+                    </li>
+                    <li className="profile-page-data__item">
+                        Цель <strong className="profile-page-data__item-value">{ targetText[user.target] }</strong>
+                    </li>
+                </ul>
             </div>
+            <Link to="/calorie-calculation" className="profile-page__button">Скорректировать цель</Link>
         </div>
     );
 }
