@@ -5,9 +5,10 @@ import { useNavigate, Link } from 'react-router-dom';
 
 import Title from '../../title';
 import BackLink from '../../back-link';
+import Button from "../../button";
 
 const ProfilePage = ()=> {
-    const fetchURLUser = 'http://pet.foodtracker.ru/getUser';
+    const getUserURL = 'http://pet.foodtracker.ru/getUser';
     const navigate = useNavigate();
     const [user, setUser] = useState({
         name: '',
@@ -23,7 +24,7 @@ const ProfilePage = ()=> {
     }
 
     const getUser = async ()=> {
-        const response = await fetch(fetchURLUser, {
+        const response = await fetch(getUserURL, {
             method: 'GET',
             headers: {
                 'authKey': localStorage.getItem('authKey')
@@ -45,13 +46,18 @@ const ProfilePage = ()=> {
         }));
     };
 
+    const logOut = ()=> {
+        localStorage.removeItem('authKey');
+        navigate('/');
+    }
+
     useEffect(()=> {
         getUser();
     }, []);
 
     return (
         <div className="profile-page page-container">
-            <BackLink href={'diary'}/>
+            <BackLink href={'/diary'}/>
             <Title title={"Профиль"} className={"profile-page__title ta-center"}/>
             <p className="profile-page__name">
                 { user.name }
@@ -69,7 +75,8 @@ const ProfilePage = ()=> {
                     </li>
                 </ul>
             </div>
-            <Link to="/calorie-calculation" className="profile-page__button">Скорректировать цель</Link>
+            <Link to="/change-target" className="profile-page__button button ta-center">Скорректировать цель</Link>
+            <Button handleSubmit={logOut} text={"Выйти"} />
         </div>
     );
 }

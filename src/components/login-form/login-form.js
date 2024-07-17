@@ -49,20 +49,25 @@ const LoginForm = ()=> {
             password: formData.password
         };
 
-        await fetch(signInURL, {
+        const response = await fetch(signInURL, {
             method: 'POST',
             body: JSON.stringify(data),
-        }).then((response)=> {
-            // eslint-disable-next-line default-case
-            switch (response.status) {
-                case 200:
-                    navigate('/calorie-calculation')
-                    break;
-                case 400 || 401:
-                    setUser(false)
-                    break;
-            }
-        }).catch(()=> alert('Извините, что-то пошло не так. Попробуйте позже'));
+        });
+
+        const result = await response.json();
+
+        switch (response.status) {
+            case 200:
+                navigate('/diary');
+                localStorage.setItem('authKey', result.token);
+                break;
+            case 400 || 401:
+                setUser(false)
+                break;
+            default:
+                alert('Извините, что-то пошло не так. Попробуйте зарегистироваться позже');
+                break;
+        }
     };
 
     return (

@@ -1,7 +1,7 @@
 import './app.css';
 import '../common/common.scss';
 
-import { React, StrictMode } from 'react';
+import { React } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import HomePage from '../pages/home-page';
@@ -10,7 +10,8 @@ import LoginPage from '../pages/login-page';
 import RegistrationPage from '../pages/registration-page';
 import CalorieCalculation from '../pages/calorie-calculation';
 import ProfilePage from '../pages/profile';
-import MealsItemPage from '../pages/meals-item-page'
+import MealsItemPage from '../pages/meals-item-page';
+import ChangeTargetPage from '../pages/change-target';
 
 function App() {
   return (
@@ -43,6 +44,10 @@ function App() {
               <Route
                   path="/diary/:mealsId"
                   element={<MealsItemPage/>}
+              />
+              <Route
+                  path="/change-target"
+                  element={<ChangeTargetPage/>}
               />
           </Routes>
       </main>
