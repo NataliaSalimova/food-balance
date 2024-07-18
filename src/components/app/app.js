@@ -1,11 +1,11 @@
-import './app.css';
+import './app.scss';
 import '../common/common.scss';
 
 import { React } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import HomePage from '../pages/home-page';
-import DiaryPage from '../pages/diary-page';
+import Diary from '../pages/diary';
 import LoginPage from '../pages/login-page';
 import RegistrationPage from '../pages/registration-page';
 import CalorieCalculation from '../pages/calorie-calculation';
@@ -31,7 +31,7 @@ function App() {
               </Route>
               <Route
                   path="/diary"
-                  element={<DiaryPage/>}>
+                  element={<Diary/>}>
               </Route>
               <Route
                   path="/calorie-calculation"

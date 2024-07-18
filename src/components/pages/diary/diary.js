@@ -1,15 +1,16 @@
-import './diary-page.css';
-
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+import './diary.scss';
 
 import RatioCalories from '../../ratio-calories';
 import EssentialMacronutrients from '../../essential-macronutrients';
 import Meals from '../../meals';
+
 import STORE from "../../../store";
 
-function DiaryPage() {
-    const fetchURLUser = 'http://pet.foodtracker.ru/getUser';
+function Diary() {
+    const getUserURL = 'http://pet.foodtracker.ru/getUser';
 
     const [user, setUser] = useState({
         caloriesConsumed: 0,
@@ -19,32 +20,41 @@ function DiaryPage() {
         caloriesRemaining: 0,
         carbohydratesTotal: '',
         proteinsTotal: '',
-        fatsTotal: ''
+        fatsTotal: '',
+        dishesConsumed: []
     });
 
-    const [ dishesConsumed, setDishesConsumed ] = useState();
+    const navigate = useNavigate();
 
     const getUser = async ()=> {
-        const response = await fetch(fetchURLUser, {
-            method: 'GET',
-            headers: {
-                'authKey': localStorage.getItem('authKey')
+        try {
+            const response = await fetch(getUserURL, {
+                method: 'GET',
+                headers: {
+                    'authKey': localStorage.getItem('authKey')
+                }
+            })
+
+            switch (response.status) {
+                case 200:
+                    const res = await response.json();
+
+                    setUser(prevState => ({
+                        ...prevState,
+                        caloriesRemaining: JSON.parse(res.data).calories,
+                        carbohydratesTotal: JSON.parse(res.data).carbohydrates,
+                        proteinsTotal: JSON.parse(res.data).proteins,
+                        fatsTotal: JSON.parse(res.data).fats
+                    }));
+
+                    break;
+
+                case 401:
+                    navigate('/login');
             }
-        });
-
-        const res = await response.json();
-
-        setUser(prevFormData => ({
-            ...prevFormData,
-            // caloriesConsumed: JSON.parse(res.data).caloriesConsumed ?? 0,
-            caloriesRemaining: JSON.parse(res.data).calories,
-            carbohydratesTotal: JSON.parse(res.data).carbohydrates,
-            proteinsTotal: JSON.parse(res.data).proteins,
-            fatsTotal: JSON.parse(res.data).fats,
-            // carbohydratesConsumed: JSON.parse(res.data).carbohydratesConsumed ?? 0,
-            // proteinsConsumed: JSON.parse(res.data).proteinsConsumed ?? 0,
-            // fatsConsumed: JSON.parse(res.data).fatsConsumed ?? 0
-        }));
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     const getDishes = async ()=> {
@@ -62,7 +72,7 @@ function DiaryPage() {
         let fatsConsumed = 0;
         let dishes = [];
 
-        res.map((item, index)=> {
+        res.map((item)=> {
             STORE.DISHES.find((dish)=> {
                 if ((item.dishID === dish.id)) {
                     calories += dish.calories;
@@ -73,15 +83,14 @@ function DiaryPage() {
                 }
             });
 
-            setUser(prev => ({
-                ...prev,
+            setUser(prevState => ({
+                ...prevState,
                 caloriesConsumed: calories,
                 carbohydratesConsumed: carbohydratesConsumed,
                 proteinsConsumed: proteinsConsumed,
                 fatsConsumed: fatsConsumed,
+                dishesConsumed: dishes
             }));
-
-            setDishesConsumed(dishes);
         })
     }
 
@@ -97,7 +106,11 @@ function DiaryPage() {
                     FoodBalance
                 </Link>
                 <Link to='/profile' className="page-link profile-link">
-                    <img src="/images/profile.png" className="diary-page-profile-image" width="25" height="25" alt="Icon profile"/>
+                    <img src="/images/profile.png"
+                        className="diary-page-profile-image"
+                        width="25"
+                        height="25"
+                        alt="Icon profile"/>
                 </Link>
             </div>
 
@@ -111,9 +124,9 @@ function DiaryPage() {
                 carbohydratesConsumed={user.carbohydratesConsumed}
                 proteinsConsumed={user.proteinsConsumed}
                 fatsConsumed={user.fatsConsumed} />
-            <Meals dishesConsumed={dishesConsumed}/>
+            <Meals dishesConsumed={user.dishesConsumed}/>
         </div>
     );
 }
 
-export default DiaryPage;
+export default Diary;

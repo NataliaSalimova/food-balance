@@ -1,0 +1,28 @@
+.ratio-calories {
+    &__list {
+        list-style: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        margin: 0 0 30px;
+    }
+
+    &__item {
+        margin: 0;
+    }
+
+    &__title,
+    &__ccal {
+        line-height: 1.5;
+    }
+
+    &__ccal {
+        font-size: 18px;
+        margin: 0 0 10px;
+    }
+
+    &__title {
+        font-size: 14px;
+        margin: 0;
+    }
+}

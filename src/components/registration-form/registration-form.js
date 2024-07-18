@@ -72,7 +72,7 @@ const RegistrationForm = ()=> {
                 localStorage.setItem('authKey', result.token);
                 break;
             case 409:
-                setUser(false)
+                setUser(true)
                 break;
             default:
                 alert('Извините, что-то пошло не так. Попробуйте зарегистироваться позже');
@@ -162,7 +162,7 @@ const RegistrationForm = ()=> {
             </div>
             {!passwordMatch && <span className="error">Пароли не совпадают!</span>}
 
-            {!user && <span className="error">
+            {user && <span className="error">
                 *Пользователь с таким логином уже зарегистирован. Используйте другой логин или перейдите на <Link to="/login">страницу входа</Link>
             </span>}
             <Button handleSubmit={handleSubmit} text={"Зарегистрироваться"} />
