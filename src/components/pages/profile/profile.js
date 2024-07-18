@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 import Title from '../../title';
-import BackLink from '../../back-link';
-import Button from "../../button";
+import Button from '../../button';
+import PageFooter from '../../page-footer';
 
 const ProfilePage = ()=> {
     const getUserURL = 'http://pet.foodtracker.ru/getUser';
@@ -57,8 +57,7 @@ const ProfilePage = ()=> {
 
     return (
         <div className="profile-page page-container">
-            <BackLink href={'/diary'}/>
-            <Title title={"Профиль"} className={"profile-page__title ta-center"}/>
+            <Title title={"Профиль"} className={"profile-page__title"}/>
             <p className="profile-page__name">
                 { user.name }
             </p>
@@ -77,6 +76,8 @@ const ProfilePage = ()=> {
             </div>
             <Link to="/change-target" className="profile-page__button button ta-center">Скорректировать цель</Link>
             <Button handleSubmit={logOut} text={"Выйти"} />
+
+            <PageFooter hiddenLink={'profile'}/>
         </div>
     );
 }

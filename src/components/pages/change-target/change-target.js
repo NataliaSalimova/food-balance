@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 import './change-target.scss';
 
-import BackLink from "../../back-link";
-import Title from "../../title";
-import Button from "../../button";
+import Title from '../../title';
+import Button from '../../button';
+import PageFooter from '../../page-footer';
 
 const ChangeTargetPage = ()=> {
     const getUserURL = 'http://pet.foodtracker.ru/getUserData';
@@ -134,7 +134,6 @@ const ChangeTargetPage = ()=> {
 
     return (
         <div className="change-target-page page-container">
-            <BackLink href={'/profile'}/>
             <Title title={"Изменить цель"} className={"change-target-page__title"}/>
 
             {success && <p className="change-target-page__success-text bold ta-center">Данные успешно обновлены</p>}
@@ -232,6 +231,8 @@ const ChangeTargetPage = ()=> {
 
                 <Button handleSubmit={handleSubmit} text={"Сохранить"} />
             </form>
+
+            <PageFooter/>
         </div>
     )
 }

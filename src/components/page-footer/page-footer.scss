@@ -1,0 +1,26 @@
+.page-footer {
+    width: 100%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column-gap: 20px;
+    box-sizing: border-box;
+
+    &__link {
+        font-size: 12px;
+        text-decoration: none;
+        color: var(--color-black);
+        display: grid;
+        align-items: center;
+    }
+
+    &__img {
+        justify-self: center;
+        margin: 0 0 5px;
+    }
+}
