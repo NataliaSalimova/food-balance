@@ -1,77 +1,68 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom'
 
-import './dishes-item.css';
-
-import STORE from '../../store';
+import './dishes-item.scss';
 
 const DishesItem = ({ onClick, item }) => {
     const diaryUrl = 'http://pet.foodtracker.ru/diary';
-    const setUserDataUrl = 'http://pet.foodtracker.ru/setUserData';
-    const [ userData, setUserData ] = useState();
+    const navigate = useNavigate();
 
     const handleClick = (event) => {
+        event.preventDefault();
+
         saveProduct(event);
     }
 
-    // Сохранить блюдо в базу
-
     const saveProduct = async (event)=> {
-        const data = {
-            dishID: item.id,
-            types: item.type,
-            date: new Date().toISOString()
-        };
+        try {
+            const data = {
+                dishID: item.id,
+                types: item.type,
+                date: new Date().toISOString()
+            };
 
-        const response = await fetch(diaryUrl, {
-            method: 'PUT',
-            headers: {
-                'authKey': localStorage.getItem('authKey')
-            },
-            body: JSON.stringify(data)
-        });
+            const response = await fetch(diaryUrl, {
+                method: 'PUT',
+                headers: {
+                    'authKey': localStorage.getItem('authKey')
+                },
+                body: JSON.stringify(data)
+            });
 
-        const res = await response.json();
+            const res = await response.json();
 
-        if (response.status === 200) {
-            const productStoreId = event.target.getAttribute('data-store-dish-id');
+            switch (response.status) {
+                case 200:
+                    const productStoreId = event.target.getAttribute('data-store-dish-id');
+                    onClick(productStoreId, res.ID);
 
-            onClick(productStoreId, res.ID);
+                    break;
+                case 401:
+                    navigate('/login');
+                    break;
+                default:
+                    break;
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
-    // Проверить данные пользователя
-
-    const getUserData = async ()=> {
-        const response = await fetch('http://pet.foodtracker.ru/getUserData', {
-            method: 'GET',
-            headers: {
-                'authKey': localStorage.getItem('authKey')
-            }
-        });
-
-        const res =  await response.json();
-
-        setUserData({userData, res});
-    }
-
-    // Сохранить данные пользователю
-
-    useEffect(()=> {
-       getUserData();
-    }, []);
-
     return (
         <li className="dishes-item">
-            <div className="dishes-item-container">
-                <div>
-                    <p className="dishes-item-name">
+            <div className="dishes-item__container">
+                <div className="dishes-item__description">
+                    <p className="dishes-item__name">
                         {item.name}
                     </p>
-                    <p className="dishes-item-calories">
+                    <p className="dishes-item__calories">
                         {item.calories} ккал
                     </p>
                 </div>
-                <button className="dishes-item-button" data-store-dish-id={item.id} data-dish-id={item.dishID} onClick={handleClick}>+</button>
+                <button className="dishes-item__button medium-bold"
+                    data-store-dish-id={item.id}
+                    data-dish-id={item.dishID}
+                    onClick={handleClick}>+</button>
             </div>
         </li>
     );

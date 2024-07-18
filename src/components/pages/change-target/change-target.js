@@ -97,7 +97,6 @@ const ChangeTargetPage = ()=> {
     };
 
     const handleSubmit = async ()=> {
-
         await fetch('http://pet.foodtracker.ru/setUserData', {
             method: 'PUT',
             headers: {

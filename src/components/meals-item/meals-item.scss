@@ -5,7 +5,9 @@
     grid-gap: 10px;
     box-shadow: 1px 1px 15px rgba(0, 0, 0, .1);
     border-radius: 5px;
+    box-sizing: border-box;
     padding: 10px 15px;
+    min-height: 70px;
 
     &__title {
         font-size: 16px;
@@ -15,7 +17,7 @@
     }
 
     &__text {
-        font-size: 14px;
+        font-size: 12px;
         line-height: 1.15;
         margin: 7px 0 0;
     }

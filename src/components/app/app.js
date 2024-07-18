@@ -10,7 +10,7 @@ import LoginPage from '../pages/login-page';
 import RegistrationPage from '../pages/registration-page';
 import CalorieCalculation from '../pages/calorie-calculation';
 import ProfilePage from '../pages/profile';
-import MealsItemPage from '../pages/meals-item-page';
+import MealsItemPage from '../pages/meals-item';
 import ChangeTargetPage from '../pages/change-target';
 
 function App() {

@@ -1,0 +1,28 @@
+.dishes-item {
+    &__container {
+        font-size: 16px;
+        display: grid;
+        grid-template-columns: 1fr 25px;
+        grid-column-gap: 10px;
+        align-items: flex-start;
+    }
+
+    &__name {
+        font-weight: 700;
+        line-height: 1.5;
+        margin: 0 0 10px;
+    }
+
+    &__calories {
+        line-height: 1.15;
+        margin: 0;
+    }
+
+    &__button {
+        font-size: 16px;
+        background: transparent;
+        border: 1px solid;
+        width: 25px;
+        height: 25px;
+    }
+}

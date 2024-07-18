@@ -61,7 +61,7 @@ const LoginForm = ()=> {
                 navigate('/diary');
                 localStorage.setItem('authKey', result.token);
                 break;
-            case 400 || 401:
+            case 401:
                 setUser(false)
                 break;
             default:

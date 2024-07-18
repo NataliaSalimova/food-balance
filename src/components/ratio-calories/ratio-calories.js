@@ -12,7 +12,7 @@ const RatioCalories = ({ caloriesConsumed, caloriesRemaining })=> {
                     </p>
                 </li>
                 <li className="ratio-calories__item">
-                    <p className="ratio-calories__ccal bold">{caloriesRemaining} ккал</p>
+                    <p className="ratio-calories__ccal bold">{caloriesRemaining - caloriesConsumed} ккал</p>
                     <p className="ratio-calories__title medium-bold uppercase">
                         Осталось
                     </p>

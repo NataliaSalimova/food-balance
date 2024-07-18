@@ -1,0 +1,16 @@
+.meals-item-page {
+    &__title {
+        font-size: 30px;
+        text-align: center;
+        margin: 0 auto 20px;
+    }
+}
+
+.dishes-list,
+.dishes-list-consumed {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-row-gap: 20px;
+}
