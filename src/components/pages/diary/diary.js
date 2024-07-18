@@ -101,11 +101,11 @@ function Diary() {
 
     return (
         <div className="diary-page page-container">
-            <div className="diary-page-header">
-                <Link to='/' className="diary-page-link">
+            <div className="diary-page__header">
+                <Link to='/' className="diary-page__link">
                     FoodBalance
                 </Link>
-                <Link to='/profile' className="page-link profile-link">
+                <Link to='/profile' className="page-link diary-page__profile-link">
                     <img src="/images/profile.png"
                         className="diary-page-profile-image"
                         width="25"
