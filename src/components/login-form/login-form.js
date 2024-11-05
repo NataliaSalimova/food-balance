@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { setUserApi } from '../../api';
+
 import ShowPasswordButton from '../show-password-button';
 import Button from '../button'
 
@@ -14,8 +16,6 @@ const LoginForm = ()=> {
     const [ user, setUser ] = useState(true);
     const navigate = useNavigate();
 
-    const signInURL = 'http://pet.foodtracker.ru/signIn';
-
     const changeTypePassword = (type)=> {
         setFormData(prevFormData => ({
             ...prevFormData,
@@ -26,8 +26,8 @@ const LoginForm = ()=> {
     const handleChange = (event)=> {
         const { name, value } = event.target;
 
-        setFormData(prevFormData => ({
-            ...prevFormData,
+        setFormData(test => ({
+            ...test,
             [name]: value
         }));
     };
@@ -44,25 +44,20 @@ const LoginForm = ()=> {
     }
 
     const getUser = async () => {
-        const data = {
+        const user = {
             login: formData.login,
             password: formData.password
         };
 
-        const response = await fetch(signInURL, {
-            method: 'POST',
-            body: JSON.stringify(data),
-        });
+        const result = await setUserApi('signIn', user)
 
-        const result = await response.json();
-
-        switch (response.status) {
+        switch (result.status) {
             case 200:
                 navigate('/diary');
-                localStorage.setItem('authKey', result.token);
+                localStorage.setItem('authKey', result.responseJSON.token);
                 break;
-            case 401:
-                setUser(false)
+            case 400 || 401:
+                setUser(false);
                 break;
             default:
                 alert('Извините, что-то пошло не так. Попробуйте зарегистироваться позже');

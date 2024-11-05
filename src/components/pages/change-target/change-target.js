@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import { getUserDataApi, setUserDataApi } from '../../../api';
+
 import './change-target.scss';
 
 import Title from '../../title';
@@ -9,7 +11,6 @@ import Button from '../../button';
 import PageFooter from '../../page-footer';
 
 const ChangeTargetPage = ()=> {
-    const getUserURL = 'http://pet.foodtracker.ru/getUserData';
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         gender: '',
@@ -72,48 +73,31 @@ const ChangeTargetPage = ()=> {
     ]
 
     const getUser = async ()=> {
-        try {
-            const response = await fetch(getUserURL, {
-                method: 'GET',
-                headers: {
-                    'authKey': localStorage.getItem('authKey')
-                }
-            });
+        const result = await getUserDataApi();
 
-            if (response.status === 401) {
-                navigate('/login');
+        if (result.status === 401) {
+            navigate('/login');
 
-                return;
-            }
+            return;
+        }
 
-            const data = await response.json();
+        const data = result.responseJSON;
 
-            if (data) {
-                setFormData(data);
-            }
-        } catch (error) {
-            console.log(error)
+        if (data) {
+            setFormData(data);
         }
     };
 
     const handleSubmit = async ()=> {
-        await fetch('http://pet.foodtracker.ru/setUserData', {
-            method: 'PUT',
-            headers: {
-                'authKey': localStorage.getItem('authKey')
-            },
-            body: JSON.stringify(formData)
-        }).then((response) => {
-            if (response.status === 200) {
-                setSuccess(true);
+        const response = await setUserDataApi(formData);
 
-                setTimeout(()=> {
-                    setSuccess(false);
-                }, 1000);
-            }
-        }).catch((error) => {
-            console.log(error)
-        });
+        if (response.status === 200) {
+            setSuccess(true);
+
+            setTimeout(()=> {
+                setSuccess(false);
+            }, 1000);
+        }
     }
 
     const handleChange = (event)=> {

@@ -1,50 +1,39 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'
 
+import { saveDishApi } from '../../api';
+
 import './dishes-item.scss';
 
 const DishesItem = ({ onClick, item }) => {
-    const diaryUrl = 'http://pet.foodtracker.ru/diary';
     const navigate = useNavigate();
 
     const handleClick = (event) => {
         event.preventDefault();
 
-        saveProduct(event);
+        saveDish(event);
     }
 
-    const saveProduct = async (event)=> {
-        try {
-            const data = {
-                dishID: item.id,
-                types: item.type,
-                date: new Date().toISOString()
-            };
+    const saveDish = async (event)=> {
+        const dish = {
+            dishID: item.id,
+            types: item.type,
+            date: new Date().toISOString()
+        };
 
-            const response = await fetch(diaryUrl, {
-                method: 'PUT',
-                headers: {
-                    'authKey': localStorage.getItem('authKey')
-                },
-                body: JSON.stringify(data)
-            });
+        const response = await saveDishApi(dish);
 
-            const res = await response.json();
+        switch (response.status) {
+            case 200:
+                const productStoreId = event.target.getAttribute('data-store-dish-id');
+                onClick(productStoreId, response.responseJSON.ID);
 
-            switch (response.status) {
-                case 200:
-                    const productStoreId = event.target.getAttribute('data-store-dish-id');
-                    onClick(productStoreId, res.ID);
-
-                    break;
-                case 401:
-                    navigate('/login');
-                    break;
-                default:
-                    break;
-            }
-        } catch (error) {
-            console.log(error);
+                break;
+            case 401:
+                navigate('/login');
+                break;
+            default:
+                break;
         }
     }
 

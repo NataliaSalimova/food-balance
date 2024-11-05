@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
+import { setUserApi } from '../../api';
+
 import ShowPasswordButton from '../show-password-button';
 import Button from '../button';
 
@@ -14,13 +16,10 @@ const RegistrationForm = ()=> {
         confirmPassword: '',
         confirmPasswordType: 'password'
     });
-    const navigate = useNavigate();
-
     const [ error, setError ] = useState(false);
     const [ passwordMatch, setPasswordMatch ] = useState(true);
     const [ user, setUser ] = useState(false);
-
-    const signUp = 'http://pet.foodtracker.ru/signUp';
+    const navigate = useNavigate();
 
     const handleChange = (event)=> {
         const { name, value } = event.target;
@@ -31,45 +30,22 @@ const RegistrationForm = ()=> {
         }));
     };
 
-    const validateForm = ()=> {
-        if (formData.name === '' || formData.login === '' || formData.email === '' || formData.password === '' || formData.confirmPassword === '') {
-            setError(true);
-        } else {
-            setError(false);
-        }
-    }
+    const signUp = async ()=> {
+        const { login, password, name, email } = formData;
 
-    const saveUser = ()=> {
-        if (formData.password !== formData.confirmPassword) {
-            setPasswordMatch(false);
-        } else if (formData.confirmPassword === '') {
-            setError(true);
-        } else {
-            setPasswordMatch(true);
-
-            saveUserRequest();
-        }
-    }
-    
-    const saveUserRequest = async () => {
-        const data = {
-            login: formData.login,
-            password: formData.password,
-            name: formData.name,
-            email: formData.email
+        const user = {
+            login,
+            password,
+            name,
+            email
         };
 
-        const response = await fetch(signUp, {
-            method: 'POST',
-            body: JSON.stringify(data),
-        });
+        const result = await setUserApi('signUp', user);
 
-        const result = await response.json();
-
-        switch (response.status) {
+        switch (result.status) {
             case 200:
                 navigate('/calorie-calculation');
-                localStorage.setItem('authKey', result.token);
+                localStorage.setItem('authKey', result.responseJSON.token);
                 break;
             case 409:
                 setUser(true)
@@ -81,10 +57,26 @@ const RegistrationForm = ()=> {
     }
 
     const handleSubmit = (event) => {
-        event.preventDefault()
+        event.preventDefault();
 
-        validateForm();
-        saveUser();
+        const { name, login, email, password, confirmPassword } = formData;
+
+        if (name === '' ||
+            login === '' ||
+            email === '' ||
+            password === '' ||
+            confirmPassword === ''
+        ) {
+            setError(true);
+        } else if (password !== confirmPassword) {
+            setPasswordMatch(false);
+        } else {
+            signUp();
+            setPasswordMatch(true);
+            setError(false);
+        }
+
+        return error;
     }
 
     const changeTypePassword = ()=> {

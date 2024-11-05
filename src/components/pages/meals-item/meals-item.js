@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import './meals-item.scss';
 
+import { getDishesApi } from '../../../api';
+
 import Title from '../../title';
 import DishesItem from '../../dishes-item';
 import DishesItemConsumed from '../../dishes-item-consumed';
@@ -11,8 +13,6 @@ import PageFooter from '../../page-footer';
 import STORE from '../../../store';
 
 const MealsItem = () => {
-    const deleteDishURL = 'http://pet.foodtracker.ru/diary/';
-
     const { mealsId } = useParams();
     const [ dishesConsumed, setDishesConsumed ] = useState([]);
     const navigate = useNavigate();
@@ -27,39 +27,26 @@ const MealsItem = () => {
     }
 
     const getDishes = async ()=> {
-        try {
-            const response = await fetch('http://pet.foodtracker.ru/diary', {
-                method: 'GET',
-                headers: {
-                    'authKey': localStorage.getItem('authKey')
+        const result = await getDishesApi();
+
+        if (result.status === 401) {
+            navigate('/login');
+
+            return;
+        }
+
+        const dishesConsumedList = [];
+
+        result.responseJSON.map((item)=> {
+            STORE.DISHES.find((dish)=> {
+                if ((item.dishID === dish.id) && (item.types === mealsId)) {
+                    dish.dishId = item.ID;
+                    dishesConsumedList.push(dish);
                 }
             });
+        })
 
-            if (response.status === 401) {
-                navigate('/login');
-
-                return;
-            }
-
-            const res =  await response.json();
-            const dishesConsumedList = [];
-
-            res.map((item)=> {
-                STORE.DISHES.find((dish)=> {
-                    if ((item.dishID === dish.id) && (item.types === mealsId)) {
-                        dish.dishId = item.ID;
-                        dishesConsumedList.push(dish);
-                    }
-                });
-            })
-
-            setDishesConsumed(dishesConsumedList);
-
-            console.log(dishesConsumed)
-
-        } catch (error) {
-            console.log(error);
-        }
+        setDishesConsumed(dishesConsumedList);
     }
 
     const deleteDish = async (dishId)=> {

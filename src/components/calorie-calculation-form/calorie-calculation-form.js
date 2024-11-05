@@ -3,10 +3,11 @@ import './calorie-calculation-form.scss';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { getUserApi, setUserDataApi } from '../../api';
+
 import Button from '../button';
 
 const CalorieCalculationForm = ()=> {
-    const getUserURL = 'http://pet.foodtracker.ru/getUser';
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         gender: '',
@@ -24,19 +25,10 @@ const CalorieCalculationForm = ()=> {
     const [ error, setError ] = useState(false);
 
     const getUser = async ()=> {
-        try {
-            const response = await fetch(getUserURL, {
-                method: 'GET',
-                headers: {
-                    'authKey': localStorage.getItem('authKey')
-                }
-            });
+        const response = await getUserApi();
 
-            if (response.status === 401) {
-                navigate('/login');
-            }
-        } catch (error) {
-            console.log(error)
+        if (response.status === 401) {
+            navigate('/login');
         }
     };
 
@@ -52,16 +44,17 @@ const CalorieCalculationForm = ()=> {
     const handleSubmit = (event)=> {
         event.preventDefault();
 
-        if (formData.gender === '' ||
-            formData.height === '' ||
-            formData.weight === '' ||
-            formData.age === '' ||
-            formData.target === '' ||
-            formData.activityLevel === '') {
+        const { gender, height, weight, age, target, activityLevel} = formData;
+
+        if (gender === '' ||
+            height === '' ||
+            weight === '' ||
+            age === '' ||
+            target === '' ||
+            activityLevel === '') {
             setError(true);
         } else {
             setError(false);
-
             setUserData();
         }
     }
@@ -80,23 +73,15 @@ const CalorieCalculationForm = ()=> {
     }
 
     const addUserData = async ()=> {
-        await fetch('http://pet.foodtracker.ru/setUserData', {
-            method: 'PUT',
-            headers: {
-                'authKey': localStorage.getItem('authKey')
-            },
-            body: JSON.stringify(formData)
-        }).then((response) => {
-            switch (response.status) {
-                case 200:
-                    navigate('/diary')
-                    break;
-                default:
-                    alert('Что-то пошло не так')
-            }
-        }).catch((error) => {
-            console.log(error)
-        });
+        const response = await setUserDataApi(formData);
+
+        switch (response.status) {
+            case 200:
+                navigate('/diary')
+                break;
+            default:
+                alert('Что-то пошло не так')
+        }
     }
 
     const calcCalories = (weight, height, age, genderValue, activityLevel,target)=> {

@@ -3,12 +3,13 @@ import './profile.scss';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
+import { getUserDataApi } from '../../../api';
+
 import Title from '../../title';
 import Button from '../../button';
 import PageFooter from '../../page-footer';
 
 const ProfilePage = ()=> {
-    const getUserURL = 'http://pet.foodtracker.ru/getUser';
     const navigate = useNavigate();
     const [user, setUser] = useState({
         name: '',
@@ -24,25 +25,15 @@ const ProfilePage = ()=> {
     }
 
     const getUser = async ()=> {
-        const response = await fetch(getUserURL, {
-            method: 'GET',
-            headers: {
-                'authKey': localStorage.getItem('authKey')
-            }
-        });
-
-        if (response.status === 401) {
-            navigate('/login');
-        }
-
-        const res = await response.json();
+        const response = await getUserDataApi();
+        const result = response.responseJSON;
 
         setUser(prevFormData => ({
             ...prevFormData,
-            name: res.name,
-            weight: JSON.parse(res.data).weight,
-            age: JSON.parse(res.data).age,
-            target: JSON.parse(res.data).target,
+            name: result.name,
+            weight: result.weight,
+            age: result.age,
+            target: result.target,
         }));
     };
 

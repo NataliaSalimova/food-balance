@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import './diary.scss';
 
+import { getUserDataApi, getDishesApi } from '../../../api';
+
 import RatioCalories from '../../ratio-calories';
 import EssentialMacronutrients from '../../essential-macronutrients';
 import Meals from '../../meals';
@@ -10,8 +12,6 @@ import Meals from '../../meals';
 import STORE from "../../../store";
 
 function Diary() {
-    const getUserURL = 'http://pet.foodtracker.ru/getUser';
-
     const [user, setUser] = useState({
         caloriesConsumed: 0,
         carbohydratesConsumed: 0,
@@ -27,52 +27,44 @@ function Diary() {
     const navigate = useNavigate();
 
     const getUser = async ()=> {
-        try {
-            const response = await fetch(getUserURL, {
-                method: 'GET',
-                headers: {
-                    'authKey': localStorage.getItem('authKey')
-                }
-            })
+        const response = await getUserDataApi();
 
-            switch (response.status) {
-                case 200:
-                    const res = await response.json();
+        switch (response.status) {
+            case 200:
+                const res = response.responseJSON;
 
-                    setUser(prevState => ({
-                        ...prevState,
-                        caloriesRemaining: JSON.parse(res.data).calories,
-                        carbohydratesTotal: JSON.parse(res.data).carbohydrates,
-                        proteinsTotal: JSON.parse(res.data).proteins,
-                        fatsTotal: JSON.parse(res.data).fats
-                    }));
+                setUser(prevState => ({
+                    ...prevState,
+                    caloriesRemaining: res.calories,
+                    carbohydratesTotal: res.carbohydrates,
+                    proteinsTotal: res.proteins,
+                    fatsTotal: res.fats
+                }));
 
-                    break;
+                break;
 
-                case 401:
-                    navigate('/login');
-            }
-        } catch (error) {
-            console.log(error)
+            case 401:
+                navigate('/login');
+
+                break;
+
+            default:
+                alert('Что-то пошло не так');
+
+                break;
         }
     };
 
     const getDishes = async ()=> {
-        const response = await fetch('http://pet.foodtracker.ru/diary', {
-            method: 'GET',
-            headers: {
-                'authKey': localStorage.getItem('authKey')
-            }
-        });
+        const result = await getDishesApi();
 
-        const res =  await response.json();
         let calories = 0;
         let carbohydratesConsumed = 0;
         let proteinsConsumed = 0;
         let fatsConsumed = 0;
         let dishes = [];
 
-        res.map((item)=> {
+        result.responseJSON.map((item)=> {
             STORE.DISHES.find((dish)=> {
                 if ((item.dishID === dish.id)) {
                     calories += dish.calories;
