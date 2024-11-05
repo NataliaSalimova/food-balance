@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { setUserApi } from '../../api';
+import { setUserApi } from '../../../api';
 
-import ShowPasswordButton from '../show-password-button';
-import Button from '../button'
+import ShowPassword from '../../buttons/show-password';
+import Button from '../../buttons/base'
 
-const LoginForm = ()=> {
+const Login = ()=> {
     const [formData, setFormData] = useState({
         login: '',
         password: '',
@@ -97,7 +97,7 @@ const LoginForm = ()=> {
 
                 { error && !formData.password && <span className="error">*Пожалуйста, введите ваш пароль</span> }
 
-                <ShowPasswordButton onHandleClick={changeTypePassword}/>
+                <ShowPassword onHandleClick={changeTypePassword}/>
             </div>
 
             { !user && <span className="error error_bottom">*Неверный логин или пароль</span> }
@@ -109,4 +109,4 @@ const LoginForm = ()=> {
     )
 }
 
-export default LoginForm;
+export default Login;

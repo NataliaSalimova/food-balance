@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import './show-password-button.scss';
+import './show-password.scss';
 
-const ShowPasswordButton = ({ onHandleClick })=> {
+const ShowPassword = ({ onHandleClick })=> {
     const [ type, setType ] = useState('password');
 
     const changeTypePassword = (event) => {
@@ -22,4 +22,4 @@ const ShowPasswordButton = ({ onHandleClick })=> {
     )
 }
 
-export default ShowPasswordButton;
+export default ShowPassword;

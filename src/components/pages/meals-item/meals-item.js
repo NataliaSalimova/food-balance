@@ -8,7 +8,7 @@ import { getDishesApi } from '../../../api';
 import Title from '../../title';
 import DishesItem from '../../dishes-item';
 import DishesItemConsumed from '../../dishes-item-consumed';
-import PageFooter from '../../page-footer';
+import Footer from '../../footer';
 
 import STORE from '../../../store';
 
@@ -81,7 +81,7 @@ const MealsItem = () => {
                     })
                 }
             </ul>
-            <PageFooter/>
+            <Footer/>
         </div>
     );
 };

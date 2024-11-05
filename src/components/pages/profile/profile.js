@@ -6,8 +6,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { getUserDataApi } from '../../../api';
 
 import Title from '../../title';
-import Button from '../../button';
-import PageFooter from '../../page-footer';
+import Button from '../../buttons/base';
+import Footer from '../../footer';
 
 const ProfilePage = ()=> {
     const navigate = useNavigate();
@@ -68,7 +68,7 @@ const ProfilePage = ()=> {
             <Link to="/change-target" className="profile-page__button button ta-center">Скорректировать цель</Link>
             <Button handleSubmit={logOut} text={"Выйти"} />
 
-            <PageFooter hiddenLink={'profile'}/>
+            <Footer hiddenLink={'profile'}/>
         </div>
     );
 }

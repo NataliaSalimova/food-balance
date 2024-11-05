@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-import { setUserApi } from '../../api';
+import { setUserApi } from '../../../api';
 
-import ShowPasswordButton from '../show-password-button';
-import Button from '../button';
+import ShowPassword from '../../buttons/show-password';
+import Button from '../../buttons/base';
 
-const RegistrationForm = ()=> {
+const Registration = ()=> {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -137,7 +137,7 @@ const RegistrationForm = ()=> {
                     placeholder="Пароль"
                     value={formData.password}
                     onChange={handleChange}/>
-                <ShowPasswordButton onHandleClick={changeTypePassword}/>
+                <ShowPassword onHandleClick={changeTypePassword}/>
                 {error && !formData.password && <span className="error">*Пожалуйста, введите пароль</span>}
             </div>
             <div className="form__field">
@@ -149,7 +149,7 @@ const RegistrationForm = ()=> {
                     placeholder="Подтверждение пароля"
                     value={formData.confirmPassword}
                     onChange={handleChange}/>
-                <ShowPasswordButton onHandleClick={changeTypeConfirmPassword}/>
+                <ShowPassword onHandleClick={changeTypeConfirmPassword}/>
                 {error && !formData.confirmPassword && <span className="error">*Подтвердите пароль</span>}
             </div>
             {!passwordMatch && <span className="error">Пароли не совпадают!</span>}
@@ -163,4 +163,4 @@ const RegistrationForm = ()=> {
     );
 }
 
-export default RegistrationForm;
+export default Registration;

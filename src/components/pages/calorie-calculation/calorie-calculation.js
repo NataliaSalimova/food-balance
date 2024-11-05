@@ -2,7 +2,7 @@ import './calorie-calculation.scss';
 
 import React from 'react';
 
-import CalorieCalculationForm from '../../calorie-calculation-form';
+import CalorieCalculationForm from '../../forms/calorie-calculation';
 import Title from '../../title';
 
 function calorieCalculationPage () {

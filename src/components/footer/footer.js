@@ -1,9 +1,9 @@
 import React from 'react';
 
-import './page-footer.scss';
+import './footer.scss';
 import {Link} from "react-router-dom";
 
-const PageFooter = ({ hiddenLink })=> {
+const Footer = ({ hiddenLink })=> {
     return (
         <div className="page-footer">
             <Link to="/diary" className={`page-footer__link medium-bold ${hiddenLink === 'diary' ? 'hidden' : ''}`}>
@@ -28,4 +28,4 @@ const PageFooter = ({ hiddenLink })=> {
     )
 }
 
-export default PageFooter;
+export default Footer;

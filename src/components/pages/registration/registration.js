@@ -2,10 +2,10 @@ import React from 'react';
 
 import './registration.scss';
 
-import RegistrationForm from '../../registration-form';
+import RegistrationForm from '../../forms/registration';
 import Title from '../../title';
 
-function RegistrationPage() {
+function Registration() {
     return (
         <div className="registration-page page-container">
             <Title title={"Зарегистрироваться"} className={"registration-page__title"}/>
@@ -16,4 +16,4 @@ function RegistrationPage() {
     );
 }
 
-export default RegistrationPage;
+export default Registration;

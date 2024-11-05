@@ -1,11 +1,11 @@
 import React from 'react';
 
-import './login-page.scss';
+import './login.scss';
 
-import LoginForm from '../../login-form';
+import LoginForm from '../../forms/login';
 import Title from '../../title';
 
-function LoginPage() {
+function Login() {
     return (
         <div className="login-page page-container">
             <Title title={"Войти"} className={"login-page__title"}/>
@@ -16,4 +16,4 @@ function LoginPage() {
     );
 }
 
-export default LoginPage;
+export default Login;

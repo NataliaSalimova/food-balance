@@ -1,13 +1,13 @@
-import './calorie-calculation-form.scss';
+import './calorie-calculation.scss';
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { getUserApi, setUserDataApi } from '../../api';
+import { getUserApi, setUserDataApi } from '../../../api';
 
-import Button from '../button';
+import Button from '../../buttons/base';
 
-const CalorieCalculationForm = ()=> {
+const CalorieCalculation = ()=> {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         gender: '',
@@ -251,4 +251,4 @@ const CalorieCalculationForm = ()=> {
     );
 }
 
-export default CalorieCalculationForm;
+export default CalorieCalculation;

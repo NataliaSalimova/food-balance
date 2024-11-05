@@ -7,8 +7,8 @@ import { getUserDataApi, setUserDataApi } from '../../../api';
 import './change-target.scss';
 
 import Title from '../../title';
-import Button from '../../button';
-import PageFooter from '../../page-footer';
+import Button from '../../buttons/base';
+import Footer from '../../footer';
 
 const ChangeTargetPage = ()=> {
     const navigate = useNavigate();
@@ -215,7 +215,7 @@ const ChangeTargetPage = ()=> {
                 <Button handleSubmit={handleSubmit} text={"Сохранить"} />
             </form>
 
-            <PageFooter/>
+            <Footer/>
         </div>
     )
 }

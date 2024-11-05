@@ -1,8 +1,8 @@
 import React from 'react';
 
-import './button.scss';
+import './base.scss';
 
-const Button = ({handleSubmit, text})=> {
+const Base = ({handleSubmit, text})=> {
     const onClick = (event)=> {
         event.preventDefault();
 
@@ -14,4 +14,4 @@ const Button = ({handleSubmit, text})=> {
     )
 }
 
-export default Button;
+export default Base;

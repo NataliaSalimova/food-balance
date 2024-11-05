@@ -4,10 +4,10 @@ import '../common/common.scss';
 import { React } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import HomePage from '../pages/home-page';
+import Home from '../pages/home';
 import Diary from '../pages/diary';
-import LoginPage from '../pages/login-page';
-import RegistrationPage from '../pages/registration-page';
+import Login from '../pages/login';
+import Registration from '../pages/registration';
 import CalorieCalculation from '../pages/calorie-calculation';
 import ProfilePage from '../pages/profile';
 import MealsItemPage from '../pages/meals-item';
@@ -19,15 +19,15 @@ function App() {
           <Routes>
               <Route
                   path="/"
-                  element={<HomePage/>}>
+                  element={<Home/>}>
               </Route>
               <Route
                   path="/login"
-                  element={<LoginPage/>}>
+                  element={<Login/>}>
               </Route>
               <Route
                   path="/registration"
-                  element={<RegistrationPage/>}>
+                  element={<Registration/>}>
               </Route>
               <Route
                   path="/diary"

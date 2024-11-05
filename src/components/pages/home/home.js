@@ -1,9 +1,9 @@
-import './home-page.scss';
+import './home.scss';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function HomePage() {
+function Home() {
     return (
         <div className="home-page">
             <div className="home-page__main page-container">
@@ -23,4 +23,4 @@ function HomePage() {
     );
 }
 
-export default HomePage;
+export default Home;
