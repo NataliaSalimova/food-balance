@@ -1,7 +1,8 @@
-const baseApi = 'http://194.147.33.39';
+const BASE_API = 'http://194.147.33.39';
+const AUTH_KEY = 'authKey';
 
 const setUserApi = async (url, data)=> {
-    const response = await fetch(`${baseApi}/${url}`, {
+    const response = await fetch(`${BASE_API}/${url}`, {
         method: 'POST',
         body: JSON.stringify(data),
     });
@@ -13,10 +14,10 @@ const setUserApi = async (url, data)=> {
 }
 
 const getUserApi = async ()=> {
-    const response = await fetch(`${baseApi}/getUser`, {
+    const response = await fetch(`${BASE_API}/getUser`, {
         method: 'GET',
         headers: {
-            'authKey': localStorage.getItem('authKey')
+            'authKey': localStorage.getItem(AUTH_KEY)
         }
     });
 
@@ -26,10 +27,10 @@ const getUserApi = async ()=> {
 };
 
 const setUserDataApi = async (data)=> {
-    const response = await fetch(`${baseApi}/setUserData`, {
+    const response = await fetch(`${BASE_API}/setUserData`, {
         method: 'PUT',
         headers: {
-            'authKey': localStorage.getItem('authKey')
+            'authKey': localStorage.getItem(AUTH_KEY)
         },
         body: JSON.stringify(data)
     });
@@ -40,10 +41,10 @@ const setUserDataApi = async (data)=> {
 }
 
 const saveDishApi = async (data)=> {
-    const response = await fetch(`${baseApi}/diary}`, {
+    const response = await fetch(`${BASE_API}/diary}`, {
         method: 'PUT',
         headers: {
-            'authKey': localStorage.getItem('authKey')
+            'authKey': localStorage.getItem(AUTH_KEY)
         },
         body: JSON.stringify(data)
     });
@@ -55,10 +56,10 @@ const saveDishApi = async (data)=> {
 }
 
 const deleteDishApi = async (id)=> {
-    const response = await fetch(`${baseApi}/diary/${id}`, {
+    const response = await fetch(`${BASE_API}/diary/${id}`, {
         method: 'DELETE',
         headers: {
-            'authKey': localStorage.getItem('authKey'),
+            'authKey': localStorage.getItem(AUTH_KEY),
             'date': new Date().toISOString()
         }
     })
@@ -69,10 +70,10 @@ const deleteDishApi = async (id)=> {
 }
 
 const getUserDataApi = async ()=> {
-    const response = await fetch(`${baseApi}/getUserData`, {
+    const response = await fetch(`${BASE_API}/getUserData`, {
         method: 'GET',
         headers: {
-            'authKey': localStorage.getItem('authKey')
+            'authKey': localStorage.getItem(AUTH_KEY)
         }
     });
 
@@ -83,10 +84,10 @@ const getUserDataApi = async ()=> {
 };
 
 const getDishesApi = async ()=> {
-    const response = await fetch(`${baseApi}/diary`, {
+    const response = await fetch(`${BASE_API}/diary`, {
         method: 'GET',
         headers: {
-            'authKey': localStorage.getItem('authKey')
+            'authKey': localStorage.getItem(AUTH_KEY)
         }
     });
 

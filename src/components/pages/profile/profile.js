@@ -5,6 +5,8 @@ import { useNavigate, Link } from 'react-router-dom';
 
 import { getUserDataApi } from '../../../api';
 
+import { TARGET_LIST } from '../../forms/calorie-calculation/calorie-calculation.constants';
+
 import Title from '../../title';
 import Button from '../../buttons/base';
 import Footer from '../../footer';
@@ -18,11 +20,11 @@ const ProfilePage = ()=> {
         weight: ''
     });
 
-    const targetText = {
-        0.8: 'Снизить вес',
-        1: 'Поддержать текущий вес',
-        1.1: 'Набрать вес'
-    }
+    const targetMap = new Map();
+
+    targetMap.set(TARGET_LIST[0].value, TARGET_LIST[0].text)
+        .set(TARGET_LIST[1].value, TARGET_LIST[1].text)
+        .set(TARGET_LIST[2].value, TARGET_LIST[2].text);
 
     const getUser = async ()=> {
         const response = await getUserDataApi();
@@ -61,7 +63,7 @@ const ProfilePage = ()=> {
                         Текущий вес <strong className="profile-page-data__item-value">{ user.weight }</strong>
                     </li>
                     <li className="profile-page-data__item">
-                        Цель <strong className="profile-page-data__item-value">{ targetText[user.target] }</strong>
+                        Цель <strong className="profile-page-data__item-value">{ targetMap.get(user.target) }</strong>
                     </li>
                 </ul>
             </div>

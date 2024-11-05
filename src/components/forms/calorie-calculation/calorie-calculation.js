@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { getUserApi, setUserDataApi } from '../../../api';
 
+import { TARGET_LIST, ACTIVITY_LEVEL_LIST } from './calorie-calculation.constants';
+
 import Button from '../../buttons/base';
 
 const CalorieCalculation = ()=> {
@@ -102,44 +104,6 @@ const CalorieCalculation = ()=> {
         return Math.round(calories * 0.4 / 9);
     }
 
-    const targetList = [
-        {
-            value: 0.8,
-            text: 'Снизить вес'
-        },
-        {
-            value: 1,
-            text: 'Поддержать текущий вес'
-        },
-        {
-            value: 1.1,
-            text: 'Набрать вес'
-        }
-    ]
-
-    const activityLevelList = [
-        {
-            value: 1.2,
-            text: 'Нет физических нагрузок и сидячая работа'
-        },
-        {
-            value: 1.375,
-            text: 'Небольшие пробежки или делаете легкую гимнастику 1–3 раза в неделю'
-        },
-        {
-            value: 1.55,
-            text: 'Вы занимаетесь спортом со средними нагрузками 3–5 раз в неделю'
-        },
-        {
-            value: 1.725,
-            text: 'Вы полноценно тренируетесь 6–7 раз в неделю'
-        },
-        {
-            value: 1.9,
-            text: 'Ваша работа связана с физическим трудом, вы тренируетесь 2 раза в день и включаете в программу тренировок силовые упражнения'
-        }
-    ]
-
     useEffect(()=> {
         getUser();
     }, []);
@@ -215,7 +179,7 @@ const CalorieCalculation = ()=> {
                 <select className="form__input _select" name="target" onChange={handleChange}>
                     <option>Выберите цель</option>
                     {
-                        targetList.map((item,index)=> {
+                        TARGET_LIST.map((item,index)=> {
                             return (
                                 <option
                                     key={index}
@@ -232,7 +196,7 @@ const CalorieCalculation = ()=> {
             <div className="form__field">
                 <select className="form__input _select" name="activityLevel" onChange={handleChange}>
                     {
-                        activityLevelList.map((item,index)=> {
+                        ACTIVITY_LEVEL_LIST.map((item,index)=> {
                             return (
                                 <option
                                     key={index}
