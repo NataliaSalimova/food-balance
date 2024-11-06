@@ -2,10 +2,10 @@ import React from 'react';
 
 import './title.scss';
 
-const Title = ({title, className})=> {
+const Title = ({children, className})=> {
     return (
         <h1 className={`page-title bold ${className}`}>
-            { title }
+            { children }
         </h1>
     )
 }

@@ -1,19 +1,19 @@
 import React from 'react';
 
-import './ratio-calories.scss';
+import styles from './ratio-calories.module.scss';
 const RatioCalories = ({ caloriesConsumed, caloriesRemaining })=> {
     return (
         <div className="ratio-calories">
-            <ul className="ratio-calories__list ta-center">
-                <li className="ratio-calories__item">
-                    <p className="ratio-calories__ccal bold">{caloriesConsumed} ккал</p>
-                    <p className="ratio-calories__title medium-bold uppercase">
+            <ul className={`${styles.list} ta-center`}>
+                <li className={styles.item}>
+                    <p className={`${styles.ccal} bold`}>{caloriesConsumed} ккал</p>
+                    <p className={`${styles.title} medium-bold uppercase`}>
                         Потребление
                     </p>
                 </li>
-                <li className="ratio-calories__item">
-                    <p className="ratio-calories__ccal bold">{caloriesRemaining - caloriesConsumed} ккал</p>
-                    <p className="ratio-calories__title medium-bold uppercase">
+                <li className={styles.item}>
+                    <p className={`${styles.ccal} bold`}>{caloriesRemaining - caloriesConsumed} ккал</p>
+                    <p className={`${styles.title} medium-bold uppercase`}>
                         Осталось
                     </p>
                 </li>

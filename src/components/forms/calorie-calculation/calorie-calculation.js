@@ -210,7 +210,9 @@ const CalorieCalculation = ()=> {
                 </select>
                 {error && !formData.activityLevel && <span className="error">*Пожалуйста, выберите уровень активности</span>}
             </div>
-            <Button handleSubmit={handleSubmit} text={"Рассчитать"} />
+            <Button handleSubmit={handleSubmit}>
+                Рассчитать
+            </Button>
         </form>
     );
 }

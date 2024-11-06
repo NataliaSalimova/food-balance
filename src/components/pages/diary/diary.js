@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import './diary.scss';
+import styles from './diary.module.scss';
 
 import { getUserDataApi, getDishesApi } from '../../../api';
 
@@ -93,13 +93,12 @@ function Diary() {
 
     return (
         <div className="diary-page page-container">
-            <div className="diary-page__header">
-                <Link to='/' className="diary-page__link">
+            <div className={styles.header}>
+                <Link to='/' className={styles.link}>
                     FoodBalance
                 </Link>
-                <Link to='/profile' className="page-link diary-page__profile-link">
+                <Link to='/profile' className={`page-link ${styles.link}`}>
                     <img src="/images/profile.png"
-                        className="diary-page-profile-image"
                         width="25"
                         height="25"
                         alt="Icon profile"/>

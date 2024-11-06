@@ -10,7 +10,7 @@ import {
     ACTIVITY_LEVEL_LIST
 } from '../../forms/calorie-calculation/calorie-calculation.constants';
 
-import './change-target.scss';
+import styles from './change-target.module.scss';
 
 import Title from '../../title';
 import Button from '../../buttons/base';
@@ -76,17 +76,21 @@ const ChangeTargetPage = ()=> {
     }, [])
 
     return (
-        <div className="change-target-page page-container">
-            <Title title={"Изменить цель"} className={"change-target-page__title"}/>
+        <div className="page-container">
+            <Title className={styles.title}>
+                Изменить цель
+            </Title>
 
-            {success && <p className="change-target-page__success-text bold ta-center">Данные успешно обновлены</p>}
+            {success && <p className={`${styles.successText} bold ta-center`}>
+                Данные успешно обновлены
+            </p>}
 
-            <form className="change-target-page__form">
-                <div className="change-target-page__field">
-                    <label className="change-target-page__label">Текущий вес:</label>
+            <form className={styles.form}>
+                <div className={styles.form__field}>
+                    <label>Текущий вес:</label>
                     <div>
                         <input
-                            className="change-target-page__input bold"
+                            className={`${styles.form__input} bold`}
                             type="text"
                             value={formData.weight}
                             onChange={handleChange}
@@ -95,11 +99,11 @@ const ChangeTargetPage = ()=> {
                     </div>
 
                 </div>
-                <div className="change-target-page__field">
-                    <label className="change-target-page__label">Рост:</label>
+                <div className={styles.form__field}>
+                    <label>Рост:</label>
                     <div>
                         <input
-                            className="change-target-page__input bold"
+                            className={`${styles.form__input} bold`}
                             type="text"
                             value={formData.height}
                             onChange={handleChange}
@@ -107,11 +111,11 @@ const ChangeTargetPage = ()=> {
                         <span className="bold"> см</span>
                     </div>
                 </div>
-                <div className="change-target-page__field">
-                    <label className="change-target-page__label">Возраст:</label>
+                <div className={styles.form__field}>
+                    <label>Возраст:</label>
                     <div>
                         <input
-                            className="change-target-page__input bold"
+                            className={`${styles.form__input} bold`}
                             type="text"
                             value={formData.age}
                             onChange={handleChange}
@@ -120,9 +124,9 @@ const ChangeTargetPage = ()=> {
                     </div>
 
                 </div>
-                <div className="change-target-page__field">
-                    <label className="change-target-page__label">Пол:</label>
-                    <select className="change-target-page__input bold" name="gender" onChange={handleChange}>
+                <div className={styles.form__field}>
+                    <label>Пол:</label>
+                    <select className={`${styles.form__input} bold`} name="gender" onChange={handleChange}>
                         {
                             GENDER_LIST.map((item,index)=> {
                                 return (
@@ -137,9 +141,9 @@ const ChangeTargetPage = ()=> {
                         }
                     </select>
                 </div>
-                <div className="change-target-page__field">
-                    <label className="change-target-page__label">Уровень активности:</label>
-                    <select className="change-target-page__input bold" name="activityLevel" onChange={handleChange}>
+                <div className={styles.form__field}>
+                    <label>Уровень активности:</label>
+                    <select className={`${styles.form__input} bold`} name="activityLevel" onChange={handleChange}>
                         {
                             ACTIVITY_LEVEL_LIST.map((item,index)=> {
                                 return (
@@ -154,9 +158,9 @@ const ChangeTargetPage = ()=> {
                         }
                     </select>
                 </div>
-                <div className="change-target-page__field">
-                    <label className="change-target-page__label">Цель:</label>
-                    <select className="change-target-page__input bold" name="target" onChange={handleChange}>
+                <div className={styles.form__field}>
+                    <label>Цель:</label>
+                    <select className={`${styles.form__input} bold`} name="target" onChange={handleChange}>
                         {
                             TARGET_LIST.map((item,index)=> {
                                 return (
@@ -172,7 +176,9 @@ const ChangeTargetPage = ()=> {
                     </select>
                 </div>
 
-                <Button handleSubmit={handleSubmit} text={"Сохранить"} />
+                <Button handleSubmit={handleSubmit}>
+                    Сохранить
+                </Button>
             </form>
 
             <Footer/>

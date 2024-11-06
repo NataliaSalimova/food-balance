@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { deleteDishApi } from '../../api';
 
-import './dishes-item-consumed.scss';
+import styles from './dishes-item-consumed.module.scss';
 
 const DishesItemConsumed = ( { item, onClick })=> {
     const navigate = useNavigate();
@@ -22,11 +22,11 @@ const DishesItemConsumed = ( { item, onClick })=> {
     }
 
     return (
-        <li className="dishes-list-consumed-item" key={item.id}>
-            <p className="dishes-list-consumed-item__title">
+        <li className={styles.item} key={item.id}>
+            <p className={styles.item__title}>
                 {item.name}
             </p>
-            <button className="dishes-list-consumed-item__button medium-bold"
+            <button className={`${styles.item__button} medium-bold`}
                 data-dish-id={item.dishId}
                 onClick={deleteDish}>X</button>
         </li>

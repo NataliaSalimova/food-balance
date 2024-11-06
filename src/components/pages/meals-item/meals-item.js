@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import './meals-item.scss';
+import styles from './meals-item.module.scss';
 
 import { getDishesApi } from '../../../api';
 
@@ -62,9 +62,11 @@ const MealsItem = () => {
 
     return (
         <div className="meals-item-page page-container">
-            <Title title={ currentMeal.title } className={"meals-item-page__title ta-center"} />
+            <Title className={`${styles.title} ta-center`}>
+                { currentMeal.title }
+            </Title>
 
-            <ul className="dishes-list-consumed">
+            <ul className={styles.list}>
                 {
                     dishesConsumed.map((item)=> {
                         return <DishesItemConsumed item={item} onClick={deleteDish} key={item.id}/>
@@ -72,7 +74,7 @@ const MealsItem = () => {
                 }
             </ul>
 
-            <ul className="dishes-list">
+            <ul className={styles.list}>
                 {
                     STORE.DISHES.map((item)=> {
                         if (item.type === mealsId) {

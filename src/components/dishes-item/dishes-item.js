@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { saveDishApi } from '../../api';
 
-import './dishes-item.scss';
+import styles from './dishes-item.module.scss';
 
 const DishesItem = ({ onClick, item }) => {
     const navigate = useNavigate();
@@ -38,17 +38,17 @@ const DishesItem = ({ onClick, item }) => {
     }
 
     return (
-        <li className="dishes-item">
-            <div className="dishes-item__container">
-                <div className="dishes-item__description">
-                    <p className="dishes-item__name">
+        <li className={styles.item}>
+            <div className={styles.item__container}>
+                <div>
+                    <p className={styles.item__name}>
                         {item.name}
                     </p>
-                    <p className="dishes-item__calories">
+                    <p className={styles.item__calories}>
                         {item.calories} ккал
                     </p>
                 </div>
-                <button className="dishes-item__button medium-bold"
+                <button className={`${styles.item__button} medium-bold`}
                     data-store-dish-id={item.id}
                     data-dish-id={item.dishID}
                     onClick={handleClick}>+</button>

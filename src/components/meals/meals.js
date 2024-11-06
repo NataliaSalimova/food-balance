@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './meals.scss';
+import styles from './meals.module.scss';
 
 import MealsItem from '../meals-item';
 
@@ -9,7 +9,7 @@ import STORE from '../../store';
 const Meals = ({ dishesConsumed })=> {
     return (
         <div className="meals">
-            <ul className="meals__list">
+            <ul className={styles.list}>
                 {
                     STORE.MEALS.map((item, index)=> {
                         return (

@@ -157,7 +157,9 @@ const Registration = ()=> {
             {user && <span className="error">
                 *Пользователь с таким логином уже зарегистирован. Используйте другой логин или перейдите на <Link to="/login">страницу входа</Link>
             </span>}
-            <Button handleSubmit={handleSubmit} text={"Зарегистрироваться"} />
+            <Button handleSubmit={handleSubmit}>
+                Зарегистрироваться
+            </Button>
             <Link to="/login" className="button ta-center">Войти</Link>
         </form>
     );

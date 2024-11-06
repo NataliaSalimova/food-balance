@@ -102,7 +102,9 @@ const Login = ()=> {
 
             { !user && <span className="error error_bottom">*Неверный логин или пароль</span> }
 
-            <Button handleSubmit={handleSubmit} text={"Войти"}/>
+            <Button handleSubmit={handleSubmit}>
+                Войти
+            </Button>
 
             <Link to="/registration" className="button ta-center">Зарегистрироваться</Link>
         </form>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './essential-macronutrients.scss';
+import styles from './essential-macronutrients.module.scss';
 
 const EssentialMacronutrients = ({
     carbohydratesTotal, 
@@ -12,22 +12,22 @@ const EssentialMacronutrients = ({
     })=> {
 
     return (
-        <ul className="essential-macronutrients">
-            <li className="essential-macronutrients__item">
-                <p className="essential-macronutrients__title bold">Углеводы</p>
-                <p className="essential-macronutrients__value">
+        <ul className={styles.list}>
+            <li className={styles.item}>
+                <p className={`${styles.item__title} bold`}>Углеводы</p>
+                <p className={styles.item__value}>
                     {carbohydratesConsumed} / {carbohydratesTotal} г
                 </p>
             </li>
-            <li className="essential-macronutrients__item">
-                <p className="essential-macronutrients__title bold">Белки</p>
-                <p className="essential-macronutrients__value">
+            <li className={styles.item}>
+                <p className={`${styles.item__title} bold`}>Белки</p>
+                <p className={styles.item__value}>
                     {proteinsConsumed} / {proteinsTotal} г
                 </p>
             </li>
-            <li className="essential-macronutrients__item">
-                <p className="essential-macronutrients__title bold">Жиры</p>
-                <p className="essential-macronutrients__value">
+            <li className={styles.item}>
+                <p className={`${styles.item__title} bold`}>Жиры</p>
+                <p className={styles.item__value}>
                     {fatsConsumed} / {fatsTotal} г
                 </p>
             </li>

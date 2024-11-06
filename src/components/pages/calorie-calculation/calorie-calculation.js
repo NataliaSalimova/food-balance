@@ -1,4 +1,4 @@
-import './calorie-calculation.scss';
+import styles from './calorie-calculation.module.scss';
 
 import React from 'react';
 
@@ -7,8 +7,10 @@ import Title from '../../title';
 
 function calorieCalculationPage () {
     return (
-        <div className="calorie-calculation-page page-container">
-            <Title title={"Расчет калорий"} className={"calorie-calculation-page__title"}/>
+        <div className="page-container">
+            <Title className={styles.title}>
+                Расчет калорий
+            </Title>
             <div className="calorie-calculation__main">
                 <CalorieCalculationForm/>
             </div>

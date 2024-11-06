@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import './meals-item.scss';
+import styles from './meals-item.module.scss';
 
 import STORE from '../../store';
 
@@ -37,19 +37,21 @@ const MealsItem = ({ meal, dishes }) => {
     }, [dishes])
 
     return (
-        <li className="meals-item">
-            <div className="meals-item__description">
-                <p className="meals-item__title">{meal.title}</p>
+        <li className={styles.item}>
+            <div>
+                <p className={styles.item__title}>{meal.title}</p>
                 {
                     dishesConsumed.map((item, index)=> {
                         return (
-                            <p className="meals-item__text" key={index}>{ item.name }</p>
+                            <p className={styles.item__text} key={index}>{ item.name }</p>
                         )
                     })
                 }
             </div>
-            <Link to={meal.type} className="meals-item__button ta-center">+</Link>
-            <p className={`meals-item__calories ta-center ${!caloriesConsumed[meal.type] ? 'hidden' : ''}`}>{caloriesConsumed[meal.type]} ккал</p>
+            <Link to={meal.type} className={`${styles.item__button} ta-center`}>+</Link>
+            <p className={`${styles.item__calories} ${!caloriesConsumed[meal.type] ? 'hidden' : ''}`}>
+                {caloriesConsumed[meal.type]} ккал
+            </p>
         </li>
     )
 }

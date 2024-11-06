@@ -1,4 +1,4 @@
-import './profile.scss';
+import styles from './profile.module.scss';
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { getUserDataApi } from '../../../api';
 
 import { TARGET_LIST } from '../../forms/calorie-calculation/calorie-calculation.constants';
+import { AUTH_KEY } from '../../../api/api.constants';
 
 import Title from '../../title';
 import Button from '../../buttons/base';
@@ -40,7 +41,7 @@ const ProfilePage = ()=> {
     };
 
     const logOut = ()=> {
-        localStorage.removeItem('authKey');
+        localStorage.removeItem(AUTH_KEY);
         navigate('/');
     }
 
@@ -50,25 +51,29 @@ const ProfilePage = ()=> {
 
     return (
         <div className="profile-page page-container">
-            <Title title={"Профиль"} className={"profile-page__title"}/>
-            <p className="profile-page__name">
+            <Title className={styles.title}>
+                Профиль
+            </Title>
+            <p className={styles.name}>
                 { user.name }
             </p>
-            <p className="profile-page__age">
+            <p className={styles.age}>
                 Возраст: { user.age }
             </p>
-            <div className="profile-page-data">
-                <ul className="profile-page-data__list">
-                    <li className="profile-page-data__item">
-                        Текущий вес <strong className="profile-page-data__item-value">{ user.weight }</strong>
+            <div className={styles.data}>
+                <ul className={styles.list}>
+                    <li className={styles.item}>
+                        Текущий вес <strong className={styles.itemValue}>{ user.weight }</strong>
                     </li>
-                    <li className="profile-page-data__item">
-                        Цель <strong className="profile-page-data__item-value">{ targetMap.get(user.target) }</strong>
+                    <li className={styles.item}>
+                        Цель <strong className={styles.itemValue}>{ targetMap.get(user.target) }</strong>
                     </li>
                 </ul>
             </div>
-            <Link to="/change-target" className="profile-page__button button ta-center">Скорректировать цель</Link>
-            <Button handleSubmit={logOut} text={"Выйти"} />
+            <Link to="/change-target" className="button ta-center">Скорректировать цель</Link>
+            <Button handleSubmit={logOut}>
+                Выйти
+            </Button>
 
             <Footer hiddenLink={'profile'}/>
         </div>

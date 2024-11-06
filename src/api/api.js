@@ -1,8 +1,11 @@
-const BASE_API = 'http://194.147.33.39';
-const AUTH_KEY = 'authKey';
+import { BASE_API_URL, AUTH_KEY } from './api.constants';
+
+const headers = {
+    AUTH_KEY: localStorage.getItem(AUTH_KEY)
+}
 
 const setUserApi = async (url, data)=> {
-    const response = await fetch(`${BASE_API}/${url}`, {
+    const response = await fetch(`${BASE_API_URL}/${url}`, {
         method: 'POST',
         body: JSON.stringify(data),
     });
@@ -14,11 +17,9 @@ const setUserApi = async (url, data)=> {
 }
 
 const getUserApi = async ()=> {
-    const response = await fetch(`${BASE_API}/getUser`, {
+    const response = await fetch(`${BASE_API_URL}/getUser`, {
         method: 'GET',
-        headers: {
-            'authKey': localStorage.getItem(AUTH_KEY)
-        }
+        headers
     });
 
     return {
@@ -27,11 +28,9 @@ const getUserApi = async ()=> {
 };
 
 const setUserDataApi = async (data)=> {
-    const response = await fetch(`${BASE_API}/setUserData`, {
+    const response = await fetch(`${BASE_API_URL}/setUserData`, {
         method: 'PUT',
-        headers: {
-            'authKey': localStorage.getItem(AUTH_KEY)
-        },
+        headers,
         body: JSON.stringify(data)
     });
 
@@ -41,11 +40,9 @@ const setUserDataApi = async (data)=> {
 }
 
 const saveDishApi = async (data)=> {
-    const response = await fetch(`${BASE_API}/diary}`, {
+    const response = await fetch(`${BASE_API_URL}/diary}`, {
         method: 'PUT',
-        headers: {
-            'authKey': localStorage.getItem(AUTH_KEY)
-        },
+        headers,
         body: JSON.stringify(data)
     });
 
@@ -56,7 +53,7 @@ const saveDishApi = async (data)=> {
 }
 
 const deleteDishApi = async (id)=> {
-    const response = await fetch(`${BASE_API}/diary/${id}`, {
+    const response = await fetch(`${BASE_API_URL}/diary/${id}`, {
         method: 'DELETE',
         headers: {
             'authKey': localStorage.getItem(AUTH_KEY),
@@ -70,11 +67,9 @@ const deleteDishApi = async (id)=> {
 }
 
 const getUserDataApi = async ()=> {
-    const response = await fetch(`${BASE_API}/getUserData`, {
+    const response = await fetch(`${BASE_API_URL}/getUserData`, {
         method: 'GET',
-        headers: {
-            'authKey': localStorage.getItem(AUTH_KEY)
-        }
+        headers
     });
 
     return {
@@ -84,11 +79,9 @@ const getUserDataApi = async ()=> {
 };
 
 const getDishesApi = async ()=> {
-    const response = await fetch(`${BASE_API}/diary`, {
+    const response = await fetch(`${BASE_API_URL}/diary`, {
         method: 'GET',
-        headers: {
-            'authKey': localStorage.getItem(AUTH_KEY)
-        }
+        headers
     });
 
     return {
