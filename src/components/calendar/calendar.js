@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
+import { CURRENT_DATE, ONE_DAY } from './calendar.constants';
+
 import styles from './calendar.module.scss';
 
 const Calendar = ()=> {
     const [ date, setDate ] = useState();
-    const [ currentDate, setCurrentDate ] = useState(new Date(localStorage.getItem('currentDate') ?? new Date()));
+    const [ currentDate, setCurrentDate ] = useState(new Date(localStorage.getItem(CURRENT_DATE) ?? new Date()));
 
     const setFormattedDate = (date)=> {
         const day = date.getDate();
@@ -15,7 +17,7 @@ const Calendar = ()=> {
     }
 
     const saveDate = (date)=> {
-        localStorage.setItem('currentDate', date);
+        localStorage.setItem(CURRENT_DATE, date);
     }
 
     const updateDate = (date = new Date())=> {
@@ -24,12 +26,10 @@ const Calendar = ()=> {
     }
 
     const changeDate = (event)=> {
-        const oneDay = 24 * 60 * 60 * 1000;
-
         setCurrentDate(
             event.target.classList.contains('_prev')
-                ? new Date(currentDate.getTime() - oneDay)
-                : new Date(currentDate.getTime() + oneDay)
+                ? new Date(currentDate.getTime() - ONE_DAY)
+                : new Date(currentDate.getTime() + ONE_DAY)
         )
 
         updateDate(currentDate);
