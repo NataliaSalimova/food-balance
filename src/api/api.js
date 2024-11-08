@@ -1,9 +1,5 @@
 import { BASE_API_URL, AUTH_KEY } from './api.constants';
 
-const headers = {
-    AUTH_KEY: localStorage.getItem(AUTH_KEY)
-}
-
 const setUserApi = async (url, data)=> {
     const response = await fetch(`${BASE_API_URL}/${url}`, {
         method: 'POST',
@@ -19,7 +15,9 @@ const setUserApi = async (url, data)=> {
 const getUserApi = async ()=> {
     const response = await fetch(`${BASE_API_URL}/getUser`, {
         method: 'GET',
-        headers
+        headers: {
+            'authKey': localStorage.getItem(AUTH_KEY)
+        }
     });
 
     return {
@@ -30,7 +28,9 @@ const getUserApi = async ()=> {
 const setUserDataApi = async (data)=> {
     const response = await fetch(`${BASE_API_URL}/setUserData`, {
         method: 'PUT',
-        headers,
+        headers: {
+            'authKey': localStorage.getItem(AUTH_KEY)
+        },
         body: JSON.stringify(data)
     });
 
@@ -40,9 +40,11 @@ const setUserDataApi = async (data)=> {
 }
 
 const saveDishApi = async (data)=> {
-    const response = await fetch(`${BASE_API_URL}/diary}`, {
+    const response = await fetch(`${BASE_API_URL}/diary`, {
         method: 'PUT',
-        headers,
+        headers: {
+            'authKey': localStorage.getItem(AUTH_KEY)
+        },
         body: JSON.stringify(data)
     });
 
@@ -69,7 +71,9 @@ const deleteDishApi = async (id)=> {
 const getUserDataApi = async ()=> {
     const response = await fetch(`${BASE_API_URL}/getUserData`, {
         method: 'GET',
-        headers
+        headers: {
+            'authKey': localStorage.getItem(AUTH_KEY)
+        }
     });
 
     return {
@@ -81,7 +85,9 @@ const getUserDataApi = async ()=> {
 const getDishesApi = async ()=> {
     const response = await fetch(`${BASE_API_URL}/diary`, {
         method: 'GET',
-        headers
+        headers: {
+            'authKey': localStorage.getItem(AUTH_KEY)
+        }
     });
 
     return {

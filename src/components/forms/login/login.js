@@ -3,8 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { setUserApi } from '../../../api';
 
+import Field from '../field';
 import ShowPassword from '../../buttons/show-password';
-import Button from '../../buttons/base'
+import Button from '../../buttons/base';
 
 const Login = ()=> {
     const [formData, setFormData] = useState({
@@ -67,35 +68,24 @@ const Login = ()=> {
 
     return (
         <form className="form">
-            <div className="form__field">
-                <label
-                    className="form__label">
-                    Логин
-                </label>
-                <input
-                    className="form__input"
-                    name="login"
-                    placeholder="Логин"
-                    id="login"
-                    value={formData.login}
-                    onChange={handleChange}/>
-                {error && !formData.login && <span className="error">*Пожалуйста, введите ваш логин</span>}
-            </div>
-            <div className="form__field">
-                <label
-                    className="form__label">
-                    Пароль
-                </label>
-                <input
-                    className="form__input"
-                    name="password"
-                    type={formData.type}
-                    placeholder="Пароль"
-                    id="password"
+            <Field
+                label={'Логин'}
+                id={'login'}
+                value={formData.login}
+                onChange={handleChange}
+                error={error}
+                errorText={'*Пожалуйста, введите ваш логин'}
+            />
+            <div className="form__password">
+                <Field
+                    label={'Пароль'}
+                    id={'password'}
                     value={formData.password}
-                    onChange={handleChange}/>
-
-                { error && !formData.password && <span className="error">*Пожалуйста, введите ваш пароль</span> }
+                    type={formData.type}
+                    onChange={handleChange}
+                    error={error}
+                    errorText={'*Пожалуйста, введите ваш пароль'}
+                />
 
                 <ShowPassword onHandleClick={changeTypePassword}/>
             </div>
@@ -106,7 +96,7 @@ const Login = ()=> {
                 Войти
             </Button>
 
-            <Link to="/registration" className="button ta-center">Зарегистрироваться</Link>
+            <Link to="/registration" className="form__link ta-center">Зарегистрироваться</Link>
         </form>
     )
 }

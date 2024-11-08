@@ -16,7 +16,7 @@ const ShowPassword = ({ onHandleClick })=> {
     }, [type])
 
     return (
-        <button className={`${styles.button} ${type === 'text' ? 'show' : ''}`} onClick={changeTypePassword}>
+        <button className={`${styles.button} ${type === 'text' ? styles.show : ''}`} onClick={changeTypePassword}>
             <img src="/images/show-password.png" width="25" height="25" alt="Show password" />
         </button>
     )

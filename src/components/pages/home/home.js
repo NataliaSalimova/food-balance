@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 
 function Home() {
     return (
-        <div className="home-page">
-            <div className="home-page__main page-container">
+        <div className={styles.page}>
+            <div className={`${styles.page__main} page-container`}>
                 <h1 className={styles.title}>
                     Добро пожаловать в<br/> <i>FoodBalance</i>
                 </h1>

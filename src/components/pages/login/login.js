@@ -7,7 +7,7 @@ import Title from '../../title';
 
 function Login() {
     return (
-        <div className="login-page page-container">
+        <div className="login page-container">
             <Title className={styles.title}>
                 Войти
             </Title>

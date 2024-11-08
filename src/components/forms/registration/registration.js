@@ -5,6 +5,7 @@ import { setUserApi } from '../../../api';
 
 import ShowPassword from '../../buttons/show-password';
 import Button from '../../buttons/base';
+import Field from '../field';
 
 const Registration = ()=> {
     const [formData, setFormData] = useState({
@@ -95,67 +96,60 @@ const Registration = ()=> {
 
     return (
         <form className="form">
-            <div className="form__field">
-                <label className="form__label">Имя</label>
-                <input
-                    className="form__input"
-                    name="name"
-                    placeholder="Имя"
-                    type="text"
-                    value={formData.name}
-                    onChange={handleChange}/>
-                {error && !formData.name && <span className="error">*Пожалуйста, введите ваше имя</span>}
-            </div>
-            <div className="form__field">
-                <label className="form__label">Логин</label>
-                <input
-                    className="form__input"
-                    name="login"
-                    placeholder="Логин"
-                    type="text"
-                    value={formData.login}
-                    onChange={handleChange}/>
-                {error && !formData.login && <span className="error">*Пожалуйста, введите ваш логин</span>}
-            </div>
-            <div className="form__field">
-                <label className="form__label">Email</label>
-                <input
-                    className="form__input"
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}/>
-                {error && !formData.email && <span className="error">*Пожалуйста, введите ваш email</span>}
-            </div>
-            <div className="form__field">
-                <label className="form__label">Пароль</label>
-                <input
-                    className="form__input"
-                    type={formData.passwordType}
-                    name="password"
-                    placeholder="Пароль"
+            <Field
+                label={'Имя'}
+                name={'name'}
+                value={formData.name}
+                onChange={handleChange}
+                error={error}
+                errorText={'*Пожалуйста, введите ваше имя'}
+            />
+            <Field
+                label={'Логин'}
+                name={'login'}
+                value={formData.login}
+                onChange={handleChange}
+                error={error}
+                errorText={'*Пожалуйста, введите ваш логин'}
+            />
+            <Field
+                label={'Email'}
+                name={'email'}
+                value={formData.email}
+                type={'email'}
+                onChange={handleChange}
+                error={error}
+                errorText={'*Пожалуйста, введите ваш email'}
+            />
+            <div className="form__password">
+                <Field
+                    label={'Пароль'}
+                    name={'password'}
                     value={formData.password}
-                    onChange={handleChange}/>
+                    type={formData.passwordType}
+                    onChange={handleChange}
+                    error={error}
+                    errorText={'*Пожалуйста, введите пароль'}
+                />
                 <ShowPassword onHandleClick={changeTypePassword}/>
-                {error && !formData.password && <span className="error">*Пожалуйста, введите пароль</span>}
             </div>
-            <div className="form__field">
-                <label className="form__label">Подтверждение пароля</label>
-                <input
-                    className="form__input"
-                    type={formData.confirmPasswordType}
-                    name="confirmPassword"
-                    placeholder="Подтверждение пароля"
+            <div className="form__password">
+                <Field
+                    label={'Подтверждение пароля'}
+                    name={'confirmPassword'}
                     value={formData.confirmPassword}
-                    onChange={handleChange}/>
+                    type={formData.confirmPasswordType}
+                    onChange={handleChange}
+                    error={error}
+                    errorText={'*Подтвердите пароль'}
+                />
                 <ShowPassword onHandleClick={changeTypeConfirmPassword}/>
-                {error && !formData.confirmPassword && <span className="error">*Подтвердите пароль</span>}
             </div>
             {!passwordMatch && <span className="error">Пароли не совпадают!</span>}
 
             {user && <span className="error">
-                *Пользователь с таким логином уже зарегистирован. Используйте другой логин или перейдите на <Link to="/login">страницу входа</Link>
+                *Пользователь с таким логином уже зарегистрирован. Используйте другой логин или перейдите на
+                <Link to="/login">страницу входа</Link>
             </span>}
             <Button handleSubmit={handleSubmit}>
                 Зарегистрироваться

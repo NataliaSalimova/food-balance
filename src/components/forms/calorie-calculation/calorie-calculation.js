@@ -8,6 +8,7 @@ import { getUserApi, setUserDataApi } from '../../../api';
 import { TARGET_LIST, ACTIVITY_LEVEL_LIST } from './calorie-calculation.constants';
 
 import Button from '../../buttons/base';
+import Field from '../field';
 
 const CalorieCalculation = ()=> {
     const navigate = useNavigate();
@@ -116,65 +117,49 @@ const CalorieCalculation = ()=> {
 
     return (
         <form className="form">
-            <div className="form__field">
-                <input className="form__input"
-                    type="radio"
-                    name="gender"
-                    value="female"
-                    onChange={handleChange}
-                    checked={formData.gender === 'female'}/>
-                <label className="form__label">
-                    Женщина
-                </label>
-            </div>
-            <div className="form__field">
-                <input className="form__input"
-                    type="radio"
-                    name="gender"
-                    value="male"
-                    onChange={handleChange}
-                    checked={formData.gender === 'male'}/>
-                <label className="form__label">
-                    Мужчина
-                </label>
-                {error && !formData.gender && <span className="error">*Пожалуйста, выберите пол</span>}
-            </div>
-            <div className="form__field">
-                <label className="form__label">
-                    Рост(см)
-                </label>
-                <input
-                    className="form__input"
-                    type="text"
-                    name="height"
-                    value={formData.height}
-                    onChange={handleChange}/>
-                {error && !formData.height && <span className="error">*Пожалуйста, укажите рост</span>}
-            </div>
-            <div className="form__field">
-                <label className="form__label">
-                    Вес(кг)
-                </label>
-                <input
-                    className="form__input"
-                    type="text"
-                    name="weight"
-                    value={formData.weight}
-                    onChange={handleChange}/>
-                {error && !formData.weight && <span className="error">*Пожалуйста, укажите вес</span>}
-            </div>
-            <div className="form__field">
-                <label className="form__label">
-                    Возраст(лет)
-                </label>
-                <input
-                    className="form__input"
-                    type="number"
-                    name="age"
-                    value={formData.age}
-                    onChange={handleChange}/>
-                {error && !formData.age && <span className="error">*Пожалуйста, укажите возраст</span>}
-            </div>
+            <Field
+                label={'Женщина'}
+                id={'gender'}
+                value={'female'}
+                type={'radio'}
+                onChange={handleChange}
+                checked={formData.gender === 'female'}
+            />
+            <Field
+                label={'Мужчина'}
+                id={'gender'}
+                value={'male'}
+                type={'radio'}
+                onChange={handleChange}
+                error={error}
+                errorText={'*Пожалуйста, выберите пол'}
+                checked={formData.gender === 'male'}
+            />
+            <Field
+                label={'Рост(см)'}
+                id={'height'}
+                value={formData.height}
+                onChange={handleChange}
+                error={error}
+                errorText={'*Пожалуйста, укажите рост'}
+            />
+            <Field
+                label={'Вес(кг)'}
+                id={'weight'}
+                value={formData.weight}
+                onChange={handleChange}
+                error={error}
+                errorText={'*Пожалуйста, укажите вес'}
+            />
+            <Field
+                label={'Возраст(лет)'}
+                id={'age'}
+                value={formData.age}
+                type={'number'}
+                onChange={handleChange}
+                error={error}
+                errorText={'*Пожалуйста, укажите возраст'}
+            />
             <div className="form__field">
                 <select className="form__input _select" name="target" onChange={handleChange}>
                     <option>Выберите цель</option>

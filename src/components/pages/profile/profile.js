@@ -29,14 +29,11 @@ const ProfilePage = ()=> {
 
     const getUser = async ()=> {
         const response = await getUserDataApi();
-        const result = response.responseJSON;
+        const { name, age, target, weight } = response.responseJSON;
 
         setUser(prevFormData => ({
             ...prevFormData,
-            name: result.name,
-            weight: result.weight,
-            age: result.age,
-            target: result.target,
+            name, age, target, weight
         }));
     };
 
@@ -66,11 +63,11 @@ const ProfilePage = ()=> {
                         Текущий вес <strong className={styles.itemValue}>{ user.weight }</strong>
                     </li>
                     <li className={styles.item}>
-                        Цель <strong className={styles.itemValue}>{ targetMap.get(user.target) }</strong>
+                        Цель <strong className={styles.itemValue}>{ targetMap.get(Number(user.target)) }</strong>
                     </li>
                 </ul>
             </div>
-            <Link to="/change-target" className="button ta-center">Скорректировать цель</Link>
+            <Link to="/change-target" className={`${styles.link} ta-center`}>Скорректировать цель</Link>
             <Button handleSubmit={logOut}>
                 Выйти
             </Button>
