@@ -1,0 +1,29 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-column-gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 20px;
+}
+
+.button {
+    font-size: 14px;
+    line-height: 1;
+    color: var(--color-white);
+    background: var(--color-light-blue);
+    border: none;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    transition: all .25s ease;
+
+    &:hover {
+        opacity: .7;
+    }
+}
+
+.currentDate {
+    font-size: 14px;
+    line-height: 1;
+}

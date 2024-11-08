@@ -8,6 +8,7 @@ import { getUserDataApi, getDishesApi } from '../../../api';
 import RatioCalories from '../../ratio-calories';
 import EssentialMacronutrients from '../../essential-macronutrients';
 import Meals from '../../meals';
+import Calendar from '../../calendar';
 
 import STORE from "../../../store";
 
@@ -97,7 +98,7 @@ function Diary() {
                 <Link to='/' className={styles.link}>
                     FoodBalance
                 </Link>
-                <Link to='/profile' className={`page-link ${styles.link}`}>
+                <Link to='/profile' className={`page-link ${styles.profile}`}>
                     <img src="/images/profile.png"
                         width="25"
                         height="25"
@@ -115,6 +116,7 @@ function Diary() {
                 carbohydratesConsumed={user.carbohydratesConsumed}
                 proteinsConsumed={user.proteinsConsumed}
                 fatsConsumed={user.fatsConsumed} />
+            <Calendar/>
             <Meals dishesConsumed={user.dishesConsumed}/>
         </div>
     );
