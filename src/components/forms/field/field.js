@@ -6,6 +6,7 @@ const Field = ({ label, id, value, onChange, error, errorText, checked, type='te
     return (
         <div className={`${styles.field}`}>
             <label
+                htmlFor={id}
                 className={`${styles.label}`}>
                 { label }
             </label>

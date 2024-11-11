@@ -9,6 +9,7 @@ import RatioCalories from '../../ratio-calories';
 import EssentialMacronutrients from '../../essential-macronutrients';
 import Meals from '../../meals';
 import Calendar from '../../calendar';
+import WaterConsumption from '../../water-consumption';
 
 import STORE from "../../../store";
 
@@ -22,7 +23,9 @@ function Diary() {
         carbohydratesTotal: '',
         proteinsTotal: '',
         fatsTotal: '',
-        dishesConsumed: []
+        dishesConsumed: [],
+        waterConsumed: 0,
+        cups: []
     });
 
     const navigate = useNavigate();
@@ -36,10 +39,12 @@ function Diary() {
 
                 setUser(prevState => ({
                     ...prevState,
-                    caloriesRemaining: res.calories,
-                    carbohydratesTotal: res.carbohydrates,
-                    proteinsTotal: res.proteins,
-                    fatsTotal: res.fats
+                    caloriesRemaining: res.calories ?? res.caloriesRemaining,
+                    carbohydratesTotal: res.carbohydrates ?? res.carbohydrates,
+                    proteinsTotal: res.proteins ?? res.proteinsTotal,
+                    fatsTotal: res.fats ?? res.fatsTotal,
+                    waterConsumed: res.cups.filter((cup) => cup.selected).length * 0.25,
+                    cups: res.cups ?? []
                 }));
 
                 break;
@@ -100,8 +105,8 @@ function Diary() {
                 </Link>
                 <Link to='/profile' className={`page-link ${styles.profile}`}>
                     <img src="/images/profile.png"
-                        width="25"
-                        height="25"
+                        width="30"
+                        height="30"
                         alt="Icon profile"/>
                 </Link>
             </div>
@@ -118,6 +123,7 @@ function Diary() {
                 fatsConsumed={user.fatsConsumed} />
             <Calendar/>
             <Meals dishesConsumed={user.dishesConsumed}/>
+            <WaterConsumption user={user}/>
         </div>
     );
 }

@@ -8,7 +8,7 @@ import STORE from '../../store';
 
 const Meals = ({ dishesConsumed })=> {
     return (
-        <div className="meals">
+        <div className={styles.meals}>
             <ul className={styles.list}>
                 {
                     STORE.MEALS.map((item, index)=> {

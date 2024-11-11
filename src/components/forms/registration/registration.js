@@ -98,7 +98,7 @@ const Registration = ()=> {
         <form className="form">
             <Field
                 label={'Имя'}
-                name={'name'}
+                id={'name'}
                 value={formData.name}
                 onChange={handleChange}
                 error={error}
@@ -106,7 +106,7 @@ const Registration = ()=> {
             />
             <Field
                 label={'Логин'}
-                name={'login'}
+                id={'login'}
                 value={formData.login}
                 onChange={handleChange}
                 error={error}
@@ -114,7 +114,7 @@ const Registration = ()=> {
             />
             <Field
                 label={'Email'}
-                name={'email'}
+                id={'email'}
                 value={formData.email}
                 type={'email'}
                 onChange={handleChange}
@@ -124,7 +124,7 @@ const Registration = ()=> {
             <div className="form__password">
                 <Field
                     label={'Пароль'}
-                    name={'password'}
+                    id={'password'}
                     value={formData.password}
                     type={formData.passwordType}
                     onChange={handleChange}
@@ -136,7 +136,7 @@ const Registration = ()=> {
             <div className="form__password">
                 <Field
                     label={'Подтверждение пароля'}
-                    name={'confirmPassword'}
+                    id={'confirmPassword'}
                     value={formData.confirmPassword}
                     type={formData.confirmPasswordType}
                     onChange={handleChange}
