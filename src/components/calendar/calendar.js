@@ -4,7 +4,7 @@ import { CURRENT_DATE, ONE_DAY } from './calendar.constants';
 
 import styles from './calendar.module.scss';
 
-const Calendar = ()=> {
+const Calendar = ({onClick})=> {
     const [ date, setDate ] = useState();
     const [ currentDate, setCurrentDate ] = useState(new Date(localStorage.getItem(CURRENT_DATE) ?? new Date()));
 
@@ -33,6 +33,8 @@ const Calendar = ()=> {
         )
 
         updateDate(currentDate);
+
+        onClick(currentDate)
     }
 
     useEffect(()=> {

@@ -11,7 +11,8 @@ const DishesItemConsumed = ( { item, onClick })=> {
         event.preventDefault();
 
         const dishId = event.target.getAttribute('data-dish-id');
-        const response = await deleteDishApi(dishId);
+        const date = new Date(localStorage.getItem('currentDate')).toISOString() ?? new Date().toISOString()
+        const response = await deleteDishApi(dishId, date);
 
         if (response.status === 401) {
             navigate('/login');

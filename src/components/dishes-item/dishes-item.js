@@ -18,7 +18,7 @@ const DishesItem = ({ onClick, item }) => {
         const dish = {
             dishID: item.id,
             types: item.type,
-            date: new Date().toISOString()
+            date: new Date(localStorage.getItem('currentDate')).toISOString() ?? new Date().toISOString()
         };
 
         const response = await saveDishApi(dish);

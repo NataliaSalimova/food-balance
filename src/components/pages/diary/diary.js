@@ -43,7 +43,7 @@ function Diary() {
                     carbohydratesTotal: res.carbohydrates ?? res.carbohydrates,
                     proteinsTotal: res.proteins ?? res.proteinsTotal,
                     fatsTotal: res.fats ?? res.fatsTotal,
-                    waterConsumed: res.cups.filter((cup) => cup.selected).length * 0.25,
+                    waterConsumed: res.cups ? res.cups.filter((cup) => cup.selected).length * 0.25 : 0,
                     cups: res.cups ?? []
                 }));
 
@@ -62,7 +62,11 @@ function Diary() {
     };
 
     const getDishes = async ()=> {
-        const result = await getDishesApi();
+        const data = {
+            date: new Date(localStorage.getItem('currentDate')).toISOString() ?? new Date().toISOString()
+        }
+
+        const result = await getDishesApi(data);
 
         let calories = 0;
         let carbohydratesConsumed = 0;
@@ -80,16 +84,16 @@ function Diary() {
                     dishes.push(item);
                 }
             });
-
-            setUser(prevState => ({
-                ...prevState,
-                caloriesConsumed: calories,
-                carbohydratesConsumed: carbohydratesConsumed,
-                proteinsConsumed: proteinsConsumed,
-                fatsConsumed: fatsConsumed,
-                dishesConsumed: dishes
-            }));
         })
+
+        setUser(prevState => ({
+            ...prevState,
+            caloriesConsumed: calories,
+            carbohydratesConsumed: carbohydratesConsumed,
+            proteinsConsumed: proteinsConsumed,
+            fatsConsumed: fatsConsumed,
+            dishesConsumed: dishes
+        }));
     }
 
     useEffect(()=> {
@@ -121,7 +125,7 @@ function Diary() {
                 carbohydratesConsumed={user.carbohydratesConsumed}
                 proteinsConsumed={user.proteinsConsumed}
                 fatsConsumed={user.fatsConsumed} />
-            <Calendar/>
+            <Calendar onClick={getDishes}/>
             <Meals dishesConsumed={user.dishesConsumed}/>
             <WaterConsumption user={user}/>
         </div>

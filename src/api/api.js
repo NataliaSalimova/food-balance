@@ -54,12 +54,12 @@ const saveDishApi = async (data)=> {
     }
 }
 
-const deleteDishApi = async (id)=> {
+const deleteDishApi = async (id, date)=> {
     const response = await fetch(`${BASE_API_URL}/diary/${id}`, {
         method: 'DELETE',
         headers: {
             'authKey': localStorage.getItem(AUTH_KEY),
-            'date': new Date().toISOString()
+            'date': date
         }
     })
 
@@ -82,12 +82,13 @@ const getUserDataApi = async ()=> {
     }
 };
 
-const getDishesApi = async ()=> {
+const getDishesApi = async (data)=> {
     const response = await fetch(`${BASE_API_URL}/diary`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'authKey': localStorage.getItem(AUTH_KEY)
-        }
+        },
+        body: JSON.stringify(data)
     });
 
     return {
