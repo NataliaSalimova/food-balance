@@ -5,7 +5,8 @@ import {
     saveDishApi,
     deleteDishApi,
     getUserDataApi,
-    getDishesApi
+    getDishesApi,
+    getRecipeApi
 } from './api';
 
 export {
@@ -15,5 +16,6 @@ export {
     saveDishApi,
     deleteDishApi,
     getUserDataApi,
-    getDishesApi
+    getDishesApi,
+    getRecipeApi
 };

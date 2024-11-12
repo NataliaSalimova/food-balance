@@ -97,6 +97,20 @@ const getDishesApi = async (data)=> {
     }
 };
 
+const getRecipeApi = async (recipeId)=> {
+    const response = await fetch(`${BASE_API_URL}/recipe/${recipeId}`, {
+        method: 'GET',
+        headers: {
+            'authKey': localStorage.getItem(AUTH_KEY)
+        }
+    });
+
+    return {
+        status: response.status,
+        responseJSON: await response.json()
+    }
+}
+
 export {
     setUserApi,
     getUserApi,
@@ -104,5 +118,6 @@ export {
     saveDishApi,
     deleteDishApi,
     getUserDataApi,
-    getDishesApi
+    getDishesApi,
+    getRecipeApi
 }

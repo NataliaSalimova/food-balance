@@ -47,6 +47,9 @@ const DishesItem = ({ onClick, item }) => {
                     <p className={styles.item__calories}>
                         {item.calories} ккал
                     </p>
+                    <a href={`/recipe/${item.id}`}>
+                        Рецепт
+                    </a>
                 </div>
                 <button className={`${styles.item__button} medium-bold`}
                     data-store-dish-id={item.id}

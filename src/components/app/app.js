@@ -12,6 +12,7 @@ import CalorieCalculation from '../pages/calorie-calculation';
 import ProfilePage from '../pages/profile';
 import MealsItemPage from '../pages/meals-item';
 import ChangeTargetPage from '../pages/change-target';
+import Recipe from '../pages/recipe';
 
 function App() {
   return (
@@ -48,6 +49,10 @@ function App() {
               <Route
                   path="/change-target"
                   element={<ChangeTargetPage/>}
+              />
+              <Route
+                  path="/recipe/:recipeId"
+                  element={<Recipe/>}
               />
           </Routes>
       </main>

@@ -62,10 +62,9 @@ function Diary() {
     };
 
     const getDishes = async ()=> {
-        const data = {
+        const data= {
             date: new Date(localStorage.getItem('currentDate')).toISOString() ?? new Date().toISOString()
         }
-
         const result = await getDishesApi(data);
 
         let calories = 0;
