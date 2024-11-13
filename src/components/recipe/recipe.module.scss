@@ -1,0 +1,20 @@
+.item {
+    margin: 0 0 20px;
+}
+
+.subtitle,
+.description {
+    line-height: 1;
+    color: var(--color-black);
+}
+
+.subtitle {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 15px;
+}
+
+.description {
+    font-size: 14px;
+    margin: 0;
+}

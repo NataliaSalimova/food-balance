@@ -12,7 +12,8 @@ import CalorieCalculation from '../pages/calorie-calculation';
 import ProfilePage from '../pages/profile';
 import MealsItemPage from '../pages/meals-item';
 import ChangeTargetPage from '../pages/change-target';
-import Recipe from '../pages/recipe';
+import RecipePage from '../pages/recipe-page';
+import RecipeEdit from '../pages/recipe-edit';
 
 function App() {
   return (
@@ -52,7 +53,11 @@ function App() {
               />
               <Route
                   path="/recipe/:recipeId"
-                  element={<Recipe/>}
+                  element={<RecipePage/>}
+              />
+              <Route
+                  path="/recipe/edit/:recipeId"
+                  element={<RecipeEdit/>}
               />
           </Routes>
       </main>

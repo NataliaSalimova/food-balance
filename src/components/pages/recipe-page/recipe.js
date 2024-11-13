@@ -3,23 +3,33 @@ import { useParams } from 'react-router-dom';
 
 import styles from './recipe.module.scss';
 
-import Title from '../../title';
 import Footer from '../../footer';
+import Title from '../../title';
 import AddRecipe from '../../forms/add-recipe';
+import Recipe from '../../recipe';
 
 import { getRecipeApi } from '../../../api';
-import STORE from '../../../store';
 
-const Recipe = ()=> {
+const RecipePage = ()=> {
     const { recipeId } = useParams();
     const [ isShowRecipe, setIsShowRecipe ] = useState(false);
-    const [ nameOfRecipe, setNameOfRecipe ] = useState(STORE.DISHES.find((item)=> item.id = recipeId));
+    const [ recipe, setRecipe ] = useState({
+        name: '',
+        description: '',
+        data: {
+            ingredients: '',
+            calories: '',
+            carbohydrates: '',
+            fats: '',
+            proteins: ''
+        }
+    })
 
     const getRecipe = async ()=> {
         const response = await getRecipeApi(recipeId);
 
         setIsShowRecipe(response.status !== 404);
-        setNameOfRecipe(response.responseJSON.name);
+        setRecipe(response.responseJSON)
     }
 
     useEffect(()=> {
@@ -29,15 +39,15 @@ const Recipe = ()=> {
     return (
         <div className="recipe page-container">
             <Title className={`${styles.title} ta-center`}>
-                { isShowRecipe ? `${nameOfRecipe}` : 'Добавить рецепт' }
+                { isShowRecipe ? `${recipe.name}` : 'Добавить рецепт' }
             </Title>
             {isShowRecipe ?
-                <h2>Текст рецепта</h2> :
-                <AddRecipe/>
+                <Recipe recipe={recipe} recipeId={recipeId}/> :
+                <AddRecipe recipe={recipe}/>
             }
             <Footer/>
         </div>
     )
 }
 
-export default Recipe;
+export default RecipePage;

@@ -111,6 +111,36 @@ const getRecipeApi = async (recipeId)=> {
     }
 }
 
+const saveRecipeApi = async (data)=> {
+    const response = await fetch(`${BASE_API_URL}/recipe`, {
+        method: 'PUT',
+        headers: {
+            'authKey': localStorage.getItem(AUTH_KEY)
+        },
+        body: JSON.stringify(data)
+    });
+
+    return {
+        status: response.status,
+        responseJSON: await response.json()
+    }
+}
+
+const editRecipeApi = async (id, data)=> {
+    const response = await fetch(`${BASE_API_URL}/recipe/${id}`, {
+        method: 'POST',
+        headers: {
+            'authKey': localStorage.getItem(AUTH_KEY)
+        },
+        body: JSON.stringify(data)
+    });
+
+    return {
+        status: response.status,
+        responseJSON: await response.json()
+    }
+}
+
 export {
     setUserApi,
     getUserApi,
@@ -119,5 +149,7 @@ export {
     deleteDishApi,
     getUserDataApi,
     getDishesApi,
-    getRecipeApi
+    getRecipeApi,
+    saveRecipeApi,
+    editRecipeApi
 }
