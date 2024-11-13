@@ -10,11 +10,17 @@ const AddRecipe = (id, edit)=> {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
-        ingredients: '',
+        ingredients: [
+            {
+                name: '',
+                value: ''
+            }
+        ],
         calories: 0,
         carbohydrates: 0,
         proteins: 0,
-        fats: 0
+        fats: 0,
+        portion: 1
     });
 
     const [ error, setError ] = useState(false);
@@ -23,16 +29,27 @@ const AddRecipe = (id, edit)=> {
     const handleChange = (event)=> {
         const { name, value } = event.target;
 
-        setFormData(test => ({
-            ...test,
-            [name]: value
-        }));
-    };
+        if (name === 'portion' && value > 0 && formData.portion !== value) {
+            setFormData(test => ({
+                ...test,
+                calories: test.calories*value,
+                carbohydrates: test.carbohydrates*value,
+                proteins: test.proteins*value,
+                fats: test.fats*value,
+                portion: value
+            }));
+        } else {
+            setFormData(test => ({
+                ...test,
+                [name]: value
+            }));
+        }
+    }
 
     const handleSubmit = (event)=> {
         event.preventDefault();
 
-        if (formData.name === '' || formData.recipe === '' || formData.ingredients === '') {
+        if (formData.name === '' || formData.recipe === '' || formData.ingredients === '' || formData.portion) {
             setError(true)
         } else {
             setError(false);
@@ -65,9 +82,19 @@ const AddRecipe = (id, edit)=> {
                 calories: response.responseJSON.data.calories,
                 carbohydrates: response.responseJSON.data.carbohydrates,
                 proteins: response.responseJSON.data.proteins,
-                fats: response.responseJSON.data.fats
+                fats: response.responseJSON.data.fats,
+                portion: response.responseJSON.data.portion
             })
         }
+    }
+
+    const onAddInput = ()=> {
+        setFormData(prev => ({
+            ...prev,
+            ingredients: prev.ingredients[prev.ingredients.length] = ({name: '', value: ''})
+        }))
+
+        console.log(formData.ingredients)
     }
 
     useEffect(()=> {
@@ -84,24 +111,29 @@ const AddRecipe = (id, edit)=> {
                 error={error}
                 errorText={'*Пожалуйста, введите название блюда'}
             />
-            <Field
-                label={'Рецепт'}
-                id={'description'}
-                value={formData.description}
-                onChange={handleChange}
-                inputType={'textarea'}
-                error={error}
-                errorText={'*Пожалуйста, добавьте рецепт'}
-            />
-            <Field
-                label={'Игредиенты'}
-                id={'ingredients'}
-                value={formData.ingredients}
-                onChange={handleChange}
-                inputType={'textarea'}
-                error={error}
-                errorText={'*Пожалуйста, добавьте список ингредиентов'}
-            />
+            {/*<Field*/}
+            {/*    label={'Рецепт'}*/}
+            {/*    id={'description'}*/}
+            {/*    value={formData.description}*/}
+            {/*    onChange={handleChange}*/}
+            {/*    inputType={'textarea'}*/}
+            {/*    error={error}*/}
+            {/*    errorText={'*Пожалуйста, добавьте рецепт'}*/}
+            {/*/>*/}
+            {
+                formData.ingredients.map((item, index)=> {
+                    return (
+                        <div key={index}>
+                            <label>Ингредиенты</label>
+                            <div className="field">
+                                <input value={item.name} placeholder="название" type="text"/>
+                                <input value={item.value} placeholder="значение" type="number"/>
+                            </div>
+                        </div>
+                    )
+                })
+            }
+            <button onClick={onAddInput} type="button">Добавить игредиент</button>
             <Field
                 label={'Количество калорий (на 100гр)'}
                 id={'calories'}
@@ -137,6 +169,13 @@ const AddRecipe = (id, edit)=> {
                 onChange={handleChange}
                 error={error}
                 errorText={'*Пожалуйста, добавьте количество углеводов'}
+            />
+            <Field
+                label={'Количество порций'}
+                id={'portion'}
+                value={formData.portion}
+                type={'number'}
+                onChange={handleChange}
             />
 
             <Button handleSubmit={handleSubmit}>

@@ -11,7 +11,8 @@ const Recipe = ({ recipe, recipeId })=> {
             calories,
             carbohydrates,
             fats,
-            proteins
+            proteins,
+            portion
         }
     } = recipe;
 
@@ -70,6 +71,24 @@ const Recipe = ({ recipe, recipeId })=> {
                     </p>
                 </div>
             }
+            {
+                <div className={styles.item}>
+                    <p className={styles.subtitle}>
+                        Количество белков
+                    </p>
+                    <p className={styles.description}>
+                        { proteins } г
+                    </p>
+                </div>
+            }
+            <div className={styles.item}>
+                <p className={styles.subtitle}>
+                    Количество порций
+                </p>
+                <p className={styles.description}>
+                    { portion }
+                </p>
+            </div>
             <Link className="link ta-center" to={`/recipe/edit/${recipeId}`}>Редактировать рецепт</Link>
         </div>
     )
