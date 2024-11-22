@@ -1,27 +1,32 @@
 import React, {useEffect, useState} from 'react';
+import { useParams } from 'react-router-dom';
 
 import Field from '../field';
 import Button from '../../buttons/base';
 
 import { editRecipeApi, getRecipeApi, saveRecipeApi } from '../../../api';
-import {useParams} from "react-router-dom";
 
 const AddRecipe = (id, edit)=> {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
-        ingredients: [
-            {
-                name: '',
-                value: ''
-            }
-        ],
         calories: 0,
         carbohydrates: 0,
         proteins: 0,
-        fats: 0,
-        portion: 1
+        fats: 0
     });
+
+    const [ portion, setPortion ] = useState(1);
+
+    const [ ingredients, setIngredients ] = useState(
+        [
+            {
+                ingredientName0: '',
+                ingredientValue0: '',
+                ingredientUnits0: ''
+            }
+        ]
+    );
 
     const [ error, setError ] = useState(false);
     const { recipeId } = useParams();
@@ -29,7 +34,33 @@ const AddRecipe = (id, edit)=> {
     const handleChange = (event)=> {
         const { name, value } = event.target;
 
-        if (name === 'portion' && value > 0 && formData.portion !== value) {
+        setFormData(test => ({
+            ...test,
+            [name]: value
+        }));
+    }
+
+    const changePortion = (event)=> {
+        const { name, value } = event.target;
+
+        if (value === '') {
+            setFormData(test => ({
+                ...test,
+                calories: test.calories / portion,
+                carbohydrates: test.carbohydrates / portion,
+                proteins: test.proteins / portion,
+                fats: test.fats / portion,
+            }));
+
+            ingredients.forEach((item, index) => {
+                ingredients[index][`ingredientValue${index}`] = item[`ingredientValue${index}`] / portion;
+                ingredients[index] = item;
+            });
+
+            setPortion(value);
+            setIngredients([...ingredients]);
+
+        } else {
             setFormData(test => ({
                 ...test,
                 calories: test.calories*value,
@@ -38,18 +69,21 @@ const AddRecipe = (id, edit)=> {
                 fats: test.fats*value,
                 portion: value
             }));
-        } else {
-            setFormData(test => ({
-                ...test,
-                [name]: value
-            }));
+
+            ingredients.forEach((item, index) => {
+                ingredients[index][`ingredientValue${index}`] = item[`ingredientValue${index}`] * value;
+                ingredients[index] = item;
+            });
+
+            setPortion(value);
+            setIngredients([...ingredients])
         }
     }
 
     const handleSubmit = (event)=> {
         event.preventDefault();
 
-        if (formData.name === '' || formData.recipe === '' || formData.ingredients === '' || formData.portion) {
+        if (formData.name === '' || formData.recipe === '' || formData.ingredients === '' || portion) {
             setError(true)
         } else {
             setError(false);
@@ -58,6 +92,8 @@ const AddRecipe = (id, edit)=> {
     }
 
     const saveRecipe = async ()=> {
+        formData.ingredients = ingredients;
+
         const data = {
             name: formData.name,
             description: formData.description,
@@ -66,8 +102,8 @@ const AddRecipe = (id, edit)=> {
 
         const response = !edit ? await saveRecipeApi(data) : await editRecipeApi(recipeId, data);
 
-        if (response.status === 200) {
-        //     Обновить страницу
+        if (!response.status === 200) {
+            alert('Что-то пошло не так! Попробуйте позже')
         }
     }
 
@@ -75,26 +111,36 @@ const AddRecipe = (id, edit)=> {
         const response = await getRecipeApi(recipeId);
 
         if (response.status === 200) {
-            setFormData({
-                name: response.responseJSON.name,
-                description: response.responseJSON.description,
-                ingredients: response.responseJSON.data.ingredients,
-                calories: response.responseJSON.data.calories,
-                carbohydrates: response.responseJSON.data.carbohydrates,
-                proteins: response.responseJSON.data.proteins,
-                fats: response.responseJSON.data.fats,
-                portion: response.responseJSON.data.portion
-            })
+            setFormData(response.responseJSON)
         }
     }
 
-    const onAddInput = ()=> {
-        setFormData(prev => ({
-            ...prev,
-            ingredients: prev.ingredients[prev.ingredients.length] = ({name: '', value: ''})
-        }))
+    const onAddInput = (index)=> {
+        const number = ingredients.length;
+        const ingredientName = `ingredientName${number}`;
+        const ingredientValue = `ingredientValue${number}`;
+        const ingredientUnits = `ingredientUnits${number}`;
 
-        console.log(formData.ingredients)
+        setIngredients([...ingredients, {[ingredientName]: '', [ingredientValue]: '', [ingredientUnits]: ''}]);
+    }
+
+    const onChangeIngredient = (event)=> {
+        const { name, value } = event.target;
+        const ingredientId = event.target.getAttribute('data-id');
+
+        const changedIngredient = ingredients.find((item, index) => index === Number(ingredientId));
+
+        changedIngredient[name] = value;
+        ingredients[event.target.getAttribute('data-id')] = changedIngredient;
+
+        setIngredients([...ingredients]);
+    }
+
+    const onRemoveInput = (event)=> {
+        const id = event.target.dataset.id;
+
+        ingredients.splice(id, 1);
+        setIngredients([...ingredients])
     }
 
     useEffect(()=> {
@@ -111,29 +157,43 @@ const AddRecipe = (id, edit)=> {
                 error={error}
                 errorText={'*Пожалуйста, введите название блюда'}
             />
-            {/*<Field*/}
-            {/*    label={'Рецепт'}*/}
-            {/*    id={'description'}*/}
-            {/*    value={formData.description}*/}
-            {/*    onChange={handleChange}*/}
-            {/*    inputType={'textarea'}*/}
-            {/*    error={error}*/}
-            {/*    errorText={'*Пожалуйста, добавьте рецепт'}*/}
-            {/*/>*/}
+            <Field
+                label={'Рецепт'}
+                id={'description'}
+                value={formData.description}
+                onChange={handleChange}
+                inputType={'textarea'}
+                error={error}
+                errorText={'*Пожалуйста, добавьте рецепт'}
+            />
+            <label>Ингредиенты</label>
             {
-                formData.ingredients.map((item, index)=> {
+                ingredients.map((item, index)=> {
                     return (
                         <div key={index}>
-                            <label>Ингредиенты</label>
                             <div className="field">
-                                <input value={item.name} placeholder="название" type="text"/>
-                                <input value={item.value} placeholder="значение" type="number"/>
+                                <input id={`ingredient-name-${index}`}
+                                       onChange={onChangeIngredient}
+                                       data-id={index} value={ingredients[index][`ingredientName${index}`]}
+                                       name={`ingredientName${index}`} placeholder="название"
+                                       type="text"/>
+                                <input id={`ingredient-value-${index}`}
+                                       onChange={onChangeIngredient}
+                                       data-id={index} value={ingredients[index][`ingredientValue${index}`]}
+                                       name={`ingredientValue${index}`} placeholder="количество"
+                                       type="number"/>
+                                <input id={`ingredient-units-${index}`}
+                                       onChange={onChangeIngredient}
+                                       data-id={index} value={ingredients[index][`ingredientUnits${index}`]}
+                                       name={`ingredientUnits${index}`} placeholder="единицы измерения"
+                                       type="text"/>
+                                { index ? <button onClick={onRemoveInput} data-id={`${index}`} type="button">-</button> : ''}
                             </div>
                         </div>
                     )
                 })
             }
-            <button onClick={onAddInput} type="button">Добавить игредиент</button>
+            <button onClick={onAddInput} type="button">+</button>
             <Field
                 label={'Количество калорий (на 100гр)'}
                 id={'calories'}
@@ -173,9 +233,11 @@ const AddRecipe = (id, edit)=> {
             <Field
                 label={'Количество порций'}
                 id={'portion'}
-                value={formData.portion}
+                value={portion}
                 type={'number'}
-                onChange={handleChange}
+                onChange={changePortion}
+                error={error}
+                errorText={'*Пожалуйста, введите количество порций'}
             />
 
             <Button handleSubmit={handleSubmit}>
