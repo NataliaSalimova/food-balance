@@ -20,6 +20,24 @@
     }
 }
 
+.field {
+    position: relative;
+    margin: 0 0 15px;
+}
+
+.label {
+    font-size: 14px;
+    display: block;
+    margin: 0 0 10px;
+}
+
+.input:not([type=radio]) {
+    padding: 10px;
+    border: 1px solid var(--color-black);
+    width: calc(100% - 22px);
+    resize: vertical;
+}
+
 .medium-bold {
     font-weight: 500;
 }

@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 
+import './add-recipe.scss';
+
 import Field from '../field';
 import Button from '../../buttons/base';
+import Ingredients from '../../ingredients';
 
 import { editRecipeApi, getRecipeApi, saveRecipeApi } from '../../../api';
 
@@ -17,16 +20,8 @@ const AddRecipe = (id, edit)=> {
     });
 
     const [ portion, setPortion ] = useState(1);
+    const [ ingredients, setIngredients ] = useState();
 
-    const [ ingredients, setIngredients ] = useState(
-        [
-            {
-                ingredientName0: '',
-                ingredientValue0: '',
-                ingredientUnits0: ''
-            }
-        ]
-    );
 
     const [ error, setError ] = useState(false);
     const { recipeId } = useParams();
@@ -83,7 +78,7 @@ const AddRecipe = (id, edit)=> {
     const handleSubmit = (event)=> {
         event.preventDefault();
 
-        if (formData.name === '' || formData.recipe === '' || formData.ingredients === '' || portion) {
+        if (formData.name === '' || formData.recipe === '' || formData.ingredients === '' || portion === '') {
             setError(true)
         } else {
             setError(false);
@@ -115,32 +110,8 @@ const AddRecipe = (id, edit)=> {
         }
     }
 
-    const onAddInput = (index)=> {
-        const number = ingredients.length;
-        const ingredientName = `ingredientName${number}`;
-        const ingredientValue = `ingredientValue${number}`;
-        const ingredientUnits = `ingredientUnits${number}`;
-
-        setIngredients([...ingredients, {[ingredientName]: '', [ingredientValue]: '', [ingredientUnits]: ''}]);
-    }
-
-    const onChangeIngredient = (event)=> {
-        const { name, value } = event.target;
-        const ingredientId = event.target.getAttribute('data-id');
-
-        const changedIngredient = ingredients.find((item, index) => index === Number(ingredientId));
-
-        changedIngredient[name] = value;
-        ingredients[event.target.getAttribute('data-id')] = changedIngredient;
-
-        setIngredients([...ingredients]);
-    }
-
-    const onRemoveInput = (event)=> {
-        const id = event.target.dataset.id;
-
-        ingredients.splice(id, 1);
-        setIngredients([...ingredients])
+    const handleChangeIngredients = (value)=> {
+        setIngredients(value);
     }
 
     useEffect(()=> {
@@ -166,34 +137,7 @@ const AddRecipe = (id, edit)=> {
                 error={error}
                 errorText={'*Пожалуйста, добавьте рецепт'}
             />
-            <label>Ингредиенты</label>
-            {
-                ingredients.map((item, index)=> {
-                    return (
-                        <div key={index}>
-                            <div className="field">
-                                <input id={`ingredient-name-${index}`}
-                                       onChange={onChangeIngredient}
-                                       data-id={index} value={ingredients[index][`ingredientName${index}`]}
-                                       name={`ingredientName${index}`} placeholder="название"
-                                       type="text"/>
-                                <input id={`ingredient-value-${index}`}
-                                       onChange={onChangeIngredient}
-                                       data-id={index} value={ingredients[index][`ingredientValue${index}`]}
-                                       name={`ingredientValue${index}`} placeholder="количество"
-                                       type="number"/>
-                                <input id={`ingredient-units-${index}`}
-                                       onChange={onChangeIngredient}
-                                       data-id={index} value={ingredients[index][`ingredientUnits${index}`]}
-                                       name={`ingredientUnits${index}`} placeholder="единицы измерения"
-                                       type="text"/>
-                                { index ? <button onClick={onRemoveInput} data-id={`${index}`} type="button">-</button> : ''}
-                            </div>
-                        </div>
-                    )
-                })
-            }
-            <button onClick={onAddInput} type="button">+</button>
+            <Ingredients onChange={handleChangeIngredients}/>
             <Field
                 label={'Количество калорий (на 100гр)'}
                 id={'calories'}
