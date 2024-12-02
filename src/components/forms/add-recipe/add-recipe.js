@@ -38,41 +38,27 @@ const AddRecipe = (id, edit)=> {
     const changePortion = (event)=> {
         const { name, value } = event.target;
 
-        if (value === '') {
-            setFormData(test => ({
-                ...test,
-                calories: test.calories / portion,
-                carbohydrates: test.carbohydrates / portion,
-                proteins: test.proteins / portion,
-                fats: test.fats / portion,
-            }));
+        value === '' ?
+            changePortionHandle(portion, value) :
+            changePortionHandle(value, value);
+    }
 
-            ingredients.forEach((item, index) => {
-                ingredients[index][`ingredientValue${index}`] = item[`ingredientValue${index}`] / portion;
-                ingredients[index] = item;
-            });
+    const changePortionHandle = (portionValue, value)=> {
+        setFormData(test => ({
+            ...test,
+            calories: test.calories / portionValue,
+            carbohydrates: test.carbohydrates / portionValue,
+            proteins: test.proteins / portionValue,
+            fats: test.fats / portionValue,
+        }));
 
-            setPortion(value);
-            setIngredients([...ingredients]);
+        ingredients.forEach((item, index) => {
+            ingredients[index][`ingredientValue${index}`] = item[`ingredientValue${index}`] / portionValue;
+            ingredients[index] = item;
+        });
 
-        } else {
-            setFormData(test => ({
-                ...test,
-                calories: test.calories*value,
-                carbohydrates: test.carbohydrates*value,
-                proteins: test.proteins*value,
-                fats: test.fats*value,
-                portion: value
-            }));
-
-            ingredients.forEach((item, index) => {
-                ingredients[index][`ingredientValue${index}`] = item[`ingredientValue${index}`] * value;
-                ingredients[index] = item;
-            });
-
-            setPortion(value);
-            setIngredients([...ingredients])
-        }
+        setPortion(value);
+        setIngredients([...ingredients]);
     }
 
     const handleSubmit = (event)=> {
