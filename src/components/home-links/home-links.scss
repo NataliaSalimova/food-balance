@@ -1,0 +1,25 @@
+.links {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    grid-column-gap: 20px;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    &__item {
+        color: var(--color-white);
+        text-decoration: none;
+        text-transform: uppercase;
+        display: inline-block;
+        border: 2px solid var(--color-white);
+        padding: 10px 15px;
+        transition: all .25s ease;
+
+        &:hover {
+            background: var(--color-white);
+            color: var(--color-light-blue);
+        }
+    }
+}
+

@@ -1,0 +1,13 @@
+.home {
+    background: var(--color-light-blue);
+    height: 100vh;
+    display: grid;
+    align-items: center;
+
+    &__title {
+        font-size: 30px;
+        line-height: 1.15;
+        margin: 0 0 20px;
+    }
+}
+
