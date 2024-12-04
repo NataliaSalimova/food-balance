@@ -36,7 +36,9 @@ const Login = ()=> {
     const handleSubmit = (event)=> {
         event.preventDefault();
 
-        if (formData.login === '' || formData.password=== '') {
+        const { login, password } = formData;
+
+        if (login === '' || password=== '') {
             setError(true)
         } else {
             setError(false);
@@ -45,26 +47,32 @@ const Login = ()=> {
     }
 
     const getUser = async () => {
-        const user = {
-            login: formData.login,
-            password: formData.password
-        };
+        const { login, password } = formData;
 
+        const user = { login, password };
         const result = await setUserApi('signIn', user)
 
         switch (result.status) {
             case 200:
-                navigate('/diary');
-                localStorage.setItem('authKey', result.responseJSON.token);
+                onGetUserSuccess(result.responseJSON.token);
                 break;
             case 400 || 401:
-                setUser(false);
+                onGetUserError();
                 break;
             default:
-                alert('Извините, что-то пошло не так. Попробуйте зарегистироваться позже');
+                alert('Извините, что-то пошло не так. Попробуйте позже');
                 break;
         }
     };
+
+    const onGetUserSuccess = (token)=> {
+        navigate('/diary');
+        localStorage.setItem('authKey', token);
+    }
+
+    const onGetUserError = ()=> {
+        setUser(false);
+    }
 
     return (
         <form className="form">
