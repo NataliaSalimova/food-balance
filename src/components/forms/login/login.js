@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { setUserApi } from '../../../api';
 
 import Field from '../field';
-import ShowPassword from '../../buttons/show-password';
+import ShowPasswordButton from '../../buttons/show-password';
 import Button from '../../buttons/base';
 
 const Login = ()=> {
@@ -18,8 +18,8 @@ const Login = ()=> {
     const navigate = useNavigate();
 
     const changeTypePassword = (type)=> {
-        setFormData(prevFormData => ({
-            ...prevFormData,
+        setFormData(prevState => ({
+            ...prevState,
             type: type
         }));
     };
@@ -27,8 +27,8 @@ const Login = ()=> {
     const handleChange = (event)=> {
         const { name, value } = event.target;
 
-        setFormData(test => ({
-            ...test,
+        setFormData(prevState => ({
+            ...prevState,
             [name]: value
         }));
     };
@@ -87,7 +87,7 @@ const Login = ()=> {
                     errorText={'*Пожалуйста, введите ваш пароль'}
                 />
 
-                <ShowPassword onHandleClick={changeTypePassword}/>
+                <ShowPasswordButton onChangeTypePassword={ changeTypePassword }/>
             </div>
 
             { !user && <span className="error error_bottom">*Неверный логин или пароль</span> }

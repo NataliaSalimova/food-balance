@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styles from './show-password.module.scss';
 
-const ShowPassword = ({ onHandleClick })=> {
+const ShowPasswordButton = ({ onChangeTypePassword })=> {
     const [ type, setType ] = useState('password');
 
     const changeTypePassword = (event) => {
@@ -12,7 +12,7 @@ const ShowPassword = ({ onHandleClick })=> {
     }
 
     useEffect(()=> {
-        onHandleClick(type);
+        onChangeTypePassword(type);
     }, [type])
 
     return (
@@ -22,4 +22,4 @@ const ShowPassword = ({ onHandleClick })=> {
     )
 }
 
-export default ShowPassword;
+export default ShowPasswordButton;

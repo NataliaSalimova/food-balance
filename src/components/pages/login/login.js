@@ -1,14 +1,12 @@
 import React from 'react';
 
-import styles from './login.module.scss';
-
 import LoginForm from '../../forms/login';
 import Title from '../../title';
 
 function Login() {
     return (
         <div className="login page-container">
-            <Title className={styles.title}>
+            <Title className="login-title">
                 Войти
             </Title>
             <div>

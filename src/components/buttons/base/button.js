@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './button.module.scss';
+import './button.scss';
 
 const Button = ({handleSubmit, children, id, className = ''})=> {
     const onClick = (event)=> {
@@ -8,7 +8,13 @@ const Button = ({handleSubmit, children, id, className = ''})=> {
     }
 
     return (
-        <button className={`${styles.button} ${className}`} type="button" data-id={id} onClick={onClick}>{children}</button>
+        <button
+            className={`button ${className}`}
+            type="button"
+            data-id={id}
+            onClick={onClick}>
+            { children }
+        </button>
     )
 }
 

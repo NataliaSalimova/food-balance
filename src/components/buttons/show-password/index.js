@@ -1,3 +1,3 @@
-import ShowPassword from './show-password';
+import ShowPasswordButton from './show-password';
 
-export default ShowPassword;
+export default ShowPasswordButton;

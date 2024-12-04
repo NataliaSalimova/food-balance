@@ -10,8 +10,8 @@
     display: block;
     margin: 0 0 20px;
     transition: all .25s ease;
-}
 
-.button:hover {
-    opacity: .7;
+    &:hover {
+        opacity: .7;
+    }
 }
