@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {Fragment, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { setUserApi } from '../../../api';
@@ -6,6 +6,8 @@ import { setUserApi } from '../../../api';
 import Field from '../field';
 import ShowPasswordButton from '../../buttons/show-password';
 import Button from '../../buttons/base';
+
+import Loader from "../../loader";
 
 const Login = ()=> {
     const [formData, setFormData] = useState({
@@ -15,6 +17,7 @@ const Login = ()=> {
     });
     const [ error, setError ] = useState(false);
     const [ user, setUser ] = useState(true);
+    const [ isLoading, setIsLoading ] = useState(false);
     const navigate = useNavigate();
 
     const changeTypePassword = (type)=> {
@@ -42,15 +45,17 @@ const Login = ()=> {
             setError(true)
         } else {
             setError(false);
+            setIsLoading(true);
             getUser();
         }
     }
 
-    const getUser = async () => {
-        const { login, password } = formData;
+    const getUserRequest = async () => {
+        return await setUserApi('signIn', formData);
+    };
 
-        const user = { login, password };
-        const result = await setUserApi('signIn', user)
+    const getUser = async ()=> {
+        const result = await getUserRequest();
 
         switch (result.status) {
             case 200:
@@ -63,7 +68,9 @@ const Login = ()=> {
                 alert('Извините, что-то пошло не так. Попробуйте позже');
                 break;
         }
-    };
+
+        setIsLoading(false);
+    }
 
     const onGetUserSuccess = (token)=> {
         navigate('/diary');
@@ -75,37 +82,40 @@ const Login = ()=> {
     }
 
     return (
-        <form className="form">
-            <Field
-                label={'Логин'}
-                id={'login'}
-                value={formData.login}
-                onChange={handleChange}
-                error={error}
-                errorText={'*Пожалуйста, введите ваш логин'}
-            />
-            <div className="form__password">
+        <Fragment>
+            { isLoading ? <Loader/> : '' }
+            <form className="form">
                 <Field
-                    label={'Пароль'}
-                    id={'password'}
-                    value={formData.password}
-                    type={formData.type}
+                    label={'Логин'}
+                    id={'login'}
+                    value={formData.login}
                     onChange={handleChange}
                     error={error}
-                    errorText={'*Пожалуйста, введите ваш пароль'}
+                    errorText={'*Пожалуйста, введите ваш логин'}
                 />
+                <div className="form__password">
+                    <Field
+                        label={'Пароль'}
+                        id={'password'}
+                        value={formData.password}
+                        type={formData.type}
+                        onChange={handleChange}
+                        error={error}
+                        errorText={'*Пожалуйста, введите ваш пароль'}
+                    />
 
-                <ShowPasswordButton onChangeTypePassword={ changeTypePassword }/>
-            </div>
+                    <ShowPasswordButton onChangeTypePassword={ changeTypePassword }/>
+                </div>
 
-            { !user && <span className="error error_bottom">*Неверный логин или пароль</span> }
+                { !user && <span className="error">*Неверный логин или пароль</span> }
 
-            <Button handleSubmit={handleSubmit}>
-                Войти
-            </Button>
+                <Button handleSubmit={handleSubmit}>
+                    Войти
+                </Button>
 
-            <Link to="/registration" className="form__link ta-center">Зарегистрироваться</Link>
-        </form>
+                <Link to="/registration" className="link ta-center">Зарегистрироваться</Link>
+            </form>
+        </Fragment>
     )
 }
 
