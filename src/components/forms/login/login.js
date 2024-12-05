@@ -15,17 +15,17 @@ const Login = ()=> {
         password: '',
         type: 'password'
     });
+    const [ passwordType, setPasswordType ] = useState({
+        password: 'password'
+    });
     const [ error, setError ] = useState(false);
     const [ user, setUser ] = useState(true);
     const [ isLoading, setIsLoading ] = useState(false);
     const navigate = useNavigate();
 
-    const changeTypePassword = (type)=> {
-        setFormData(prevState => ({
-            ...prevState,
-            type: type
-        }));
-    };
+    const changeTypePassword = (typeInputPassword)=> {
+        setPasswordType(typeInputPassword);
+    }
 
     const handleChange = (event)=> {
         const { name, value } = event.target;
@@ -45,17 +45,17 @@ const Login = ()=> {
             setError(true)
         } else {
             setError(false);
+            signIn();
             setIsLoading(true);
-            getUser();
         }
     }
 
-    const getUserRequest = async () => {
+    const signInRequest = async () => {
         return await setUserApi('signIn', formData);
     };
 
-    const getUser = async ()=> {
-        const result = await getUserRequest();
+    const signIn = async ()=> {
+        const result = await signInRequest();
 
         switch (result.status) {
             case 200:
@@ -98,7 +98,7 @@ const Login = ()=> {
                         label={'Пароль'}
                         id={'password'}
                         value={formData.password}
-                        type={formData.type}
+                        type={passwordType}
                         onChange={handleChange}
                         error={error}
                         errorText={'*Пожалуйста, введите ваш пароль'}

@@ -1,23 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 import styles from './show-password.module.scss';
 
-const ShowPasswordButton = ({ onChangeTypePassword })=> {
-    const [ type, setType ] = useState('password');
+const ShowPasswordButton = ({ onChangeTypePassword, typeButtonPassword = 'password' })=> {
+    const [ typeInputPassword, setTypeInputPassword ] = useState('password');
 
     const changeTypePassword = (event) => {
         event.preventDefault();
 
-        type === 'password' ? setType('text') : setType('password');
+        typeInputPassword === 'password'
+            ? setTypeInputPassword('text')
+            : setTypeInputPassword('password');
     }
 
     useEffect(()=> {
-        onChangeTypePassword(type);
-    }, [type])
+        onChangeTypePassword(typeInputPassword, typeButtonPassword);
+    }, [typeInputPassword])
 
     return (
-        <button className={`${styles.button} ${type === 'text' ? styles.show : ''}`} onClick={changeTypePassword}>
-            <img src="/images/show-password.png" width="25" height="25" alt="Show password" />
+        <button
+            className={`${styles.button} ${typeInputPassword === 'text' ? styles.show : ''}`}
+            onClick={changeTypePassword}>
+            <img src="/images/show-password.png"
+                width="25"
+                height="25"
+                alt="Show password" />
         </button>
     )
 }

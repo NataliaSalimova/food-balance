@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 import { setUserApi } from '../../../api';
 
-import ShowPassword from '../../buttons/show-password';
+import ShowPasswordButton from '../../buttons/show-password';
 import Button from '../../buttons/base';
 import Field from '../field';
 
@@ -13,48 +13,57 @@ const Registration = ()=> {
         email: '',
         login: '',
         password: '',
-        passwordType: 'password',
         confirmPassword: '',
-        confirmPasswordType: 'password'
+    });
+    const [ passwordTypes, setPasswordTypes ] = useState({
+        password: 'password',
+        confirmPassword: 'password'
     });
     const [ error, setError ] = useState(false);
     const [ passwordMatch, setPasswordMatch ] = useState(true);
     const [ user, setUser ] = useState(false);
+
     const navigate = useNavigate();
 
     const handleChange = (event)=> {
         const { name, value } = event.target;
 
-        setFormData(prevFormData => ({
-            ...prevFormData,
+        setFormData(prevState => ({
+            ...prevState,
             [name]: value
         }));
     };
 
-    const signUp = async ()=> {
+    const signUpRequest = async ()=> {
         const { login, password, name, email } = formData;
+        const user = { login, password, name, email };
 
-        const user = {
-            login,
-            password,
-            name,
-            email
-        };
+        return  await setUserApi('signUp', user);
+    }
 
-        const result = await setUserApi('signUp', user);
+    const signUp = async ()=> {
+        const result = await signUpRequest();
 
         switch (result.status) {
             case 200:
-                navigate('/calorie-calculation');
-                localStorage.setItem('authKey', result.responseJSON.token);
+                onSignUpSuccess();
                 break;
             case 409:
-                setUser(true)
+                onSignUpError();
                 break;
             default:
                 alert('Извините, что-то пошло не так. Попробуйте зарегистироваться позже');
                 break;
         }
+    }
+
+    const onSignUpSuccess = (token)=> {
+        navigate('/calorie-calculation');
+        localStorage.setItem('authKey', token);
+    }
+
+    const onSignUpError = ()=> {
+        setUser(true);
     }
 
     const handleSubmit = (event) => {
@@ -80,17 +89,11 @@ const Registration = ()=> {
         return error;
     }
 
-    const changeTypePassword = ()=> {
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            passwordType: prevFormData.passwordType === 'password' ? 'text' : 'password'
-        }));
-    }
+    const changeTypePassword = (typeInputPassword, typeButtonPassword)=> {
 
-    const changeTypeConfirmPassword = ()=> {
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            confirmPasswordType: prevFormData.confirmPasswordType === 'password' ? 'text' : 'password'
+        setPasswordTypes(prevState => ({
+            ...prevState,
+            [typeButtonPassword]: typeInputPassword
         }));
     }
 
@@ -126,24 +129,24 @@ const Registration = ()=> {
                     label={'Пароль'}
                     id={'password'}
                     value={formData.password}
-                    type={formData.passwordType}
+                    type={passwordTypes.password}
                     onChange={handleChange}
                     error={error}
                     errorText={'*Пожалуйста, введите пароль'}
                 />
-                <ShowPassword onHandleClick={changeTypePassword}/>
+                <ShowPasswordButton onChangeTypePassword={changeTypePassword}/>
             </div>
             <div className="form__password">
                 <Field
                     label={'Подтверждение пароля'}
                     id={'confirmPassword'}
                     value={formData.confirmPassword}
-                    type={formData.confirmPasswordType}
+                    type={passwordTypes.confirmPassword}
                     onChange={handleChange}
                     error={error}
                     errorText={'*Подтвердите пароль'}
                 />
-                <ShowPassword onHandleClick={changeTypeConfirmPassword}/>
+                <ShowPasswordButton onChangeTypePassword={changeTypePassword} typeButtonPassword="confirmPassword"/>
             </div>
             {!passwordMatch && <span className="error">Пароли не совпадают!</span>}
 
@@ -154,7 +157,7 @@ const Registration = ()=> {
             <Button handleSubmit={handleSubmit}>
                 Зарегистрироваться
             </Button>
-            <Link to="/login" className="button ta-center">Войти</Link>
+            <Link to="/login" className="link ta-center">Войти</Link>
         </form>
     );
 }
