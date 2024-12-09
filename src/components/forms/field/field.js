@@ -1,26 +1,38 @@
 import React from 'react';
 
-import styles from './field.module.scss';
+import './field.scss';
 
-const Field = ({ label, id, value, onChange, error, errorText, checked, type='text', inputType })=> {
+const Field = (
+    {
+        label,
+        id,
+        value,
+        onChange,
+        error,
+        errorText,
+        checked,
+        inputType,
+        className = '',
+        type='text'
+    })=> {
     return (
-        <div className={`${styles.field}`}>
+        <div className={`field ${className}`}>
             <label
                 htmlFor={id}
-                className={`${styles.label}`}>
+                className="field__label">
                 { label }
             </label>
             <div>
                 {inputType ?
                     <textarea
-                        className={`${styles.input}`}
+                        className="field__input"
                         name={id}
                         placeholder={label}
                         id={id}
                         value={value}
                         onChange={onChange}/> :
                     <input
-                        className={`${styles.input}`}
+                        className="field__input"
                         name={id}
                         placeholder={label}
                         id={id}

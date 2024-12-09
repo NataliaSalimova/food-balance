@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { setUserApi } from '../../../api';
@@ -20,6 +20,7 @@ const Login = ()=> {
     });
     const [ error, setError ] = useState(false);
     const [ user, setUser ] = useState(true);
+    const [ isSubmitForm, setIsSubmitForm ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
     const navigate = useNavigate();
 
@@ -36,17 +37,18 @@ const Login = ()=> {
         }));
     };
 
-    const handleSubmit = (event)=> {
+    const onValidationForm = (event)=> {
         event.preventDefault();
 
         const { login, password } = formData;
 
         if (login === '' || password=== '') {
-            setError(true)
+            setError(true);
+            setIsSubmitForm(false);
         } else {
             setError(false);
-            signIn();
             setIsLoading(true);
+            setIsSubmitForm(true);
         }
     }
 
@@ -70,6 +72,7 @@ const Login = ()=> {
         }
 
         setIsLoading(false);
+        setIsSubmitForm(false);
     }
 
     const onGetUserSuccess = (token)=> {
@@ -80,6 +83,10 @@ const Login = ()=> {
     const onGetUserError = ()=> {
         setUser(false);
     }
+
+    useEffect(()=> {
+        if (isSubmitForm) signIn();
+    }, [isSubmitForm])
 
     return (
         <Fragment>
@@ -109,7 +116,7 @@ const Login = ()=> {
 
                 { !user && <span className="error">*Неверный логин или пароль</span> }
 
-                <Button handleSubmit={handleSubmit}>
+                <Button handleSubmit={onValidationForm}>
                     Войти
                 </Button>
 
