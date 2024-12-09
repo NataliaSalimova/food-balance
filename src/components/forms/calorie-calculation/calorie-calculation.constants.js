@@ -52,8 +52,33 @@ const ACTIVITY_LEVEL_LIST = [
     }
 ]
 
+const COEFFICIENTS_CALORIES = {
+    WEIGHT: 10,
+    HEIGHT: 6.25,
+    AGE: 5,
+    WOMEN: 161,
+    MEN: 5
+}
+
+const ENERGY_VALUE_COEFFICIENTS= {
+    CARBOHYDRATES: {
+        PERCENT: 0.3,
+        CALORIES_PER_GRAM: 4,
+    },
+    PROTEINS: {
+        PERCENT: 0.3,
+        CALORIES_PER_GRAM: 4,
+    },
+    FATS: {
+        PERCENT: 0.4,
+        CALORIES_PER_GRAM: 9,
+    }
+}
+
 export {
     GENDER_LIST,
     TARGET_LIST,
-    ACTIVITY_LEVEL_LIST
+    ACTIVITY_LEVEL_LIST,
+    COEFFICIENTS_CALORIES,
+    ENERGY_VALUE_COEFFICIENTS
 }

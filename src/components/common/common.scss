@@ -8,54 +8,6 @@
     &__password {
         position: relative;
     }
-
-    &__field {
-        margin: 0 0 15px;
-    }
-
-    &__label {
-        font-size: 14px;
-        display: block;
-        margin: 0 0 10px;
-    }
-
-    &__input:not([type=radio]) {
-        padding: 10px;
-        border: 1px solid var(--color-black);
-        width: calc(100% - 22px);
-    }
-
-    &__input._select {
-        width: 100%;
-    }
-
-    &__input[type=radio] {
-        margin: 0 10px 0 0;
-
-        & + .form__label {
-            display: inline-block;
-            vertical-align: top;
-            margin: 0;
-        }
-    }
-}
-
-.field {
-    position: relative;
-    margin: 0 0 15px;
-}
-
-.label {
-    font-size: 14px;
-    display: block;
-    margin: 0 0 10px;
-}
-
-.input:not([type=radio]) {
-    padding: 10px;
-    border: 1px solid var(--color-black);
-    width: calc(100% - 22px);
-    resize: vertical;
 }
 
 .medium-bold {

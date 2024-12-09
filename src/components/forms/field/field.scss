@@ -2,6 +2,18 @@
     position: relative;
     margin: 0 0 15px;
 
+    &._reverse {
+        display: grid;
+        grid-template-columns: 22px 1fr;
+        align-items: center;
+        grid-column-gap: 5px;
+
+        .field__label {
+            order: 1;
+            margin: 0;
+        }
+    }
+
     &__label {
         font-size: 14px;
         display: block;

@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { getUserApi, setUserDataApi } from '../../../api';
+import { setUserDataApi } from '../../../api';
 
-import { TARGET_LIST, ACTIVITY_LEVEL_LIST } from './calorie-calculation.constants';
+import {
+    TARGET_LIST,
+    ACTIVITY_LEVEL_LIST,
+    COEFFICIENTS_CALORIES,
+    ENERGY_VALUE_COEFFICIENTS
+} from './calorie-calculation.constants';
 
 import Button from '../../buttons/base';
 import Field from '../field';
+import FieldSelect from "../field-select";
 
 const CalorieCalculation = ()=> {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
+    const [ formData, setFormData ] = useState({
         gender: '',
         height: '',
         weight: '',
@@ -22,27 +28,19 @@ const CalorieCalculation = ()=> {
         proteins: '',
         fats: ''
     });
-
     const [ error, setError ] = useState(false);
-
-    const getUser = async ()=> {
-        const response = await getUserApi();
-
-        if (response.status === 401) {
-            navigate('/login');
-        }
-    };
+    const [ isSubmitForm, setIsSubmitForm ] = useState(false);
 
     const handleChange = (event)=> {
         const { name, value } = event.target;
 
-        setFormData(prevFormData => ({
-            ...prevFormData,
+        setFormData(prevState => ({
+            ...prevState,
             [name]: value
         }));
     }
 
-    const handleSubmit = (event)=> {
+    const validateForm = (event)=> {
         event.preventDefault();
 
         const { gender, height, weight, age, target, activityLevel} = formData;
@@ -54,63 +52,75 @@ const CalorieCalculation = ()=> {
             target === '' ||
             activityLevel === '') {
             setError(true);
+            setIsSubmitForm(false);
         } else {
             setError(false);
-            setUserData();
+            setIsSubmitForm(true);
         }
     }
 
-    const setUserData = ()=> {
+    const handleSubmit= (event)=> {
+        validateForm(event);
+    }
+
+    const updateUserData = ()=> {
         const { weight, height, age, gender, activityLevel, target} = formData;
         const calories = calcCalories(weight, height, age, gender, activityLevel, target);
 
-        setFormData(prevFormData => ({
-            ...prevFormData,
+        setFormData(prevState => ({
+            ...prevState,
             calories: calcCalories(weight, height, age, gender, activityLevel, target),
-            carbohydrates: calcCarbohydrates(calories),
-            proteins: calcProteins(calories),
-            fats: calcFats(calories)
+            carbohydrates: calcNutrientValue(calories, 'CARBOHYDRATES'),
+            proteins: calcNutrientValue(calories, 'PROTEINS'),
+            fats: calcNutrientValue(calories, 'FATS')
         }));
     }
 
-    const addUserData = async ()=> {
+    const setUserDataRequest = async ()=> {
         const response = await setUserDataApi(formData);
 
-        switch (response.status) {
-            case 200:
-                navigate('/diary')
-                break;
-            default:
-                alert('Что-то пошло не так')
-        }
+        response.status === 200 ?
+            onSetUserDataSuccess() :
+            onSetUserDataError();
+    }
+
+    const onSetUserDataSuccess = ()=> {
+        navigate('/diary');
+    }
+
+    const onSetUserDataError= ()=> {
+        alert('Что-то пошло не так');
+    }
+
+    const setUserData = ()=> {
+        setUserDataRequest();
     }
 
     const calcCalories = (weight, height, age, genderValue, activityLevel,target)=> {
-        const caloriesValue = (10 * weight) + (6.25 * height) - (5 * age);
+        const { WEIGHT, HEIGHT, AGE, WOMEN, MEN } = COEFFICIENTS_CALORIES;
+        const caloriesValue = (WEIGHT * weight) + (HEIGHT * height) - (AGE * age);
 
-        return Math.round(activityLevel*target*(genderValue === 'female' ? (caloriesValue - 161) : (caloriesValue + 5)));
+        return Math.round(activityLevel * target * (genderValue === 'female' ?
+            (caloriesValue - WOMEN) :
+            (caloriesValue + MEN)));
     }
 
-    const calcCarbohydrates = (calories)=> {
-        return Math.round(calories * 0.3 / 4);
-    }
+    const calcNutrientValue = (calories, nutrient)=> {
+        const { PERCENT, CALORIES_PER_GRAM } = ENERGY_VALUE_COEFFICIENTS[nutrient];
 
-    const calcProteins = (calories)=> {
-        return Math.round(calories * 0.3 / 4);
-    }
-
-    const calcFats = (calories)=> {
-        return Math.round(calories * 0.4 / 9);
+        return Math.round(calories * PERCENT / CALORIES_PER_GRAM);
     }
 
     useEffect(()=> {
-        getUser();
-    }, []);
+        if (isSubmitForm) {
+           updateUserData();
+        }
+    }, [isSubmitForm])
 
     useEffect(()=> {
         if (!formData.calories) return;
 
-        addUserData();
+        setUserData();
     }, [formData.calories])
 
     return (
@@ -120,6 +130,7 @@ const CalorieCalculation = ()=> {
                 id={'gender'}
                 value={'female'}
                 type={'radio'}
+                className={'_reverse'}
                 onChange={handleChange}
                 checked={formData.gender === 'female'}
             />
@@ -128,6 +139,7 @@ const CalorieCalculation = ()=> {
                 id={'gender'}
                 value={'male'}
                 type={'radio'}
+                className={'_reverse'}
                 onChange={handleChange}
                 error={error}
                 errorText={'*Пожалуйста, выберите пол'}
@@ -158,41 +170,24 @@ const CalorieCalculation = ()=> {
                 error={error}
                 errorText={'*Пожалуйста, укажите возраст'}
             />
-            <div className="form__field">
-                <select className="form__input _select" name="target" onChange={handleChange}>
-                    <option>Выберите цель</option>
-                    {
-                        TARGET_LIST.map((item,index)=> {
-                            return (
-                                <option
-                                    key={index}
-                                    value={item.value}
-                                    {...(Number(formData.target) === item.value && { selected: true })}>
-                                    {item.text}
-                                </option>
-                            )
-                        })
-                    }
-                </select>
-                {error && !formData.target && <span className="error">*Пожалуйста, выберите цель</span>}
-            </div>
-            <div className="form__field">
-                <select className="form__input _select" name="activityLevel" onChange={handleChange}>
-                    {
-                        ACTIVITY_LEVEL_LIST.map((item,index)=> {
-                            return (
-                                <option
-                                    key={index}
-                                    value={item.value}
-                                    {...(Number(formData.activityLevel) === item.value && { selected: true })}>
-                                    {item.text}
-                                </option>
-                            )
-                        })
-                    }
-                </select>
-                {error && !formData.activityLevel && <span className="error">*Пожалуйста, выберите уровень активности</span>}
-            </div>
+            <FieldSelect
+                name={'target'}
+                onChange={handleChange}
+                mainOption={'Выберите цель'}
+                items={TARGET_LIST}
+                value={formData.target}
+                error={error}
+                errorText={'*Пожалуйста, выберите цель'}
+            />
+            <FieldSelect
+                name={'activityLevel'}
+                onChange={handleChange}
+                mainOption={'Выберите уронень физической нагрузки'}
+                items={ACTIVITY_LEVEL_LIST}
+                value={formData.activityLevel}
+                error={error}
+                errorText={'*Пожалуйста, выберите уровень активности'}
+            />
             <Button handleSubmit={handleSubmit}>
                 Рассчитать
             </Button>

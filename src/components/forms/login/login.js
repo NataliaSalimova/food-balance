@@ -37,7 +37,7 @@ const Login = ()=> {
         }));
     };
 
-    const onValidationForm = (event)=> {
+    const onValidateForm = (event)=> {
         event.preventDefault();
 
         const { login, password } = formData;
@@ -116,7 +116,7 @@ const Login = ()=> {
 
                 { !user && <span className="error">*Неверный логин или пароль</span> }
 
-                <Button handleSubmit={onValidationForm}>
+                <Button handleSubmit={onValidateForm}>
                     Войти
                 </Button>
 
