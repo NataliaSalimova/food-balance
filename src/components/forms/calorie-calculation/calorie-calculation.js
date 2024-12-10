@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { setUserDataApi } from '../../../api';
@@ -7,12 +7,15 @@ import {
     TARGET_LIST,
     ACTIVITY_LEVEL_LIST,
     COEFFICIENTS_CALORIES,
-    ENERGY_VALUE_COEFFICIENTS
+    ENERGY_VALUE_COEFFICIENTS,
+    DELAY_SHOW_INDICATOR_ERROR
 } from './calorie-calculation.constants';
 
-import Button from '../../buttons/base';
+import Loader from '../../loader';
 import Field from '../field';
-import FieldSelect from "../field-select";
+import FieldSelect from '../field-select';
+import Button from '../../buttons/base';
+import ErrorIndicator from '../../error-indicator';
 
 const CalorieCalculation = ()=> {
     const navigate = useNavigate();
@@ -30,6 +33,8 @@ const CalorieCalculation = ()=> {
     });
     const [ error, setError ] = useState(false);
     const [ isSubmitForm, setIsSubmitForm ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ isErrorIndicator, setIsErrorIndicator ] = useState(false);
 
     const handleChange = (event)=> {
         const { name, value } = event.target;
@@ -52,9 +57,11 @@ const CalorieCalculation = ()=> {
             target === '' ||
             activityLevel === '') {
             setError(true);
+            setIsLoading(false);
             setIsSubmitForm(false);
         } else {
             setError(false);
+            setIsLoading(true);
             setIsSubmitForm(true);
         }
     }
@@ -82,6 +89,8 @@ const CalorieCalculation = ()=> {
         response.status === 200 ?
             onSetUserDataSuccess() :
             onSetUserDataError();
+
+        setIsLoading(false);
     }
 
     const onSetUserDataSuccess = ()=> {
@@ -89,7 +98,11 @@ const CalorieCalculation = ()=> {
     }
 
     const onSetUserDataError= ()=> {
-        alert('Что-то пошло не так');
+        setIsErrorIndicator(true);
+
+        setTimeout(()=> {
+            setIsErrorIndicator(false)
+        }, DELAY_SHOW_INDICATOR_ERROR);
     }
 
     const setUserData = ()=> {
@@ -124,74 +137,80 @@ const CalorieCalculation = ()=> {
     }, [formData.calories])
 
     return (
-        <form className="form">
-            <Field
-                label={'Женщина'}
-                id={'gender'}
-                value={'female'}
-                type={'radio'}
-                className={'_reverse'}
-                onChange={handleChange}
-                checked={formData.gender === 'female'}
-            />
-            <Field
-                label={'Мужчина'}
-                id={'gender'}
-                value={'male'}
-                type={'radio'}
-                className={'_reverse'}
-                onChange={handleChange}
-                error={error}
-                errorText={'*Пожалуйста, выберите пол'}
-                checked={formData.gender === 'male'}
-            />
-            <Field
-                label={'Рост(см)'}
-                id={'height'}
-                value={formData.height}
-                onChange={handleChange}
-                error={error}
-                errorText={'*Пожалуйста, укажите рост'}
-            />
-            <Field
-                label={'Вес(кг)'}
-                id={'weight'}
-                value={formData.weight}
-                onChange={handleChange}
-                error={error}
-                errorText={'*Пожалуйста, укажите вес'}
-            />
-            <Field
-                label={'Возраст(лет)'}
-                id={'age'}
-                value={formData.age}
-                type={'number'}
-                onChange={handleChange}
-                error={error}
-                errorText={'*Пожалуйста, укажите возраст'}
-            />
-            <FieldSelect
-                name={'target'}
-                onChange={handleChange}
-                mainOption={'Выберите цель'}
-                items={TARGET_LIST}
-                value={formData.target}
-                error={error}
-                errorText={'*Пожалуйста, выберите цель'}
-            />
-            <FieldSelect
-                name={'activityLevel'}
-                onChange={handleChange}
-                mainOption={'Выберите уронень физической нагрузки'}
-                items={ACTIVITY_LEVEL_LIST}
-                value={formData.activityLevel}
-                error={error}
-                errorText={'*Пожалуйста, выберите уровень активности'}
-            />
-            <Button handleSubmit={handleSubmit}>
-                Рассчитать
-            </Button>
-        </form>
+        <Fragment>
+            { isLoading ? <Loader/> : '' }
+            { isErrorIndicator ? <ErrorIndicator/> : '' }
+            <form className="form">
+                <Field
+                    label={'Женщина'}
+                    id={'gender'}
+                    value={'female'}
+                    type={'radio'}
+                    className={'_reverse'}
+                    onChange={handleChange}
+                    checked={formData.gender === 'female'}
+                />
+                <Field
+                    label={'Мужчина'}
+                    id={'gender'}
+                    value={'male'}
+                    type={'radio'}
+                    className={'_reverse'}
+                    onChange={handleChange}
+                    error={error}
+                    errorText={'*Пожалуйста, выберите пол'}
+                    checked={formData.gender === 'male'}
+                />
+                <Field
+                    label={'Рост(см)'}
+                    id={'height'}
+                    value={formData.height}
+                    type={'number'}
+                    onChange={handleChange}
+                    error={error}
+                    errorText={'*Пожалуйста, укажите рост'}
+                />
+                <Field
+                    label={'Вес(кг)'}
+                    id={'weight'}
+                    value={formData.weight}
+                    type={'number'}
+                    onChange={handleChange}
+                    error={error}
+                    errorText={'*Пожалуйста, укажите вес'}
+                />
+                <Field
+                    label={'Возраст(лет)'}
+                    id={'age'}
+                    value={formData.age}
+                    type={'number'}
+                    onChange={handleChange}
+                    error={error}
+                    errorText={'*Пожалуйста, укажите возраст'}
+                />
+                <FieldSelect
+                    name={'target'}
+                    onChange={handleChange}
+                    mainOption={'Выберите цель'}
+                    items={TARGET_LIST}
+                    value={formData.target}
+                    error={error}
+                    errorText={'*Пожалуйста, выберите цель'}
+                />
+                <FieldSelect
+                    name={'activityLevel'}
+                    onChange={handleChange}
+                    mainOption={'Выберите уровень физической нагрузки'}
+                    items={ACTIVITY_LEVEL_LIST}
+                    value={formData.activityLevel}
+                    error={error}
+                    errorText={'*Пожалуйста, выберите уровень активности'}
+                />
+                <Button handleSubmit={handleSubmit}>
+                    Рассчитать
+                </Button>
+            </form>
+        </Fragment>
     );
 }
 
