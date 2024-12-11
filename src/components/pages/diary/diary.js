@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
-import styles from './diary.module.scss';
+import { useNavigate } from 'react-router-dom';
+import { ErrorBoundary } from "react-error-boundary";
 
 import { getUserDataApi, getDishesApi } from '../../../api';
 
+import STORE from '../../../store';
+
+import Header from '../../header'
 import RatioCalories from '../../ratio-calories';
 import EssentialMacronutrients from '../../essential-macronutrients';
-import Meals from '../../meals';
 import Calendar from '../../calendar';
+import Meals from '../../meals';
 import WaterConsumption from '../../water-consumption';
-
-import STORE from "../../../store";
+import Loader from "../../loader";
+import ErrorFallback from "../../error-fallback";
 
 function Diary() {
     const [user, setUser] = useState({
@@ -27,39 +29,74 @@ function Diary() {
         waterConsumed: 0,
         cups: []
     });
+    const [ isLoading, setIsLoading ] = useState(true);
 
     const navigate = useNavigate();
 
-    const getUser = async ()=> {
-        const response = await getUserDataApi();
+    const getUserDataRequest = ()=> {
+        return getUserDataApi();
+    }
+
+    const [count, setCount] = useState(5);
+
+    const throwCounterClickHandler = e => {
+        e.preventDefault();
+        setCount(count - 1);
+    };
+
+    if (count <= 0) {
+        throw new Error("Counter threw an error!");
+    }
+
+    const getUser = ()=> {
+        const response = getUserDataRequest();
 
         switch (response.status) {
             case 200:
-                const res = response.responseJSON;
-
-                setUser(prevState => ({
-                    ...prevState,
-                    caloriesRemaining: res.calories ?? res.caloriesRemaining,
-                    carbohydratesTotal: res.carbohydrates ?? res.carbohydrates,
-                    proteinsTotal: res.proteins ?? res.proteinsTotal,
-                    fatsTotal: res.fats ?? res.fatsTotal,
-                    waterConsumed: res.cups ? res.cups.filter((cup) => cup.selected).length * 0.25 : 0,
-                    cups: res.cups ?? []
-                }));
-
+                getUserDataSuccess(response);
                 break;
-
             case 401:
-                navigate('/login');
-
+                getUserDataError();
                 break;
-
             default:
-                alert('Что-то пошло не так');
-
+                getUserDataErrorDefault();
                 break;
         }
+
+        setIsLoading(false);
     };
+
+    const getUserDataSuccess = (response)=> {
+        const {
+            calories,
+            caloriesRemaining,
+            carbohydrates,
+            carbohydratesTotal,
+            proteins,
+            proteinsTotal,
+            fats,
+            fatsTotal,
+            cups
+        } = response.responseJSON;
+
+        setUser(prevState => ({
+            ...prevState,
+            caloriesRemaining: calories ?? caloriesRemaining,
+            carbohydratesTotal: carbohydrates ?? carbohydratesTotal,
+            proteinsTotal: proteins ?? proteinsTotal,
+            fatsTotal: fats ?? fatsTotal,
+            waterConsumed: cups ? cups.filter((cup) => cup.selected).length * 0.25 : 0,
+            cups: cups ?? []
+        }));
+    }
+
+    const getUserDataError = ()=> {
+        navigate('/login');
+    }
+
+    const getUserDataErrorDefault = ()=> {
+        //setIsErrorIndicator(true);
+    }
 
     const getDishes = async ()=> {
         const data= {
@@ -101,19 +138,9 @@ function Diary() {
     }, []);
 
     return (
-        <div className="diary-page page-container">
-            <div className={styles.header}>
-                <Link to='/' className={styles.link}>
-                    FoodBalance
-                </Link>
-                <Link to='/profile' className={`page-link ${styles.profile}`}>
-                    <img src="/images/profile.png"
-                        width="30"
-                        height="30"
-                        alt="Icon profile"/>
-                </Link>
-            </div>
-
+        <div className="page-container">
+            { isLoading ? <Loader/> : '' }
+            <Header/>
             <RatioCalories
                 caloriesConsumed={user.caloriesConsumed}
                 caloriesRemaining={user.caloriesRemaining}/>

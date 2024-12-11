@@ -7,9 +7,6 @@ import ShowPasswordButton from '../../buttons/show-password';
 import Button from '../../buttons/base';
 import Field from '../field';
 import Loader from '../../loader';
-import ErrorIndicator from '../../error-indicator';
-
-import DELAY_SHOW_INDICATOR_ERROR from './registration.constants';
 
 const Registration = ()=> {
     const [formData, setFormData] = useState({
@@ -28,7 +25,6 @@ const Registration = ()=> {
     const [ user, setUser ] = useState(false);
     const [ isSubmitForm, setIsSubmitForm ] = useState(false)
     const [ isLoading, setIsLoading ] = useState(false);
-    const [ isErrorIndicator, setIsErrorIndicator ] = useState(false);
 
     const navigate = useNavigate();
 
@@ -59,7 +55,6 @@ const Registration = ()=> {
                 onSignUpError();
                 break;
             default:
-                onSignUpErrorDefault();
                 break;
         }
 
@@ -74,14 +69,6 @@ const Registration = ()=> {
 
     const onSignUpError = ()=> {
         setUser(true);
-    }
-
-    const onSignUpErrorDefault = ()=> {
-        setIsErrorIndicator(true);
-
-        setTimeout(()=> {
-            setIsErrorIndicator(false);
-        }, DELAY_SHOW_INDICATOR_ERROR);
     }
 
     const validateForm = ()=> {
@@ -127,7 +114,6 @@ const Registration = ()=> {
 
     return (
         <Fragment>
-            { isErrorIndicator ? <ErrorIndicator/> : '' }
             { isLoading ? <Loader/> : '' }
             <form className="form">
                 <Field

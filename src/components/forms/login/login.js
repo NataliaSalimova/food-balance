@@ -8,9 +8,6 @@ import ShowPasswordButton from '../../buttons/show-password';
 import Button from '../../buttons/base';
 
 import Loader from '../../loader';
-import ErrorIndicator from '../../error-indicator';
-
-import DELAY_SHOW_INDICATOR_ERROR from './login.constants';
 
 const Login = ()=> {
     const [formData, setFormData] = useState({
@@ -25,7 +22,6 @@ const Login = ()=> {
     const [ user, setUser ] = useState(true);
     const [ isSubmitForm, setIsSubmitForm ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
-    const [ isErrorIndicator, setIsErrorIndicator ] = useState(false);
     const navigate = useNavigate();
 
     const changeTypePassword = (typeInputPassword)=> {
@@ -72,7 +68,6 @@ const Login = ()=> {
                 onGetUserError();
                 break;
             default:
-                onGetUserErrorDefault();
                 break;
         }
 
@@ -89,14 +84,6 @@ const Login = ()=> {
         setUser(false);
     }
 
-    const onGetUserErrorDefault = ()=> {
-        setIsErrorIndicator(true);
-
-        setTimeout(()=> {
-            setIsErrorIndicator(false);
-        }, DELAY_SHOW_INDICATOR_ERROR);
-    }
-
     useEffect(()=> {
         if (isSubmitForm) signIn();
     }, [isSubmitForm])
@@ -104,7 +91,6 @@ const Login = ()=> {
     return (
         <Fragment>
             { isLoading ? <Loader/> : '' }
-            { isErrorIndicator ? <ErrorIndicator/> : '' }
             <form className="form">
                 <Field
                     label={'Логин'}

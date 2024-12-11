@@ -7,15 +7,13 @@ import {
     TARGET_LIST,
     ACTIVITY_LEVEL_LIST,
     COEFFICIENTS_CALORIES,
-    ENERGY_VALUE_COEFFICIENTS,
-    DELAY_SHOW_INDICATOR_ERROR
+    ENERGY_VALUE_COEFFICIENTS
 } from './calorie-calculation.constants';
 
 import Loader from '../../loader';
 import Field from '../field';
 import FieldSelect from '../field-select';
 import Button from '../../buttons/base';
-import ErrorIndicator from '../../error-indicator';
 
 const CalorieCalculation = ()=> {
     const navigate = useNavigate();
@@ -34,7 +32,6 @@ const CalorieCalculation = ()=> {
     const [ error, setError ] = useState(false);
     const [ isSubmitForm, setIsSubmitForm ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
-    const [ isErrorIndicator, setIsErrorIndicator ] = useState(false);
 
     const handleChange = (event)=> {
         const { name, value } = event.target;
@@ -86,23 +83,14 @@ const CalorieCalculation = ()=> {
     const setUserDataRequest = async ()=> {
         const response = await setUserDataApi(formData);
 
-        response.status === 200 ?
-            onSetUserDataSuccess() :
-            onSetUserDataError();
-
+        if(response.status === 200) {
+            onSetUserDataSuccess()
+        }
         setIsLoading(false);
     }
 
     const onSetUserDataSuccess = ()=> {
         navigate('/diary');
-    }
-
-    const onSetUserDataError= ()=> {
-        setIsErrorIndicator(true);
-
-        setTimeout(()=> {
-            setIsErrorIndicator(false)
-        }, DELAY_SHOW_INDICATOR_ERROR);
     }
 
     const setUserData = ()=> {
@@ -139,7 +127,7 @@ const CalorieCalculation = ()=> {
     return (
         <Fragment>
             { isLoading ? <Loader/> : '' }
-            { isErrorIndicator ? <ErrorIndicator/> : '' }
+            {/*{ isErrorIndicator ? <ErrorIndicator/> : '' }*/}
             <form className="form">
                 <Field
                     label={'Женщина'}
