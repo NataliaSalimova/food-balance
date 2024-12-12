@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ErrorBoundary } from "react-error-boundary";
 
 import { getUserDataApi, getDishesApi } from '../../../api';
 
@@ -8,48 +7,45 @@ import STORE from '../../../store';
 
 import Header from '../../header'
 import RatioCalories from '../../ratio-calories';
-import EssentialMacronutrients from '../../essential-macronutrients';
+import Nutrients from '../../nutrients';
 import Calendar from '../../calendar';
 import Meals from '../../meals';
 import WaterConsumption from '../../water-consumption';
-import Loader from "../../loader";
-import ErrorFallback from "../../error-fallback";
+import Loader from '../../loader';
 
 function Diary() {
-    const [user, setUser] = useState({
-        caloriesConsumed: 0,
-        carbohydratesConsumed: 0,
-        proteinsConsumed: 0,
-        fatsConsumed: 0,
-        caloriesRemaining: 0,
-        carbohydratesTotal: '',
-        proteinsTotal: '',
-        fatsTotal: '',
-        dishesConsumed: [],
-        waterConsumed: 0,
+    const [ nutrients, setNutrients ] = useState({
+        carbohydrates: {
+            consumed: 0,
+            total: 0
+        },
+        proteins: {
+            consumed: 0,
+            total: 0
+        },
+        fats: {
+            consumed: 0,
+            total: 0
+        }
+    });
+    const [ calories, setCalories ] = useState({
+        consumed: 0,
+        remaining: 0,
+    });
+    const [ dishes, setDishes ] = useState([]);
+    const [ water, setWater ] = useState({
+        consumed: 0,
         cups: []
     });
     const [ isLoading, setIsLoading ] = useState(true);
-
     const navigate = useNavigate();
 
     const getUserDataRequest = ()=> {
         return getUserDataApi();
     }
 
-    const [count, setCount] = useState(5);
-
-    const throwCounterClickHandler = e => {
-        e.preventDefault();
-        setCount(count - 1);
-    };
-
-    if (count <= 0) {
-        throw new Error("Counter threw an error!");
-    }
-
-    const getUser = ()=> {
-        const response = getUserDataRequest();
+    const getUserData = async ()=> {
+        const response = await getUserDataRequest();
 
         switch (response.status) {
             case 200:
@@ -59,7 +55,6 @@ function Diary() {
                 getUserDataError();
                 break;
             default:
-                getUserDataErrorDefault();
                 break;
         }
 
@@ -67,35 +62,48 @@ function Diary() {
     };
 
     const getUserDataSuccess = (response)=> {
-        const {
-            calories,
-            caloriesRemaining,
-            carbohydrates,
-            carbohydratesTotal,
-            proteins,
-            proteinsTotal,
-            fats,
-            fatsTotal,
-            cups
-        } = response.responseJSON;
+        updateCalories(response.responseJSON.calories);
+        updateNutrients(response.responseJSON)
 
-        setUser(prevState => ({
-            ...prevState,
-            caloriesRemaining: calories ?? caloriesRemaining,
-            carbohydratesTotal: carbohydrates ?? carbohydratesTotal,
-            proteinsTotal: proteins ?? proteinsTotal,
-            fatsTotal: fats ?? fatsTotal,
-            waterConsumed: cups ? cups.filter((cup) => cup.selected).length * 0.25 : 0,
-            cups: cups ?? []
+        // setUser(prevState => ({
+        //     ...prevState,
+        //     caloriesRemaining: calories ?? caloriesRemaining,
+        //     carbohydratesTotal: carbohydrates ?? carbohydratesTotal,
+        //     proteinsTotal: proteins ?? proteinsTotal,
+        //     fatsTotal: fats ?? fatsTotal,
+        //     waterConsumed: cups ? cups.filter((cup) => cup.selected).length * 0.25 : 0,
+        //     cups: cups ?? []
+        // }));
+    }
+
+    const updateCalories = (calories)=> {
+        setCalories(() => ({
+            consumed: 0,
+            total: calories
         }));
+    }
+
+    const updateNutrients = (response)=> {
+        const { carbohydrates, proteins, fats } = response;
+
+        setNutrients(()=> ({
+            carbohydrates: {
+                consumed: 0,
+                total: carbohydrates
+            },
+            proteins: {
+                consumed: 0,
+                total: proteins
+            },
+            fats: {
+                consumed: 0,
+                total: fats
+            }
+        }))
     }
 
     const getUserDataError = ()=> {
         navigate('/login');
-    }
-
-    const getUserDataErrorDefault = ()=> {
-        //setIsErrorIndicator(true);
     }
 
     const getDishes = async ()=> {
@@ -122,19 +130,19 @@ function Diary() {
             });
         })
 
-        setUser(prevState => ({
-            ...prevState,
-            caloriesConsumed: calories,
-            carbohydratesConsumed: carbohydratesConsumed,
-            proteinsConsumed: proteinsConsumed,
-            fatsConsumed: fatsConsumed,
-            dishesConsumed: dishes
-        }));
+        // setUser(prevState => ({
+        //     ...prevState,
+        //     caloriesConsumed: calories,
+        //     carbohydratesConsumed: carbohydratesConsumed,
+        //     proteinsConsumed: proteinsConsumed,
+        //     fatsConsumed: fatsConsumed,
+        //     dishesConsumed: dishes
+        // }));
     }
 
     useEffect(()=> {
-        getUser();
-        getDishes();
+        getUserData();
+        //getDishes();
     }, []);
 
     return (
@@ -142,18 +150,14 @@ function Diary() {
             { isLoading ? <Loader/> : '' }
             <Header/>
             <RatioCalories
-                caloriesConsumed={user.caloriesConsumed}
-                caloriesRemaining={user.caloriesRemaining}/>
-            <EssentialMacronutrients
-                carbohydratesTotal={user.carbohydratesTotal}
-                proteinsTotal={user.proteinsTotal}
-                fatsTotal={user.fatsTotal}
-                carbohydratesConsumed={user.carbohydratesConsumed}
-                proteinsConsumed={user.proteinsConsumed}
-                fatsConsumed={user.fatsConsumed} />
-            <Calendar onClick={getDishes}/>
-            <Meals dishesConsumed={user.dishesConsumed}/>
-            <WaterConsumption user={user}/>
+                calories={ calories }/>
+            <Nutrients
+                carbohydrates={ nutrients.carbohydrates }
+                proteins={ nutrients.proteins }
+                fats={ nutrients.fats } />
+            {/*<Calendar onClick={getDishes}/>*/}
+            {/*<Meals dishesConsumed={user.dishesConsumed}/>*/}
+            {/*<WaterConsumption user={user}/>*/}
         </div>
     );
 }

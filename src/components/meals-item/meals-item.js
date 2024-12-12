@@ -48,7 +48,9 @@ const MealsItem = ({ meal, dishes }) => {
                     })
                 }
             </div>
+
             <Link to={meal.type} className={`${styles.item__button} ta-center`}>+</Link>
+
             <p className={`${styles.item__calories} ${!caloriesConsumed[meal.type] ? 'hidden' : ''}`}>
                 {caloriesConsumed[meal.type]} ккал
             </p>

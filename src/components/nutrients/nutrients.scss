@@ -1,13 +1,10 @@
-.list {
-    text-align: center;
+.nutrients {
     list-style: none;
     padding: 0;
     margin: 0 auto 30px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-}
 
-.item {
     &__title,
     &__value {
         font-size: 16px;
